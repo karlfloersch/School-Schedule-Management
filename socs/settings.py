@@ -98,6 +98,7 @@ LOGIN_URL = '/login/'
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+# Allow for log file creation 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,

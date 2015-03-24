@@ -79,3 +79,4 @@
 [24/Mar/2015 07:06:42] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
 [24/Mar/2015 07:08:17] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
 [24/Mar/2015 07:08:21] INFO [schedules.views:40] Failed login attempt. Username: asdf | Password: asdf
+[24/Mar/2015 07:16:45] INFO [schedules.views:42] Failed login attempt. Username: asdf | Password: asdf

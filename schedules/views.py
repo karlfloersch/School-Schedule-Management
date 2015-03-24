@@ -37,7 +37,10 @@ def login_view(request):
             return render(request, 'login.html', dictionary=data)
             # Return a 'disabled account' error message
     else:
-        logger.info('Failed login attempt. Username: ' + data['username'] + ' | Password: ' + data['password'])
+        # Failed login attempt
+        logger.info('Failed login attempt. Username: ' 
+            + data['username'] + ' | Password: ' + data['password'])
+        # If they entered a username then print error
         if data['username'] != '':
             data['errors'] = "IM HEREJ"
         return render(request, 'login.html', dictionary=data)
@@ -47,6 +50,7 @@ def login_view(request):
 
 @login_required(redirect_field_name='/login')
 def dashboard_view(request):
+    # Display the correct dashboard either student or admin
     if 'Administrator' in request.user.groups.values_list('name',flat=True):
         return render(request, 'admin_dash.html')
     return render(request, 'student_dash.html')
@@ -54,16 +58,20 @@ def dashboard_view(request):
 
 @login_required(redirect_field_name='/login')
 def create_school_view(request):
+    # Display the create school view if the admin is logged in
     if 'Administrator' in request.user.groups.values_list('name',flat=True):
         return render(request, 'create_school.html')
     return redirect("/dashboard")
 
 def create_user_view(request):
+    # Display the create user view
     return render(request, 'create_user.html')
 
 def logout_view(request):
+    # Log the user out using Django Auth
     logout(request)
     return redirect("/login")
 
 def redirect_to_login(request):
+    # If you go to the homepage, redirect to login
     return redirect("/login")
