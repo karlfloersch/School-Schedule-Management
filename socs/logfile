@@ -58,3 +58,24 @@
 [24/Mar/2015 06:29:34] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
 [24/Mar/2015 06:30:09] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
 [24/Mar/2015 06:30:15] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:44:42] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:44:43] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:49:37] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:49:50] INFO [schedules.views:25] User: TestAdmin logged in
+[24/Mar/2015 06:51:39] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:53:44] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:54:00] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:54:03] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:54:10] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:54:17] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:54:25] INFO [schedules.views:25] User: TestStudent logged in
+[24/Mar/2015 06:55:51] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:56:02] INFO [schedules.views:25] User: TestAdmin logged in
+[24/Mar/2015 06:57:38] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 06:57:43] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:02:29] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:02:34] INFO [schedules.views:33] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:06:38] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:06:42] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:08:17] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:08:21] INFO [schedules.views:40] Failed login attempt. Username: asdf | Password: asdf

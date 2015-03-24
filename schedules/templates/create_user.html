@@ -1,6 +1,18 @@
-{% extends "base.html" %}
+{% load staticfiles %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
+  </head>
+
+  <body>
+<div class="header">
+<img style="padding-left: 30%;"src="{% static "images/logo.png" %}">
+</div>
 
 <div id="header">
 <h1>Create Account</h1>
@@ -26,14 +38,18 @@ School:
 <br>
 </p>
 
-<p class="floatRight">
-<button type="cancel" >Cancel</button>
-<button type="reqAcct">Request</button>
-</p>
 
+</form>
+
+<div class="floatRight">
+<form action="../login/">
+<button type="cancel">Cancel</button>
+<button type="reqAcct">Request</button>
 </form>
 </div>
 
+</div>
 
 
-{% endblock %}
+  </body>
+</html>

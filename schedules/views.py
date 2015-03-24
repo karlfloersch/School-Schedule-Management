@@ -11,28 +11,36 @@ import logging
 logger = logging.getLogger(__name__)
 
 def login_view(request):
-    form = {}
-    form['username'] = request.POST.get('email', False)
-    form['password'] = request.POST.get('password', False)
-    if not form['username']:
-        form['username']=''
-    if not form['password']:
-        form['password']=''
-    user = authenticate(username=form['username'], password=form['password'])
+    # Create the data dictionary
+    data = {}
+    # Get the username and password that was entered
+    data['username'] = request.POST.get('email', False)
+    data['password'] = request.POST.get('password', False)
+    # If none was entered, make sure the value is empty
+    if not data['username']:
+        data['username']=''
+    if not data['password']:
+        data['password']=''
+    # Try to login
+    user = authenticate(username=data['username'], password=data['password'])
     if user is not None:
+        # If login successful
         if user.is_active:
+            # If the user has been approved
             login(request, user)
-            logger.info('User: ' + form['username'] + ' logged in')
+            logger.info('User: ' + data['username'] + ' logged in')
             return redirect("/dashboard")
             # Redirect to a success page.
         else:
-            form['errors'] = "IM HEREJRIEWO"
-            return render(request, 'login.html', dictionary=form)
+            # If the user has not been approved
+            data['errors'] = "IM HEREJRIEWO"
+            return render(request, 'login.html', dictionary=data)
             # Return a 'disabled account' error message
     else:
-        logger.info('Failed login attempt. Username: ' + form['username'] + ' | Password: ' + form['password'])
-        form['errors'] = "IM HEREJ"
-        return render(request, 'login.html', dictionary=form)
+        logger.info('Failed login attempt. Username: ' + data['username'] + ' | Password: ' + data['password'])
+        if data['username'] != '':
+            data['errors'] = "IM HEREJ"
+        return render(request, 'login.html', dictionary=data)
         # Return an 'invalid login' error message.
 
 
@@ -55,4 +63,7 @@ def create_user_view(request):
 
 def logout_view(request):
     logout(request)
+    return redirect("/login")
+
+def redirect_to_login(request):
     return redirect("/login")
