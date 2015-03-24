@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
+    {% block js %}{% endblock %}
+  </head>
+
+  <body>
+
+<h1>I AM A HEADER</h1>
+
+          {% block container %}
+              {% block content %}{% endblock %}
+          {% endblock %}
+
+      <footer>
+          {% block footer %}<p>© Be Happy. One Love. Peace.{% endblock %}
+      </footer>
+
+    </div> <!-- /container -->
+
+
+  </body>
+</html>

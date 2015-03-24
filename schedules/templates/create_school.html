@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="section">
+<p>
+<form>
+Name:
+<input type="text" name="name">
+<br>
+Days in Academic Year: 
+<input type="text" name="daysInYear">
+<br>
+Number of Semesters in a Year
+<input type="text" name="semesterInYear">
+<br>
+Number of days in a schedule 
+<input type="text" name="daysInSch">
+<br>
+Number of periods in a day: 
+<input type="text" name="periodInDay">
+<br>
+Range of periods lunch is offered
+<table>
+
+  <tr>
+    <th>Period Start</th>
+    <th>Period End</th>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>10</td>
+  </tr>
+</table>
+<table>
+<tr>
+<td>
+<p class="floatCenter">
+<button type="addLunch" >Add</button>
+</p>
+</td>
+</tr>
+</table>
+<br>
+
+Set of Legal Blocks
+<table>
+
+  <tr>
+    <th>Period Start</th>
+    <th>Period End</th>
+    <th>Days Active</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>2</td>
+    <td>1,2</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>6</td>
+    <td>2,3</td>
+  </tr>
+</table>
+<table>
+<tr>
+<td>
+<p class="floatCenter">
+<button type="addLegalBlock" >Add</button>
+</p>
+</td>
+</tr>
+</table>
+
+<br>
+<p class="floatRight">
+<button type="cancel" >Cancel</button>
+<button type="save">Save</button>
+</p>
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<table>
+  <tr>
+    <th>Account Request</th>
+    <th><button type="acceptAll" >Accept All</button></th>      
+    <th>Search: <input type="text" name="searchStudent">
+</th>
+  </tr>
+</table>
+<table>
+
+  <tr>
+    <th>Name</th>
+    <th>ID</th>     
+    <th>School</th>
+    <th>Accept</th>
+    <th>Deny</th>
+  </tr>
+  <tr>
+    <td>Joe Poodle</td>
+    <td>0000007</td>        
+    <td>MSC</td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+<table>
+  <tr>
+    <th>Schools</th>
+    <th><form action="/create_school"><button type="addSchool" >Add School</button></form>
+</th>       
+    <th>Search: <input type="text" name="searchSchool">
+</th>
+  </tr>
+</table>
+<table>
+
+  <tr>
+    <th>Name</th>
+    <th>Year</th>       
+    <th>#Semester</th>
+    <th>Range of Periods</th>
+    <th>View/Edit</th>
+    <th>Delete</th>
+  </tr>
+  <tr>
+    <td>SBU</td>
+    <td>30040</td>      
+    <td>2</td>
+    <td>4</td>
+    <td><button type="edit" >Edit</button></td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="edit" >Edit</button></td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="edit" >Edit</button></td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="edit" >Edit</button></td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+<table>
+  <tr>
+    <th>Manage Students</th>
+    <th>Search: <input type="text" name="searchStudents"></th>
+  </tr>
+</table>
+<div id="scroll">
+<table>
+  <tr>
+    <th>Name</th>
+    <th>ID</th>     
+    <th>School</th>
+    <th>Delete</th>
+  </tr>
+  <tr>
+    <td>Joe Poodle</td>
+    <td>0000007</td>        
+    <td>MSC</td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="delete" >Delete</button></td>
+  </tr>
+</dir>
+</table>
+
+<br>
+
+{% endblock %}

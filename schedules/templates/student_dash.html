@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<table>
+  <tr>
+    <th>Friend List</th>
+    <th><input type="text" name="searchStudent">
+        <button type="friendReq" >Add Friend</button></th>      
+    <th>Search: <input type="text" name="searchStudent">
+</th>
+  </tr>
+</table>
+<table>
+
+  <tr>
+    <th>Name</th>
+    <th>Email</th>      
+    <th>School</th>
+    <th>View Schedule</th>
+    <th>Accept</th>
+    <th>Deny</th>
+  </tr>
+  <tr>
+    <td>Joe Poodle</td>
+    <td>BBM@SBU.com</td>        
+    <td>SBU</td>
+    <td><button type="view" >View</button></td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="view" >View</button></td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="view" >View</button></td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td><button type="view" >View</button></td>
+    <td><button type="accept" >Accept</button></td>
+    <td><button type="deny" >Deny</button></td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+<table>
+  <tr>
+    <th><button type="assSch" >Assigned Schedule</button></th>
+    <th><button type="genSch" >Generate Schedule</button></th>      
+    <th>
+         <select>
+            <option value="year">Year</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+         </select>
+    </th>       
+    <th>
+         <select>
+            <option value="year">Semester</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer</option>
+            <option value="fall">fall</option>
+            <option value="winter">winter</option>
+         </select>
+    </th>
+  </tr>
+</table>
+<table>
+
+  <tr>
+    <th>Course ID</th>
+    <th>Course Name</th>        
+    <th>Instructor</th>
+    <th>School</th>
+    <th>Days</th>
+    <th>Period</th>
+    <th>Remove</th>
+  </tr>
+  <tr>
+    <td>CSE 308</td>
+    <td>monkey</td>     
+    <td>BoB</td>
+    <td>SBU</td>
+    <td>M W</td>
+    <td>1</td>
+    <td><button type="remove" >Remove</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="remove" >Remove</button></td>
+  </tr>
+  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="remove" >Remove</button></td>
+  </tr>  <tr>
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>     
+    <td>--</td>
+    <td>--</td>
+    <td><button type="remove" >Remove</button></td>
+  </tr>
+</table>
+<p class="floatRight">
+<button type="export" >Export</button>
+<button type="generate">Generate</button>
+</p>
+
+{% endblock %}

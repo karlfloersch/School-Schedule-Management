@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="header">
+<h1>Create Account</h1>
+</div>
+
+<div id="section">
+<p>
+<form>
+Student Name:
+<input type="text" name="studName">
+<br>
+Email Address: 
+<input type="text" name="email">
+<br>
+Password:
+<input type="text" name="password">
+<br>
+Confirm Password:
+<input type="text" name="confirm">
+<br>
+School:
+<input type="text" name="school">
+<br>
+</p>
+
+<p class="floatRight">
+<button type="cancel" >Cancel</button>
+<button type="reqAcct">Request</button>
+</p>
+
+</form>
+</div>
+
+
+
+{% endblock %}

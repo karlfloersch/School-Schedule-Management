@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div id="section">
+    <h2 class="test">Login In</h2>
+{% if errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+    <p>
+        <form method="post">
+        {% csrf_token %}
+            Email Address:
+            <input type="text" name="email" value="{{ username }}">
+            <br> Password:
+            <input type="password" name="password">
+            <br>
+            <br>
+            <button type="signIn">Sign In</button>
+            <br>
+        </form>
+        <form action="/create_user">
+            <button type="createStudAcct">Create Account</button>
+        </form>
+    </p>
+</div>
+
+{% endblock %}

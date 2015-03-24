@@ -1,0 +1,51 @@
+p.floatRight {
+   float: right;
+}
+p.floatCenter {
+   margin-left: auto;
+   margin-right: auto;
+   width: 10%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    padding: 5px;
+}
+#header {
+    text-align:center;
+    padding:5px;
+}
+#scroll{
+    height: 100px;
+    width: 100%;
+    overflow: auto;
+}
+#section {
+    text-align:left;
+    border: 2px solid #a1a1a1;
+    
+    padding: 10px 40px; 
+    background: #dddddd;
+    width: 300px;
+    border-radius: 25px;
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+#section2 {
+    text-align:center;
+    border: 2px solid #a1a1a1;
+    
+    padding: 10px 40px; 
+    background: #dddddd;
+    width: 300px;
+    border-radius: 25px;
+    
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
