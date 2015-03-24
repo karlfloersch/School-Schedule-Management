@@ -1,8 +1,18 @@
-{% extends "base.html" %}
+{% load staticfiles %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
 
+  </head>
 
+  <body>
+<div class="header">
+<img style="padding-left: 30%;"src="{% static "images/logo.png" %}">
+</div>
 <div id="section">
     <h2 class="test">Login In</h2>
 {% if errors %}
@@ -26,4 +36,6 @@
     </p>
 </div>
 
-{% endblock %}
+
+  </body>
+</html>
