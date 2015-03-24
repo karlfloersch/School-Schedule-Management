@@ -49,3 +49,15 @@ th, td {
     margin-right: auto;
     width: 70%;
 }
+.header img {
+    margin: auto;
+    padding-left: 20%;
+}
+.home-btn { 
+    font-size: 40px;
+    float: left;
+}
+.logout-btn { 
+    font-size: 40px;
+    float: right;
+}

@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
-
-# Create your views here.
 from django.http import HttpResponse
 import datetime
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def login_view(request):
     form = {}
@@ -19,6 +22,7 @@ def login_view(request):
     if user is not None:
         if user.is_active:
             login(request, user)
+            logger.info('User: ' + form['username'] + ' logged in')
             return redirect("/dashboard")
             # Redirect to a success page.
         else:
@@ -26,6 +30,7 @@ def login_view(request):
             return render(request, 'login.html', dictionary=form)
             # Return a 'disabled account' error message
     else:
+        logger.info('Failed login attempt. Username: ' + form['username'] + ' | Password: ' + form['password'])
         form['errors'] = "IM HEREJ"
         return render(request, 'login.html', dictionary=form)
         # Return an 'invalid login' error message.
@@ -47,3 +52,7 @@ def create_school_view(request):
 
 def create_user_view(request):
     return render(request, 'create_user.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect("/login")

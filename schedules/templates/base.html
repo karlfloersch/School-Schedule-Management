@@ -11,8 +11,11 @@
   </head>
 
   <body>
-
-<h1>I AM A HEADER</h1>
+<div class="header">
+<img src="{% static "images/logo.png" %}">
+<div class="home-btn"><a href="../dashboard/">Home</a></div>
+<div class="logout-btn"><a href="../logout/">Logout</a></div>
+</div>
 
           {% block container %}
               {% block content %}{% endblock %}
