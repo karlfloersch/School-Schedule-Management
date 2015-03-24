@@ -80,3 +80,10 @@
 [24/Mar/2015 07:08:17] INFO [schedules.views:40] Failed login attempt. Username:  | Password: 
 [24/Mar/2015 07:08:21] INFO [schedules.views:40] Failed login attempt. Username: asdf | Password: asdf
 [24/Mar/2015 07:16:45] INFO [schedules.views:42] Failed login attempt. Username: asdf | Password: asdf
+[24/Mar/2015 07:21:38] INFO [schedules.views:42] Failed login attempt. Username: asdf | Password: asdf
+[24/Mar/2015 07:21:42] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[24/Mar/2015 07:21:48] INFO [schedules.views:42] Failed login attempt. Username: asdf | Password: asdf
+[24/Mar/2015 08:05:48] INFO [schedules.views:42] Failed login attempt. Username:  | Password: TestStudent
+[24/Mar/2015 08:06:26] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
+[24/Mar/2015 08:06:55] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
+[24/Mar/2015 08:07:13] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
