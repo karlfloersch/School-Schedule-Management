@@ -87,3 +87,18 @@
 [24/Mar/2015 08:06:26] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
 [24/Mar/2015 08:06:55] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
 [24/Mar/2015 08:07:13] INFO [schedules.views:42] Failed login attempt. Username: TestStudent | Password: TestStudent
+[12/Apr/2015 04:26:23] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:26:33] INFO [schedules.views:31] User: admin logged in
+[12/Apr/2015 04:27:09] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:27:16] INFO [schedules.views:42] Failed login attempt. Username: student | Password: student
+[12/Apr/2015 04:27:21] INFO [schedules.views:42] Failed login attempt. Username: student | Password: student
+[12/Apr/2015 04:27:27] INFO [schedules.views:42] Failed login attempt. Username: user | Password: usesr
+[12/Apr/2015 04:27:31] INFO [schedules.views:42] Failed login attempt. Username: user | Password: user
+[12/Apr/2015 04:27:39] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:27:48] INFO [schedules.views:42] Failed login attempt. Username: Student | Password: Student
+[12/Apr/2015 04:27:52] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:30:07] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:30:36] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:30:45] INFO [schedules.views:31] User: TestStudent logged in
+[12/Apr/2015 04:58:27] INFO [schedules.views:42] Failed login attempt. Username:  | Password: 
+[12/Apr/2015 04:58:36] INFO [schedules.views:31] User: TestStudent logged in
