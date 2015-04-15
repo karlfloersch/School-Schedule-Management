@@ -165,23 +165,50 @@ function createGenSche(){
   var rC = t.rows.length;
   var r = t.insertRow(rC);
 
-  r.insertCell(0).innerHTML= ' ';
-  r.insertCell(1).innerHTML= "<b>Course</b>";
-  r.insertCell(2).innerHTML= "<b>Section To Exclude(optional)</b>";
-  r.insertCell(3).innerHTML= "<b>Instructor(optional)</b>";
-  r.insertCell(4).innerHTML= "<b>Add</b>";
-  r.insertCell(5).innerHTML= "<b>Remove</b>";
+  r.insertCell(0).innerHTML= "<b>Course</b>";
+  r.insertCell(1).innerHTML= "<b>Section To Exclude(optional)</b>";
+  r.insertCell(2).innerHTML= "<b>Instructor(optional)</b>";
+  r.insertCell(3).innerHTML= "<b>Add</b>";
+  r.insertCell(4).innerHTML= "<b>Remove</b>";
 
-  var qNum = rC - 1;
   rC = rC + 1;
   r = t.insertRow(rC);
-  r.insertCell(0).innerHTML= 'Criteria ' + qNum;
-  r.insertCell(1).innerHTML= '<input type="text" id="course">';
-  r.insertCell(2).innerHTML= '<input type="text" id="sections">';
-  r.insertCell(3).innerHTML= '<input type="text" id="instructor">';
-  r.insertCell(4).innerHTML= '<input type="button" value = "Add" onClick="">';
-  r.insertCell(5).innerHTML= "";
+  r.insertCell(0).innerHTML= '<input type="text" id="course">';
+  r.insertCell(1).innerHTML= '<input type="text" id="sections">';
+  r.insertCell(2).innerHTML= '<input type="text" id="instructor">';
+  r.insertCell(3).innerHTML= '<input type="button" value = "Add" onClick="Javacsript:addGenCourse()">';
+  r.insertCell(4).innerHTML= "";
 }
+
+function addGenCourse(){
+  var courseName = document.getElementById("course");
+  var sectEx = document.getElementById("sections");
+  var instr = document.getElementById("instructor");
+  var table = document.getElementById("genSch");
+
+  var rowCount = table.rows.length - 1;
+  if(course.value != ""){
+    var row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= courseName.value;
+    row.insertCell(1).innerHTML= sectEx.value;
+    row.insertCell(2).innerHTML= instr.value;
+    row.insertCell(3).innerHTML= '';
+    row.insertCell(4).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteListRow(this, genSch)">';
+
+    rowCount = rowCount + 1;
+    courseName.value = '';
+    sectEx.value = '';
+    instr.value = '';
+    table.deleteRow(rowCount);
+    row = table.insertRow(rowCount);
+    row.insertCell(0).innerHTML= '<input type="text" id="course">';
+    row.insertCell(1).innerHTML= '<input type="text" id="sections">';
+    row.insertCell(2).innerHTML= '<input type="text" id="instructor">';
+    row.insertCell(3).innerHTML= '<input type="button" value = "Add" onClick="Javacsript:addGenCourse()">';
+    row.insertCell(4).innerHTML= "";
+  }
+}
+
 function createLunSche(){
   var table = document.getElementById("lunSch");
 
