@@ -1,8 +1,5 @@
 
   var numOfFriends = 0;
-$( document ).ready(function() { 
-    console.log( "ready!" );
-})
 function deleteListRow(obj, list) {
       
     var index = obj.parentNode.parentNode.rowIndex;
