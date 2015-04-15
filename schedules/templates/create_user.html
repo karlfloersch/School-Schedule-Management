@@ -11,7 +11,6 @@
 
   <body>
 <div class="header">
-<img style="padding-left: 30%;"src="{% static "images/logo.png" %}">
 </div>
 
 <div id="header">
@@ -20,32 +19,36 @@
 
 <div id="section">
 <p>
-<form>
+<form method="post">
+    {% csrf_token %}
 Student Name:
-<input type="text" name="studName">
-<br>
-Email Address: 
-<input type="text" name="email">
-<br>
-Password:
-<input type="text" name="password">
-<br>
-Confirm Password:
-<input type="text" name="confirm">
+<input type="text" name="studName" value="{{ studName }}">
+{{ err_studName }}
 <br>
 School:
-<input type="text" name="school">
+<input type="text" name="school" value="{{ school }}">
+{{ err_school }}
+<br>
+Email Address: 
+<input type="text" name="email" value="{{ email }}">
+{{ err_email }}
+<br>
+Password:
+<input type="password" name="password">
+{{ err_pw }}
+<br>
+Confirm Password:
+<input type="password" name="confirm">
+{{ err_conf_pw }}
 <br>
 </p>
 
+<button type="submit" name="request" value="Request">Request</button>
+<button type="submit" name="cancel" value="Cancel">Cancel</button>
 
 </form>
 
 <div class="floatRight">
-<form action="../login/">
-<button type="cancel">Cancel</button>
-<button type="reqAcct">Request</button>
-</form>
 </div>
 
 </div>

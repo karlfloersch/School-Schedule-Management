@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700);
+
 .floatRight {
    float: right;
 }
@@ -16,7 +18,8 @@ th, td {
 }
 #header {
     text-align:center;
-    padding:5px;
+    padding-bottom:5px;
+    font-family: 'Open Sans Condensed', sans-serif;
 }
 #scroll{
     height: 100px;
@@ -49,7 +52,7 @@ th, td {
     margin-right: auto;
     width: 70%;
 }
-.header img {
+#header img {
     margin: auto;
     padding-left: 20%;
 }
@@ -60,4 +63,95 @@ th, td {
 .logout-btn { 
     font-size: 40px;
     float: right;
+}
+
+/* BUTTON STUFF */
+.btn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  background: #d93434;
+  padding: 4px 9px 4px 9px;
+  text-decoration: none;
+  border: 0px;
+}
+
+.btn:hover {
+  background: #fc3c3c;
+  text-decoration: none;
+}
+/* TABLE STUFF */
+
+#hor-zebra
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+}
+#hor-zebra th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #039;
+}
+#hor-zebra td
+{
+	padding: 8px;
+	color: #669;
+}
+#hor-zebra .odd
+{
+	background: #e8edff; 
+}
+
+
+#ver-zebra
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+}
+#ver-zebra th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 12px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #039;
+}
+#ver-zebra td
+{
+	padding: 8px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #669;
+}
+.vzebra-odd
+{
+	background: #eff2ff;
+}
+.vzebra-even
+{
+	background: #e8edff;
+}
+#ver-zebra #vzebra-adventure, #ver-zebra #vzebra-children
+{
+	background: #d0dafd;
+	border-bottom: 1px solid #c8d4fd;
+}
+#ver-zebra #vzebra-comedy, #ver-zebra #vzebra-action
+{
+	background: #dce4ff;
+	border-bottom: 1px solid #d6dfff;
 }
