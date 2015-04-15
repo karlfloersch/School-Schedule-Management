@@ -1,31 +1,21 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, Group
-from django.http import HttpResponse
-import datetime
-# import the logging library
-import logging
-# Testing
-from django.views.decorators.csrf import csrf_exempt
-
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 
 
 def login_view(request):
+    """ return http for login page
+    On POST check if the user exists and if so log them in.
+    """
     if request.user.is_authenticated():
         return redirect("/dashboard")
-    # Create the data dictionary
+    # If user is not posting, just return the page
+    if not request.method == 'POST':
+        return render(request, 'login.html')
+    # Make a dict and add the username and password that was entered
     data = {}
-    # Get the username and password that was entered
     data['username'] = request.POST.get('email', False)
     data['password'] = request.POST.get('password', False)
-    # If none was entered, make sure the value is empty
-    if not data['username']:
-        data['username']=''
-    if not data['password']:
-        data['password']=''
     # Try to login
     user = authenticate(username=data['username'], password=data['password'])
     if user is not None:
@@ -49,23 +39,27 @@ def login_view(request):
         # Return an 'invalid login' error message.
 
 
-
 @login_required(redirect_field_name='/login')
 def dashboard_view(request):
-    # Display the correct dashboard either student or admin
-    if 'Administrator' in request.user.groups.values_list('name',flat=True):
+    """ render the admin dash if the user is logged in """
+    if 'Administrator' in request.user.groups.values_list('name', flat=True):
         return render(request, 'admin_dash.html')
     return render(request, 'student_dash.html')
 
 
 @login_required(redirect_field_name='/login')
 def create_school_view(request):
+    """ render the create school view. TODO: add validation """
     # Display the create school view if the admin is logged in
-    if 'Administrator' in request.user.groups.values_list('name',flat=True):
+    if 'Administrator' in request.user.groups.values_list('name', flat=True):
         return render(request, 'create_school.html')
     return redirect("/dashboard")
 
+
 def create_user_view(request):
+    """ GET: render the create new user form
+    POST: validate the new user data and if valid submit to database
+    """
     # Display the create user view
     if request.method == 'GET':
         return render(request, 'create_user.html')
@@ -81,7 +75,13 @@ def create_user_view(request):
             return redirect("/login")
         return render(request, 'create_user.html')
 
+
 def validate_new_user(request):
+    """ return (True if data is valid, Dictionary of input and errors)
+
+    validate the user data that was entered in request
+    """
+    # Fill data with the information that the user entered
     data = {}
     data['studName'] = request.POST.get('studName', False)
     data['email'] = request.POST.get('email', False)
@@ -89,35 +89,43 @@ def validate_new_user(request):
     data['pw'] = request.POST.get('password', False)
     data['conf_pw'] = request.POST.get('confirm', False)
     valid_data = True
+    # If any data is invalid, set valid_data to False and print error
     if len(data['studName'].strip()) == 0:
         valid_data = False
-        data['err_studName'] = "Invalid name"
+        data['err_studName'] = "Please enter a name"
     if validate_email(data['email']):
         valid_data = False
         data['err_email'] = "Invalid email"
     if len(data['school'].strip()) == 0:
         valid_data = False
-        data['err_school'] = "Invalid school"
+        data['err_school'] = "Please enter a school"
     if len(data['pw'].strip()) == 0:
         valid_data = False
-        data['err_pw'] = "Invalid password"
-    if data['pw'] == data['conf_pw']:
+        data['err_pw'] = "Please enter a password"
+    if not data['pw'] == data['conf_pw']:
         valid_data = False
         data['err_conf_pw'] = "Passwords didn't match"
+    # Return if the valid
     return valid_data, data
 
-def validate_email( email ):
+
+def validate_email(email):
+    """ validate an email string """
     import re
     a = re.compile("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
     if a.match(email):
         return False
     return True
 
+
 def logout_view(request):
+    """ log current user out """
     # Log the user out using Django Auth
     logout(request)
     return redirect("/login")
 
+
 def redirect_to_login(request):
+    """ redirect the user to login """
     # If you go to the homepage, redirect to login
     return redirect("/login")

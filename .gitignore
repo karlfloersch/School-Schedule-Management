@@ -54,4 +54,5 @@ docs/_build/
 # PyBuilder
 target/
 
-logfile
+# Vim Python lint folder
+.ropeproject/
