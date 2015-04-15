@@ -1,25 +1,21 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block js %}
-<script>
-$( document ).ready(function() { 
-    console.log( "ready!" );
-});
-</script>
+<script type="text/javascript" src="{% static 'js/studentDash.jss' %}"></script>
 {% endblock js %}
 
 {% block content %}
 
-
 <table>
   <tr>
     <th>Friend List</th>
-    <th><input type="text" name="searchStudent">
-        <button type="friendReq" >Add Friend</button></th>      
+    <th><input type="text" id="studentName">
+        <input type="button" value = "Add Friend" onclick="Javascript:addFriend()"></button></th>      
     <th>Search: <input type="text" name="searchStudent">
 </th>
   </tr>
 </table>
-<table>
+<table id="friendList">
 
   <tr>
     <th>Name</th>
@@ -29,46 +25,14 @@ $( document ).ready(function() {
     <th>Accept</th>
     <th>Deny</th>
   </tr>
-  <tr>
-    <td>Joe Poodle</td>
-    <td>BBM@SBU.com</td>        
-    <td>SBU</td>
-    <td><button type="view" >View</button></td>
-    <td><button type="accept" >Accept</button></td>
-    <td><button type="deny" >Deny</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button type="view" >View</button></td>
-    <td><button type="accept" >Accept</button></td>
-    <td><button type="deny" >Deny</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button type="view" >View</button></td>
-    <td><button type="accept" >Accept</button></td>
-    <td><button type="deny" >Deny</button></td>
-  </tr>  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button type="view" >View</button></td>
-    <td><button type="accept" >Accept</button></td>
-    <td><button type="deny" >Deny</button></td>
-  </tr>
 </table>
-
 <br>
 <br>
 
 <table>
   <tr>
-    <th><button type="assSch" >Assigned Schedule</button></th>
-    <th><button type="genSch" >Generate Schedule</button></th>      
+    <th><input type="button" value = "Assigned Schedule" onclick="Javascript:displayAssign()"></button></th>
+    <th><input type="button" value = "Generate Schedule" onclick="Javascript:displayGen()"></button></th>    
     <th>
          <select>
             <option value="year">Year</option>
@@ -88,53 +52,13 @@ $( document ).ready(function() {
     </th>
   </tr>
 </table>
-<table>
 
-  <tr>
-    <th>Course ID</th>
-    <th>Course Name</th>        
-    <th>Instructor</th>
-    <th>School</th>
-    <th>Days</th>
-    <th>Period</th>
-    <th>Remove</th>
-  </tr>
-  <tr>
-    <td>CSE 308</td>
-    <td>monkey</td>     
-    <td>BoB</td>
-    <td>SBU</td>
-    <td>M W</td>
-    <td>1</td>
-    <td><button type="remove" >Remove</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button type="remove" >Remove</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button type="remove" >Remove</button></td>
-  </tr>  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button type="remove" >Remove</button></td>
-  </tr>
+<table id="assignSch">
 </table>
+<table id="genSch">
+</table>
+<body onload="start();">
+
 <p class="floatRight">
 <button type="export" >Export</button>
 <button type="generate">Generate</button>
