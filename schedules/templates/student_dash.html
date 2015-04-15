@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block js %}
-<script type="text/javascript" src="{% static 'js/studentDash.jss' %}"></script>
+<script type="text/javascript" src="{% static 'js/studentDash.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
 
 <table>
   <tr>
-    <th>Friend List</th>
+    <th><input type="button" value = "Friend List" onclick="Javascript:displayFriendList()"></button></th>
+    <th><input type="button" value = "Friend Manage Requests" onclick="Javascript:displayFriendReq()"></button></th>    
     <th><input type="text" id="studentName">
         <input type="button" value = "Add Friend" onclick="Javascript:addFriend()"></button></th>      
     <th>Search: <input type="text" name="searchStudent">
@@ -16,15 +17,8 @@
   </tr>
 </table>
 <table id="friendList">
-
-  <tr>
-    <th>Name</th>
-    <th>Email</th>      
-    <th>School</th>
-    <th>View Schedule</th>
-    <th>Accept</th>
-    <th>Deny</th>
-  </tr>
+</table>
+<table id="friendReqList">
 </table>
 <br>
 <br>
@@ -56,6 +50,8 @@
 <table id="assignSch">
 </table>
 <table id="genSch">
+</table>
+<table id="lunSch">
 </table>
 <body onload="start();">
 
