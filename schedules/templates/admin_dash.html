@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/adminDash.js' %}"></script>
+{% endblock js %}
 
 {% block content %}
-
-
 
 <table>
   <tr>
@@ -12,42 +14,7 @@
 </th>
   </tr>
 </table>
-<table>
-
-  <tr>
-    <th>Name</th>
-    <th>ID</th>     
-    <th>School</th>
-    <th>Accept</th>
-    <th>Deny</th>
-  </tr>
-  <tr>
-    <td>Joe Poodle</td>
-    <td>0000007</td>        
-    <td>MSC</td>
-    <td><button class="btn" type="accept" >Accept</button></td>
-    <td><button class="btn" type="deny" >Deny</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="accept" >Accept</button></td>
-    <td><button class="btn" type="deny" >Deny</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="accept" >Accept</button></td>
-    <td><button class="btn" type="deny" >Deny</button></td>
-  </tr>  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="accept" >Accept</button></td>
-    <td><button class="btn" type="deny" >Deny</button></td>
-  </tr>
+<table id = "manageAccountReq">
 </table>
 
 <br>
@@ -62,47 +29,8 @@
 </th>
   </tr>
 </table>
-<table>
 
-  <tr>
-    <th>Name</th>
-    <th>Year</th>       
-    <th>#Semester</th>
-    <th>Range of Periods</th>
-    <th>View/Edit</th>
-    <th>Delete</th>
-  </tr>
-  <tr>
-    <td>SBU</td>
-    <td>30040</td>      
-    <td>2</td>
-    <td>4</td>
-    <td><button class="btn" type="edit" >Edit</button></td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button class="btn" type="edit" >Edit</button></td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button class="btn" type="edit" >Edit</button></td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td>--</td>
-    <td><button class="btn" type="edit" >Edit</button></td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
+<table id = "manageSchool">
 </table>
 
 <br>
@@ -115,39 +43,10 @@
   </tr>
 </table>
 <div id="scroll">
-<table>
-  <tr>
-    <th>Name</th>
-    <th>ID</th>     
-    <th>School</th>
-    <th>Delete</th>
-  </tr>
-  <tr>
-    <td>Joe Poodle</td>
-    <td>0000007</td>        
-    <td>MSC</td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>  <tr>
-    <td>--</td>
-    <td>--</td>     
-    <td>--</td>
-    <td><button class="btn" type="delete" >Delete</button></td>
-  </tr>
-</dir>
+<table id = "manageStudents">
 </table>
-
+</div>
+<body onload="start();">
 <br>
 
 {% endblock %}
