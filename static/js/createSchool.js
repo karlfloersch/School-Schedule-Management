@@ -24,9 +24,18 @@ function addToPeriodLunch(){
   var end = document.getElementById("periodEnd");
 
   var table = document.getElementById("periodLunch");
-
   var rowCount = table.rows.length - 1;
-  if(start.value < end.value){
+
+  var numPeriod = document.getElementById("periodInADay");
+
+  if(end.value > numPeriod.value){
+      $( "#dialog-error-number-period" ).dialog( "open" );
+  }
+  else if(numPeriod.value == ""){
+      $( "#dialog-error-number-period" ).dialog( "open" );
+  }
+
+  else if(start.value < end.value && start.value != '' && end.value != ''){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= start.value;
     row.insertCell(1).innerHTML= end.value;
@@ -67,9 +76,18 @@ function addToLegalBlocks(){
   var days = document.getElementById("daysActive");
 
   var table = document.getElementById("legalBlocks");
-
   var rowCount = table.rows.length - 1;
-  if(s.value < e.value){
+
+  var numPeriod = document.getElementById("periodInADay");
+
+  if(e.value > numPeriod.value){
+      $( "#dialog-error-number-period" ).dialog( "open" );
+  }
+  else if(numPeriod.value == ""){
+      $( "#dialog-error-number-period" ).dialog( "open" );
+  }
+
+  else if(s.value < e.value && s.value != '' && e.value != ''){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= s.value;
     row.insertCell(1).innerHTML= e.value;
@@ -94,3 +112,16 @@ function start(){
   periodLunchList();
   legalBlocksList();
 }
+ $(function() {
+    $( "#dialog-error-number-period" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "fade",
+        duration: 1000
+      }
+    });
+  });

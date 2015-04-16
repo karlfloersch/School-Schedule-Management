@@ -13,17 +13,23 @@ Name:
 <input type="text" name="name">
 <br>
 Days in Academic Year: 
-<input type="text" name="daysInYear">
+<input type="text" id = "academicYear" name="daysInYear">
 <br>
 Number of Semesters in a Year
-<input type="text" name="semesterInYear">
+<input type="text" id = "numberOfSem" name="semesterInYear">
 <br>
 Number of days in a schedule 
-<input type="text" name="daysInSch">
+<input type="text" id = "dayInASchedule" name="daysInSch">
 <br>
 Number of periods in a day: 
-<input type="text" name="periodInDay">
+<input type="text" id = "periodInADay" name="periodInDay">
 <br>
+
+<div id="dialog-error-number-period" title="Error Periods In A Day">
+  <p>The end period exceeds the number of periods in day.
+</p>
+</div>
+
 Range of periods lunch is offered
 <table id = "periodLunch">
 </table>
