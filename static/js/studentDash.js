@@ -1,6 +1,6 @@
 
   var numOfFriends = 0;
-function deleteListRow(obj, list) {
+function deleteistRow(obj, list) {
       
     var index = obj.parentNode.parentNode.rowIndex;
     if(list == friendList){
@@ -233,12 +233,57 @@ function displayGen(){
   document.getElementById("assignSch").style.display = "none";
   document.getElementById("genSch").style.display = "table";
   document.getElementById("lunSch").style.display = "table";
+  // Add autocomplete for generated schedule
+  var courses = [
+       "CSE300",
+       "CSE310",
+       "CSE308",
+       "CSE214",
+       "CSE114",
+       "CSE219",
+       ];
+  addAutoComplete($("#course"), courses);
+  var professors = [
+       "McKenna",
+       "Smolka",
+       "Osama",
+       "Obama",
+       "Stoller",
+       "Poodle",
+       ];
+  addAutoComplete($("#instructor"), professors);
+  var sections = [
+       "1",
+       "2",
+       "3",
+       "4",
+       "5",
+       "6",
+       ];
+  addAutoComplete($("#sections"), sections);
 }
 function displayAssign(){
   document.getElementById("assignSch").style.display = "table";
   document.getElementById("genSch").style.display = "none";
   document.getElementById("lunSch").style.display = "none";
 }
+function addAutoComplete(element, values) {  
+  element.autocomplete({
+    source: values
+  });
+}
+$( document ).ready(function() {
+    // add auto complete to our text boxes
+  var students = [
+       "Joe Shmoe - joe.shmoe@gmail.com",
+       "Karl Floersch - karl.floersch@gmail.com",
+       "Poodle Man - poodle.man@pooodle.com",
+       "Silly Bit - silly.bit@goose.com",
+       "King Tut - king.tut@kingtut.com",
+       "Martin Luther King - mlk@gmail.com",
+       ];
+  addAutoComplete($("#studentName"), students);
+});
 function start(){
   createFriendList();
   createCourseList();
