@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/createSchool.js' %}"></script>
+{% endblock js %}
 
 {% block content %}
 
@@ -21,26 +25,14 @@ Number of periods in a day:
 <input type="text" name="periodInDay">
 <br>
 Range of periods lunch is offered
-<table>
-
-  <tr>
-    <th>Period Start</th>
-    <th>Period End</th>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>5</td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>10</td>
-  </tr>
+<table id = "periodLunch">
 </table>
 <table>
 <tr>
 <td>
 <p class="floatCenter">
-<button type="addLunch" >Add</button>
+<input type="button" class="btn" value = "Add" \
+  onClick="Javacsript:addToPeriodLunch()"></button>
 </p>
 </td>
 </tr>
@@ -48,29 +40,14 @@ Range of periods lunch is offered
 <br>
 
 Set of Legal Blocks
-<table>
-
-  <tr>
-    <th>Period Start</th>
-    <th>Period End</th>
-    <th>Days Active</th>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>2</td>
-    <td>1,2</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>6</td>
-    <td>2,3</td>
-  </tr>
+<table id = "legalBlocks">
 </table>
 <table>
 <tr>
 <td>
 <p class="floatCenter">
-<button type="addLegalBlock" >Add</button>
+<input type="button" class="btn" value = "Add" \
+  onClick="Javacsript:addToLegalBlocks()"></button>
 </p>
 </td>
 </tr>
@@ -81,5 +58,7 @@ Set of Legal Blocks
 <button type="cancel" >Cancel</button>
 <button type="save">Save</button>
 </p>
+
+<body onload="start();">
 
 {% endblock %}
