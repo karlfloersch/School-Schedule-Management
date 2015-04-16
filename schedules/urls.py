@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from . import views
+from . import views, db_views
 
 # Define the URLS that we are using
 urlpatterns = patterns('',
@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     (r'^dashboard/$', views.dashboard_view), # Dash for user and admin
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
+    (r'^sample_db_test/$', db_views.sample_vew), # Testing for DB
     (r'^$', views.redirect_to_login), # Send user to login
 )
