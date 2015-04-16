@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 
 
 def login_view(request):
@@ -68,7 +69,10 @@ def create_user_view(request):
             is_valid, data = validate_new_user(request)
             if is_valid:
                 # Data is valid and let's store it in the db
-                redirect("/login")
+                user = User.objects.create_user(username=data['email'],
+                                                password=data['pw'])
+                user.save()
+                return redirect("/login")
             else:
                 return render(request, 'create_user.html', dictionary=data)
         elif request.POST.get("cancel"):
@@ -96,6 +100,9 @@ def validate_new_user(request):
     if validate_email(data['email']):
         valid_data = False
         data['err_email'] = "Invalid email"
+    if User.objects.filter(username=data['email']).count():
+        valid_data = False
+        data['err_email'] = "A user with that email already exists"
     if len(data['school'].strip()) == 0:
         valid_data = False
         data['err_school'] = "Please enter a school"
