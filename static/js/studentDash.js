@@ -1,6 +1,6 @@
 
   var numOfFriends = 0;
-function deleteistRow(obj, list) {
+function deleteListRow(obj, list) {
       
     var index = obj.parentNode.parentNode.rowIndex;
     if(list == friendList){
