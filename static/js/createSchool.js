@@ -11,11 +11,13 @@ function periodLunchList() {
 
   row.insertCell(0).innerHTML= "<b>Period Start</b>";
   row.insertCell(1).innerHTML= "<b>Period End</b>";
+  row.insertCell(2).innerHTML= "<b>Remove</b>";
 
   rowCount = rowCount + 1;
   row = table.insertRow(rowCount);
   row.insertCell(0).innerHTML= '<input type="text" id="periodStart">';
   row.insertCell(1).innerHTML= '<input type="text" id="periodEnd">';
+  row.insertCell(2).innerHTML= "";
 }
 function addToPeriodLunch(){
   var start = document.getElementById("periodStart");
@@ -28,7 +30,9 @@ function addToPeriodLunch(){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= start.value;
     row.insertCell(1).innerHTML= end.value;
-    
+    row.insertCell(2).innerHTML= '<input type="button" value = "Delete"\
+    onClick="Javacsript:deleteListRow(this, periodLunch)">';
+
     rowCount = rowCount + 1;
     start.value = '';
     end.value = '';
@@ -36,6 +40,7 @@ function addToPeriodLunch(){
     row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '<input type="text" id="periodStart">';
     row.insertCell(1).innerHTML= '<input type="text" id="periodEnd">';
+    row.insertCell(2).innerHTML= '';
   }
 }
 function legalBlocksList() {  
@@ -47,12 +52,14 @@ function legalBlocksList() {
   row.insertCell(0).innerHTML= "<b>Period Start</b>";
   row.insertCell(1).innerHTML= "<b>Period End</b>";
   row.insertCell(2).innerHTML= "<b>Days Active</b>";
+  row.insertCell(3).innerHTML= "<b>Remove</b>";
 
   rowCount = rowCount + 1;
   row = table.insertRow(rowCount);
   row.insertCell(0).innerHTML= '<input type="text" id="st">';
   row.insertCell(1).innerHTML= '<input type="text" id="en">';
   row.insertCell(2).innerHTML= '<input type="text" id="daysActive">';
+  row.insertCell(3).innerHTML= '';  
 }
 function addToLegalBlocks(){
   var s = document.getElementById("st");
@@ -67,6 +74,8 @@ function addToLegalBlocks(){
     row.insertCell(0).innerHTML= s.value;
     row.insertCell(1).innerHTML= e.value;
     row.insertCell(2).innerHTML= days.value;
+    row.insertCell(3).innerHTML= '<input type="button" value = "Delete"\
+    onClick="Javacsript:deleteListRow(this, legalBlocks)">';
 
     rowCount = rowCount + 1;
     s.value = '';
@@ -78,6 +87,7 @@ function addToLegalBlocks(){
     row.insertCell(0).innerHTML= '<input type="text" id="st">';
     row.insertCell(1).innerHTML= '<input type="text" id="en">';
     row.insertCell(2).innerHTML= '<input type="text" id="daysActive">';
+    row.insertCell(3).innerHTML= '';
   }
 }
 function start(){
