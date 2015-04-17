@@ -18,7 +18,7 @@ def search_for_person_view(request):
     # username = "punk@gmail.com"
     # Search this person
     first_name = "punk"
-    bitch_name = "bitch"
+    last_name = "bitch"
     # find out who i am
     myself = db.students.find_one({"email":username})
     # cool i go to this cool
