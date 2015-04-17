@@ -10,7 +10,7 @@ client = MongoClient()
 
 @login_required(redirect_field_name='/login')
 def search_for_person_view(request):
-    """ render the create school view. TODO: add validation """
+	# """ render the create school view. TODO: add validation """
     # Display the create school view if the admin is logged in
     db = client.students
     #Display all possible people we can add by searching a name
@@ -92,7 +92,6 @@ def search_for_person_view(request):
     # print "success"
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
-
 @login_required(redirect_field_name='/login')
 def add_a_student_to_friendslist_view(request):
 	db = client.students
@@ -102,36 +101,38 @@ def add_a_student_to_friendslist_view(request):
 	first_name_to_be_inserted = "punk"
 	last_name_to_be_inserted = "bitch"
 	email_to_be_inserted = "punk@gmail.com"
-    db.friends_list.update({"_id":original_id},{ "$push": { "list": { "first_name": first_name_to_be_inserted, "last_name": last_name_to_be_inserted, "email": email_to_be_inserted } } })
-    html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+	db.friends_list.update({"_id":original_id},{ "$push": { "list": { "first_name": first_name_to_be_inserted, "last_name": last_name_to_be_inserted, "email": email_to_be_inserted } } })
+	html = "<html><body> string: "+"success"+"</body></html>"
+	return HttpResponse(html)
 
 def send_a_friend_request_view(request):
 	db = client.students
 	email_of_requester="billy@gmail.com"
-    first_name_of_requester="billy"
-    last_name_of_requester="bob"
-    email_of_emailee="charles@gmail.com"
-    name_of_emailee="charles"
-    friend_request_info = {"email_of_requester":email_of_requester,
-    "first_name_of_requester":first_name_of_requester,
-    "last_name_of_requester":last_name_of_requester,
-    "email_of_emailee":email_of_emailee,
-    "name_of_emailee":name_of_emailee}
-    db.friend_requests.insert_one(friend_request_info)
+	first_name_of_requester="billy"
+	last_name_of_requester="bob"
+	email_of_emailee="charles@gmail.com"
+	name_of_emailee="charles"
+	friend_request_info = {"email_of_requester":email_of_requester,
+	"first_name_of_requester":first_name_of_requester,
+	"last_name_of_requester":last_name_of_requester,
+	"email_of_emailee":email_of_emailee,
+	"name_of_emailee":name_of_emailee}
+	db.friend_requests.insert_one(friend_request_info)
 
-    html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+
+	html = "<html><body> string: "+"success"+"</body></html>"
+	return HttpResponse(html)
 
 def get_friendslist_view(request):
-	email_string = "lazy"
-	fresh_jim = db.students.find_one({"email":email_string})
-    if (fresh_jim is None) or (len(fresh_jim) == 0):
-        # nothing at the moment unless you want something to show up
-    else:
-        print "person's friends are:"
-        some_value = db.dereference(fresh_jim["friendslist"])
-        some_value = some_vale["list"]
-
-    html = "<html><body> string: "+some_value+"</body></html>"
-    return HttpResponse(html)
+	db = client.students
+	dat_base_var = "students"
+	first_name_var = "billy"
+	last_name_var = "bob"
+	email_stuff = "billy@gmail.com"
+	school_name= "magic school bus"
+	info ={"first_name" : first_name_var,"last_name" : last_name_var, "list":[]}
+	original_id =db.friends_list.insert(info)
+	info2 = {"first_name" : first_name_var,"last_name" : last_name_var,"email" : email_stuff, "school" : school_name, "friendslist": DBRef(collection = "friends_list", id = original_id)}
+	original_id_2=db.students.insert(info2)
+	html = "<html><body> string: "+""+"</body></html>"
+	return HttpResponse(html)
