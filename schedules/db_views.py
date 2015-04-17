@@ -136,3 +136,17 @@ def get_friendslist_view(request):
 	original_id_2=db.students.insert(info2)
 	html = "<html><body> string: "+""+"</body></html>"
 	return HttpResponse(html)
+
+def add_students_to_database(request):
+	db = client.students
+	dat_base_var = "students"
+	first_name_var = "billy"
+	last_name_var = "bob"
+	email_stuff = "billy@gmail.com"
+	school_name= "magic school bus"
+	info ={"first_name" : first_name_var,"last_name" : last_name_var, "list":[]}
+	original_id =db.friends_list.insert(info)
+	info2 = {"first_name" : first_name_var,"last_name" : last_name_var,"email" : email_stuff, "school" : school_name, "friendslist": DBRef(collection = "friends_list", id = original_id)}
+	original_id_2=db.students.insert(info2)
+	html = "<html><body> string: "+""+"</body></html>"
+	return HttpResponse(html)
