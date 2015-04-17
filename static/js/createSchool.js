@@ -28,14 +28,14 @@ function addToPeriodLunch(){
 
   var numPeriod = document.getElementById("periodInADay");
 
-  if(end.value > numPeriod.value){
+  if(Number(end.value) > Number(numPeriod.value)){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
   else if(numPeriod.value == ""){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
 
-  else if(start.value < end.value && start.value != '' && end.value != ''){
+  else if(Number(start.value) < Number(end.value) && start.value != '' && end.value != ''){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= start.value;
     row.insertCell(1).innerHTML= end.value;
@@ -67,8 +67,12 @@ function legalBlocksList() {
   row = table.insertRow(rowCount);
   row.insertCell(0).innerHTML= '<input type="text" id="st">';
   row.insertCell(1).innerHTML= '<input type="text" id="en">';
-  row.insertCell(2).innerHTML= '<input type="text" id="daysActive">';
-  row.insertCell(3).innerHTML= '';  
+  row.insertCell(2).innerHTML= 'Monday <input type="checkbox" id="monday">\
+  Tuesday <input type="checkbox" id="tuesday">\
+  Wednesday<input type="checkbox" id="wednes">\
+  Thursday <input type="checkbox" id="thursday">\
+  Friday <input type="checkbox" id="friday">';
+  row.insertCell(3).innerHTML= '';
 }
 function addToLegalBlocks(){
   var s = document.getElementById("st");
@@ -80,18 +84,18 @@ function addToLegalBlocks(){
 
   var numPeriod = document.getElementById("periodInADay");
 
-  if(e.value > numPeriod.value){
+  if(Number(e.value) > Number(numPeriod.value)){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
   else if(numPeriod.value == ""){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
 
-  else if(s.value < e.value && s.value != '' && e.value != ''){
+  else if(Number(s.value) < Number(e.value) && s.value != '' && e.value != ''){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= s.value;
     row.insertCell(1).innerHTML= e.value;
-    row.insertCell(2).innerHTML= days.value;
+    row.insertCell(2).innerHTML= 'M';
     row.insertCell(3).innerHTML= '<input type="button" value = "Delete"\
     onClick="Javacsript:deleteListRow(this, legalBlocks)">';
 
@@ -104,7 +108,11 @@ function addToLegalBlocks(){
     row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= '<input type="text" id="st">';
     row.insertCell(1).innerHTML= '<input type="text" id="en">';
-    row.insertCell(2).innerHTML= '<input type="text" id="daysActive">';
+    row.insertCell(2).innerHTML= 'Monday <input type="checkbox" value = "M" id="monday"> \
+    Tuesday <input type="checkbox" value = "Tues" id="tuesday"> \
+    Wednesday<input type="checkbox" id="wednes"> \
+    Thursday <input type="checkbox" id="thursday"> \
+    Friday <input type="checkbox" id="friday">';
     row.insertCell(3).innerHTML= '';
   }
 }
