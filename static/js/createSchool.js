@@ -77,12 +77,36 @@ function legalBlocksList() {
 function addToLegalBlocks(){
   var s = document.getElementById("st");
   var e = document.getElementById("en");
-  var days = document.getElementById("daysActive");
 
   var table = document.getElementById("legalBlocks");
   var rowCount = table.rows.length - 1;
 
   var numPeriod = document.getElementById("periodInADay");
+
+  var mon = document.getElementById("monday");
+  var tues = document.getElementById("tuesday");
+  var wed = document.getElementById("wednes");
+  var thur = document.getElementById("thursday");
+  var fri = document.getElementById("friday");
+  
+  var days = "";
+
+  if(mon.checked == 1){
+    days += "M "
+  }
+  if(tues.checked == 1){
+    days += "Tu "
+  }
+  if(wed.checked == 1){
+    days += "W "
+  }
+  if(thur.checked == 1){
+    days += "Th "
+  }
+  if(fri.checked == 1){
+    days += "F"
+  }
+  
 
   if(Number(e.value) > Number(numPeriod.value)){
       $( "#dialog-error-number-period" ).dialog( "open" );
@@ -95,9 +119,11 @@ function addToLegalBlocks(){
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML= s.value;
     row.insertCell(1).innerHTML= e.value;
-    row.insertCell(2).innerHTML= 'M';
+    row.insertCell(2).innerHTML= days;
     row.insertCell(3).innerHTML= '<input type="button" value = "Delete"\
     onClick="Javacsript:deleteListRow(this, legalBlocks)">';
+
+    days = "";
 
     rowCount = rowCount + 1;
     s.value = '';
