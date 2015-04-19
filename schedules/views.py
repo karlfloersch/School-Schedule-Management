@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from . import db_views
+from django.http import HttpResponse
+import json
 
 
 def login_view(request):
@@ -128,7 +129,7 @@ def create_user_view(request):
                 user = User.objects.create_user(username=data['email'],
                                                 password=data['pw'])
                 user.save()
-                #db_views.add_students_to_database(data)
+                # db_views.add_students_to_database(data)
                 return redirect("/login")
             else:
                 return render(request, 'create_user.html', dictionary=data)
@@ -196,3 +197,10 @@ def redirect_to_login(request):
     """ redirect the user to login """
     # If you go to the homepage, redirect to login
     return redirect("/login")
+
+
+def ajax_post(request):
+    data = {'html': request.POST['undefined']}
+    print(data)
+    print("\n\n")
+    return HttpResponse(json.dumps(data), content_type="application/json")
