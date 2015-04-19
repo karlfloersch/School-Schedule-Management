@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schedules',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,6 +53,33 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'socs.urls'
 
 WSGI_APPLICATION = 'socs.wsgi.application'
+
+#################################################
+BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_EVENT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+#CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'amqp'
+CELERY_TIMEZONE = 'US/Mountain'
+CELERY_RESULT_PERSISTENT = True
+CELERY_TASK_RESULT_EXPIRES = 1000 # seconds
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_DEFAULT_QUEUE = 'tasks'
+CELERY_TRACK_STARTED = True
+CELERY_LOG_DIR="/var/log/celery"
+CELERY_LOG_FILE="celery.log"
+CELERY_IMPORTS=("schedules.tasks")
+
+from kombu import Queue
+
+CELERY_QUEUES = (Queue('tasks', routing_key='task.#'),
+                 Queue('frontend_tasks', routing_key='frontend.#'),
+                )
+
+CELERY_DEFAULT_ROUTING_KEY = 'task.default'
+CELERY_DEFAULT_EXCHANGE = 'tasks'
+#############################################################
 
 
 # Database
@@ -144,3 +172,104 @@ LOGGING = {
         },
     }
 }
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse'
+#         }
+#     },
+#     'formatters': {
+#         'standard': {
+#             'format': '%(asctime)s %(levelname)s [%(name)s: %(lineno)s] -- %(message)s',
+#             'datefmt': '%m-%d-%Y %H:%M:%S'
+#         },
+#     },
+#     'handlers': {
+#         'logfile': {
+#             'level': 'INFO',
+#             'filters': None,
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/logs/celery/celer.log',
+#             'maxBytes': 1024*1024*5,
+#             'backupCount': 3,
+#             'formatter': 'standard'
+#         },
+#         'debug_logfile': {
+#             'level': 'DEBUG',
+#             'filters': None,
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/logs/celery/celer.log',
+#             'maxBytes': 1024*1024*5,
+#             'backupCount': 5,
+#             'formatter': 'standard'
+#         },
+#         'default_logger': {
+#             'level': 'WARNING',
+#             'filters': None,
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/logs/celery/celer.log',
+#             'maxBytes': 1024*1024*5,
+#             'backupCount': 2,
+#             'formatter': 'standard'
+#         },
+#         'celery_logger': {
+#             'level': 'DEBUG',
+#             'filters': None,
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/logs/celery/celer.log',
+#             'maxBytes': 1024*1024*5,
+#             'backupCount': 2,
+#             'formatter': 'standard'
+#         },
+#         'celery_task_logger': {
+#             'level': 'DEBUG',
+#             'filters': None,
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': '/logs/celery/celer.log',
+#             'maxBytes': 1024*1024*5,
+#             'backupCount': 2,
+#             'formatter': 'standard'
+#         },
+#     },
+#     'loggers': {
+#         '': {
+#             'handlers': ['default_logger'],
+#             'level': 'WARNING',
+#             'propagate': True,
+#         },
+#         'django': {
+#             'handlers': ['logfile'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'feedmanager': {
+#             'handlers': ['logfile', 'debug_logfile'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'recipemanager': {
+#             'handlers': ['logfile', 'debug_logfile'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'menumanager': {
+#             'handlers': ['logfile', 'debug_logfile'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'celery.task': {
+#             'handlers': ['celery_task_logger'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'celery': {
+#             'handlers': ['celery_logger'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     }
+# }
