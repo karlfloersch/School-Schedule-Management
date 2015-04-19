@@ -272,8 +272,6 @@ function addAutoComplete(element, values) {
     source: values
   });
 }
-$( document ).ready(function() {
-    // add auto complete to our text boxes
   var students = [
        "Joe Shmoe - joe.shmoe@gmail.com",
        "Karl Floersch - karl.floersch@gmail.com",
@@ -282,6 +280,8 @@ $( document ).ready(function() {
        "King Tut - king.tut@kingtut.com",
        "Martin Luther King - mlk@gmail.com",
        ];
+$( document ).ready(function() {
+    // add auto complete to our text boxes
   addAutoComplete($("#studentName"), students);
 });
 function start(){

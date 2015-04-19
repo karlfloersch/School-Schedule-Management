@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from . import db_views
 
 
 def login_view(request):
@@ -51,10 +52,65 @@ def dashboard_view(request):
 @login_required(redirect_field_name='/login')
 def create_school_view(request):
     """ render the create school view. TODO: add validation """
+    # Redirect if the user does not have admin rights
+    if 'Administrator' not in request.user.groups.values_list('name',
+                                                              flat=True):
+        return redirect("/dashboard")
     # Display the create school view if the admin is logged in
-    if 'Administrator' in request.user.groups.values_list('name', flat=True):
+    if request.method == 'GET':
         return render(request, 'create_school.html')
-    return redirect("/dashboard")
+    elif request.method == 'POST':
+        # TODO: Actually implement this-This is a copy of create user
+        if request.POST.get("request"):
+            is_valid, data = validate_new_school(request)
+            if is_valid:
+                # Data is valid and let's store it in the db
+                user = User.objects.create_user(username=data['email'],
+                                                password=data['pw'])
+                user.save()
+                return redirect("/login")
+            else:
+                return render(request, 'create_user.html', dictionary=data)
+        elif request.POST.get("cancel"):
+            return redirect("/login")
+        return render(request, 'create_user.html')
+
+
+def validate_new_school(request):
+    """ return (True if data is valid, Dictionary of input and errors)
+
+    validate the school data that was entered in request
+    """
+    # TODO: Implement this-This is a copy of validate_new_user
+    # Fill data with the information that the user entered
+    data = {}
+    data['studName'] = request.POST.get('studName', False)
+    data['email'] = request.POST.get('email', False)
+    data['school'] = request.POST.get('school', False)
+    data['pw'] = request.POST.get('password', False)
+    data['conf_pw'] = request.POST.get('confirm', False)
+    valid_data = True
+    # If any data is invalid, set valid_data to False and print error
+    if len(data['studName'].strip()) == 0:
+        valid_data = False
+        data['err_studName'] = "Please enter a name"
+    if validate_email(data['email']):
+        valid_data = False
+        data['err_email'] = "Invalid email"
+    if User.objects.filter(username=data['email']).count():
+        valid_data = False
+        data['err_email'] = "A user with that email already exists"
+    if len(data['school'].strip()) == 0:
+        valid_data = False
+        data['err_school'] = "Please enter a school"
+    if len(data['pw'].strip()) == 0:
+        valid_data = False
+        data['err_pw'] = "Please enter a password"
+    if not data['pw'] == data['conf_pw']:
+        valid_data = False
+        data['err_conf_pw'] = "Passwords didn't match"
+    # Return if the valid
+    return valid_data, data
 
 
 def create_user_view(request):
@@ -72,6 +128,7 @@ def create_user_view(request):
                 user = User.objects.create_user(username=data['email'],
                                                 password=data['pw'])
                 user.save()
+                db_views.add_students_to_database(data)
                 return redirect("/login")
             else:
                 return render(request, 'create_user.html', dictionary=data)
@@ -87,16 +144,19 @@ def validate_new_user(request):
     """
     # Fill data with the information that the user entered
     data = {}
-    data['studName'] = request.POST.get('studName', False)
+    data['studName'] = request.POST.get('studName', False).strip().split()
     data['email'] = request.POST.get('email', False)
     data['school'] = request.POST.get('school', False)
     data['pw'] = request.POST.get('password', False)
     data['conf_pw'] = request.POST.get('confirm', False)
     valid_data = True
     # If any data is invalid, set valid_data to False and print error
-    if len(data['studName'].strip()) == 0:
+    if len(data['studName']) != 2:
         valid_data = False
-        data['err_studName'] = "Please enter a name"
+        data['err_studName'] = "Please enter a valid name"
+    else:
+        data['first_name'] = data['studName'][0]
+        data['last_name'] = data['studName'][1]
     if validate_email(data['email']):
         valid_data = False
         data['err_email'] = "Invalid email"
