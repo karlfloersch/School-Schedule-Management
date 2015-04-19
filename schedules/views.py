@@ -128,7 +128,7 @@ def create_user_view(request):
                 user = User.objects.create_user(username=data['email'],
                                                 password=data['pw'])
                 user.save()
-                db_views.add_students_to_database(data)
+                #db_views.add_students_to_database(data)
                 return redirect("/login")
             else:
                 return render(request, 'create_user.html', dictionary=data)
