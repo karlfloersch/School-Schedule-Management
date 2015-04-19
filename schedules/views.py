@@ -200,7 +200,8 @@ def redirect_to_login(request):
 
 
 def ajax_post(request):
-    data = {'html': request.POST['undefined']}
+    print(request.POST["test1"])
+    data = {'test1': request.POST["test1"]}
     print(data)
     print("\n\n")
     return HttpResponse(json.dumps(data), content_type="application/json")

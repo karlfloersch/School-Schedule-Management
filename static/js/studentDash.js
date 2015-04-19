@@ -314,26 +314,26 @@ $.ajaxSetup({
 $( document ).ready(function() {
     // add auto complete to our text boxes
   addAutoComplete($("#studentName"), students);
-        var getUrl = window.location;
-        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-        var urlSubmit = baseUrl + "/ajax";
 
-        var data = $(this).serializeArray();
-        data.push({
-            key: "keyName",
-            value: "the value"
-        });
-        $.ajax({  
-            type: "POST",
-            url: urlSubmit,
-            dataType: "json",               
-            data      : data,//$(this).serializeArray(),
-            success: function(response){
-                console.log(response);
-                console.log(response.html);
-                    // now get the variables from the json_response
-            }
-        });
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/ajax";
+
+  var data ={
+      "test1": "testingtesting",
+      "test2": "the value"
+  }; 
+  $.ajax({  
+      type: "POST",
+      url: urlSubmit,
+      dataType: "json",               
+      data      : data,//$(this).serializeArray(),
+      success: function(response){
+          console.log(response);
+          console.log(response.test1);
+              // now get the variables from the json_response
+      }
+  });
 });
 function start(){
   createFriendList();
