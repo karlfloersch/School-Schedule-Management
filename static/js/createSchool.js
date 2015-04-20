@@ -1,6 +1,19 @@
 function deleteListRow(obj, list) {
     $(list).closest('tr').remove();
 }
+function createSemesterTable(){
+  $('#semester').empty();
+  $('#semester').append('<table></table>');
+  var table = $('#semester').children();
+
+  var numSemester = $('#numberOfSem').val();
+  
+  table.append('<tr><td><b>Name of Semester In Order</b></td>');
+
+  for(var i = 0; i < numSemester; i++){
+    table.append('<tr><td><input type = "text" id="semesterName"></td>');
+  }
+}
 function periodLunchList() {  
   $('#periodLunch').append('<table></table>');
   var table = $('#periodLunch').children();
@@ -90,7 +103,6 @@ function addToLegalBlocks(){
   else if(numPeriod == ""){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
-
   else if(Number(s) < Number(e) && s != '' && e != ''){
     $("#legalBlocks tr:last").remove();
 
@@ -101,13 +113,13 @@ function addToLegalBlocks(){
     onClick="Javacsript:deleteListRow(this, this)"></td>');
 
     table.append('<tr><td><input type="text" id="st"></td>\
-    <td><input type="text" id="en"></td>\
-    <td>Monday <input type="checkbox" id="monday">\
-        Tuesday <input type="checkbox" id="tuesday">\
-        Wednesday<input type="checkbox" id="wednes">\
-        Thursday <input type="checkbox" id="thursday">\
-        Friday <input type="checkbox" id="friday"<td>\
-    <td></td>');
+      <td><input type="text" id="en"></td>\
+      <td>Monday <input type="checkbox" id="monday">\
+      Tuesday <input type="checkbox" id="tuesday">\
+      Wednesday<input type="checkbox" id="wednes">\
+      Thursday <input type="checkbox" id="thursday">\
+      Friday <input type="checkbox" id="friday"<td>\
+      <td></td>');
   }
 }
 function start(){
@@ -122,7 +134,7 @@ function start(){
         duration: 1000
       },
       hide: {
-        effect: "fade",
+      effect: "fade",
         duration: 1000
       }
     });
