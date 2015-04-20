@@ -4,8 +4,9 @@ from celery import Celery
 from celery import app
 import pymongo
 import json
-from bson import json_util
+from bson import json_util,ObjectId
 from pymongo import MongoClient
+# from pymongo import find_many
 from bson.dbref import DBRef
 from pymongo.mongo_replica_set_client import MongoReplicaSetClient
 from pymongo.read_preferences import ReadPreference
@@ -16,6 +17,12 @@ client = MongoReplicaSetClient(
     replicaSet='socsDBset')
 client.readPreference = 'primaryPreferred'
 
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 @task(bind=True)
 def add_students_to_database_two(self, data):
@@ -46,6 +53,29 @@ def add_students_to_database_two(self, data):
 
     return str(student_dict)
 
+@task(bind=True)
+def delete_school_from_database_two(self, data):
+    db = client.students
+    school_collection = db.school_list
+   
+
+    return str(student_dict)
+
+@task(bind=True)
+def search_school_from_database_two(self, data):
+    db = client.students
+    school_collection = db.school_list
+    name_of_school = data['school_name']
+    schools = school_collection.find({'name':name_of_school})
+    array_of_schools=[]
+    for cus in schools:
+        # my_values['name'] = cus['name']
+        # cus['_id']= JSONEncoder().encode(cus['_id'])
+        array_of_schools.append(cus)
+
+
+    # return_bundle = {'result': array_of_schools}
+    return json_util.dumps(array_of_schools)
 
 @task(bind=True)
 def add_school_to_database_two(self, data):
