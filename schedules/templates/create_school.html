@@ -10,53 +10,32 @@
 <p>
 <form>
 Name:
-<input type="text" name="name">
+<input type="text" name="name"><span id="err_name" class="error"></span>
 <br>
 School Address: 
-<input type="text" id = "address" name="address">
+<input type="text" id = "address" name="address"><span id="err_address" class="error"></span>
 <br>
 Days in Academic Year: 
-<input type="text" id = "daysInAcademicYear" name="daysInYear">
+<input type="text" id = "daysInAcademicYear" name="daysInYear"><span id="err_day_acad" class="error"></span>
 <br>
 Academic Year: 
-<input type="text" id = "academicYear" name="academicYear">
-<br>
-Number of periods in a day: 
-<input type="text" id = "periodInADay" name="periodInDay">
-<br>
-Number of Semesters in a Year
-<input type="text" id = "numberOfSem" name="semesterInYear">
-<input type="button" class="btn" value = "Enter" \
-  onClick="Javacsript:createSemesterTable()"></button>
-<div id="semester"></div>
-<div id="dialog-error-number-semesters" title="Error Number Semesters">
-  <p>Invalid number of semesters in the year
-</p>
-</div>
-Number of days in a schedule 
-<input type="text" id = "dayInASchedule" name="daysInSch">
-<br>
-Number of periods in a day: 
-<input type="text" id = "periodInADay" name="periodInDay">
+<input type="text" id = "academicYear" name="academicYear"><span id="err_academic_year" class="error"></span>
 <br>
 
-<div id="dialog-error-number-period" title="Error Periods In A Day">
-  <p>The end period exceeds the number of periods in day.
-</p>
-</div>
+Number of Semesters in a Year
+<input type="text" id = "numberOfSem" name="semesterInYear"><span id="err_number_semester" class="error"></span>
+<div id="semester"></div>
+
+Number of days in a schedule 
+<input type="text" id = "dayInASchedule" name="daysInSch"><span id="err_days" class="error"></span>
+<br>
+
+Number of periods in a day: 
+<input type="text" id = "periodInADay" name="periodInDay"><span id="err_periods" class="error"></span>
+<br>
 
 Range of periods lunch is offered
 <div id="periodLunch"></div>
-<table>
-<tr>
-<td>
-<p class="floatCenter">
-<input type="button" class="btn" value = "Add" \
-  onClick="Javacsript:addToPeriodLunch()"></button>
-</p>
-</td>
-</tr>
-</table>
 <br>
 
 Set of Legal Blocks

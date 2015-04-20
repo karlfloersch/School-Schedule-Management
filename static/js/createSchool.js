@@ -1,7 +1,7 @@
 function deleteListRow(obj, list) {
     $(list).closest('tr').remove();
 }
-function createSemesterTable(){
+var semesterTable = function (){
   $('#semester').empty();
   $('#semester').append('<table></table>');
   var table = $('#semester').children();
@@ -9,54 +9,33 @@ function createSemesterTable(){
   var numSemester = $('#numberOfSem').val();
 
   if(Number(numSemester)>=1 && Number(numSemester)<=4){
+    $('#err_number_semester').html("");
     table.append('<tr><td><b>Name of Semester In Order</b></td>');
 
     for(var i = 0; i < numSemester; i++){
-        table.append('<tr><td><input type = "text" id="semesterName"></td>');
+        table.append('<tr><td><input type="text" id="semester + i"></td>');
     }
   }
   else{
-    $( "#dialog-error-number-semesters" ).dialog( "open" );
+    $('#err_periods').html("Invalid");
   }
 }
-function periodLunchList() {  
+var periodLunchList = function () {  
+  $('#periodLunch').empty();
   $('#periodLunch').append('<table></table>');
   var table = $('#periodLunch').children();
-  
-
-  table.append('<tr><td><b>Period Start</b></td>\
-    <td><b>Period End</b></td>\
-    <td><b>Remove</b></td>');
-
-  table.append('<tr><td><input type="text" id="periodStart"></td>\
-    <td><input type="text" id="periodEnd"></td>\
-    <td></td>');
-}
-function addToPeriodLunch(){
-  var table = $('#periodLunch').children();
-
-  var start = $('#periodStart').val();
-  var end = $('#periodEnd').val();
   var numPeriod = $('#periodInADay').val();
 
-  if(Number(end) > Number(numPeriod)){
-      $( "#dialog-error-number-period" ).dialog( "open" );
+  if(Number(numPeriod)>=6 && Number(numPeriod)<=12){
+    $('#err_periods').html("");
+    table.append('<tr><td><b>Lunch Period</b></td>');
+
+    for(var i = 1; i <= numPeriod; i++){
+       table.append('<tr><td>Period '+ i +'<input type="checkbox" id="i" value = "i"></td>');
+    }
   }
-  else if(numPeriod == ""){
-      $( "#dialog-error-number-period" ).dialog( "open" );
-  }
-
-  else if(Number(start) < Number(end) && start != '' && end != ''){
-    $("#periodLunch tr:last").remove();
-
-    table.append('<tr><td>' + start + '</td>\
-    <td>' + end + '</td>\
-    <td><input type="button" class="btn" value = "Delete"\
-    onClick="Javacsript:deleteListRow(this, this)"></td>');
-
-    table.append('<tr><td><input type="text" id="periodStart"></td>\
-      <td><input type="text" id="periodEnd"></td>\
-      <td></td>');
+  else{
+    $('#err_periods').html("Invalid");
   }
 }
 function legalBlocksList() {  
@@ -128,7 +107,6 @@ function addToLegalBlocks(){
   }
 }
 function start(){
-  periodLunchList();
   legalBlocksList();
 }
  $(function() {
@@ -155,3 +133,16 @@ function start(){
       }
     });
   });
+$( document ).ready(function() {
+  $('#numberOfSem').keyup(semesterTable);
+  $('#periodInADay').keyup(periodLunchList);
+  $('#daysInAcademicYear').keyup(function (){
+    var days = $('#daysInAcademicYear').val();
+    if(days < 1 || days > 7){
+      $('#err_day_acad').html("Invalid");
+    }
+    else{
+      $('#err_day_acad').html("");
+    }
+  })
+});
