@@ -1,145 +1,113 @@
 function deleteListRow(obj, list) {
-      
-    var index = obj.parentNode.parentNode.rowIndex;
-    list.deleteRow(index);
+    $(list).closest('tr').remove();
 }
 function periodLunchList() {  
-  var table = document.getElementById("periodLunch");
+  $('#periodLunch').append('<table></table>');
+  var table = $('#periodLunch').children();
+  
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td><b>Period Start</b></td>\
+    <td><b>Period End</b></td>\
+    <td><b>Remove</b></td>');
 
-  row.insertCell(0).innerHTML= "<b>Period Start</b>";
-  row.insertCell(1).innerHTML= "<b>Period End</b>";
-  row.insertCell(2).innerHTML= "<b>Remove</b>";
-
-  rowCount = rowCount + 1;
-  row = table.insertRow(rowCount);
-  row.insertCell(0).innerHTML= '<input type="text" id="periodStart">';
-  row.insertCell(1).innerHTML= '<input type="text" id="periodEnd">';
-  row.insertCell(2).innerHTML= "";
+  table.append('<tr><td><input type="text" id="periodStart"></td>\
+    <td><input type="text" id="periodEnd"></td>\
+    <td></td>');
 }
 function addToPeriodLunch(){
-  var start = document.getElementById("periodStart");
-  var end = document.getElementById("periodEnd");
+  var table = $('#periodLunch').children();
 
-  var table = document.getElementById("periodLunch");
-  var rowCount = table.rows.length - 1;
+  var start = $('#periodStart').val();
+  var end = $('#periodEnd').val();
+  var numPeriod = $('#periodInADay').val();
 
-  var numPeriod = document.getElementById("periodInADay");
-
-  if(Number(end.value) > Number(numPeriod.value)){
+  if(Number(end) > Number(numPeriod)){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
-  else if(numPeriod.value == ""){
+  else if(numPeriod == ""){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
 
-  else if(Number(start.value) < Number(end.value) && start.value != '' && end.value != ''){
-    var row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= start.value;
-    row.insertCell(1).innerHTML= end.value;
-    row.insertCell(2).innerHTML= '<input type="button" value = "Delete"\
-    onClick="Javacsript:deleteListRow(this, periodLunch)">';
+  else if(Number(start) < Number(end) && start != '' && end != ''){
+    $("#periodLunch tr:last").remove();
 
-    rowCount = rowCount + 1;
-    start.value = '';
-    end.value = '';
-    table.deleteRow(rowCount);
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= '<input type="text" id="periodStart">';
-    row.insertCell(1).innerHTML= '<input type="text" id="periodEnd">';
-    row.insertCell(2).innerHTML= '';
+    table.append('<tr><td>' + start + '</td>\
+    <td>' + end + '</td>\
+    <td><input type="button" value = "Delete"\
+    onClick="Javacsript:deleteListRow(this, this)"></td>');
+
+    table.append('<tr><td><input type="text" id="periodStart"></td>\
+      <td><input type="text" id="periodEnd"></td>\
+      <td></td>');
   }
 }
 function legalBlocksList() {  
-  var table = document.getElementById("legalBlocks");
+  $('#legalBlocks').append('<table></table>');
+  var table = $('#legalBlocks').children();
+  
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td><b>Period Start</b></td>\
+    <td><b>Period End</b></td>\
+    <td><b>Days Active</b></td>\
+    <td><b>Remove</b></td>');
 
-  row.insertCell(0).innerHTML= "<b>Period Start</b>";
-  row.insertCell(1).innerHTML= "<b>Period End</b>";
-  row.insertCell(2).innerHTML= "<b>Days Active</b>";
-  row.insertCell(3).innerHTML= "<b>Remove</b>";
-
-  rowCount = rowCount + 1;
-  row = table.insertRow(rowCount);
-  row.insertCell(0).innerHTML= '<input type="text" id="st">';
-  row.insertCell(1).innerHTML= '<input type="text" id="en">';
-  row.insertCell(2).innerHTML= 'Monday <input type="checkbox" id="monday">\
-  Tuesday <input type="checkbox" id="tuesday">\
-  Wednesday<input type="checkbox" id="wednes">\
-  Thursday <input type="checkbox" id="thursday">\
-  Friday <input type="checkbox" id="friday">';
-  row.insertCell(3).innerHTML= '';
+  table.append('<tr><td><input type="text" id="st"></td>\
+    <td><input type="text" id="en"></td>\
+    <td>Monday <input type="checkbox" id="monday">\
+        Tuesday <input type="checkbox" id="tuesday">\
+        Wednesday<input type="checkbox" id="wednes">\
+        Thursday <input type="checkbox" id="thursday">\
+        Friday <input type="checkbox" id="friday"<td>\
+    <td></td>');
 }
 function addToLegalBlocks(){
-  var s = document.getElementById("st");
-  var e = document.getElementById("en");
+  var table = $('#legalBlocks').children();
 
-  var table = document.getElementById("legalBlocks");
-  var rowCount = table.rows.length - 1;
+  var s = $('#st').val();
+  var e = $('#en').val();
+  var numPeriod = $('#periodInADay').val();
 
-  var numPeriod = document.getElementById("periodInADay");
-
-  var mon = document.getElementById("monday");
-  var tues = document.getElementById("tuesday");
-  var wed = document.getElementById("wednes");
-  var thur = document.getElementById("thursday");
-  var fri = document.getElementById("friday");
-  
   var days = "";
-
-  if(mon.checked == 1){
+  if($('#monday').is(':checked')) {
     days += "M "
   }
-  if(tues.checked == 1){
+  if($('#tuesday').is(':checked')) {
     days += "Tu "
   }
-  if(wed.checked == 1){
+  if($('#wednes').is(':checked')) {
     days += "W "
   }
-  if(thur.checked == 1){
+  if($('#thursday').is(':checked')) {
     days += "Th "
   }
-  if(fri.checked == 1){
+  if($('#friday').is(':checked')) {
     days += "F"
   }
-  
 
-  if(Number(e.value) > Number(numPeriod.value)){
+  if(Number(e) > Number(numPeriod)){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
-  else if(numPeriod.value == ""){
+  else if(numPeriod == ""){
       $( "#dialog-error-number-period" ).dialog( "open" );
   }
 
-  else if(Number(s.value) < Number(e.value) && s.value != '' && e.value != ''){
-    var row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= s.value;
-    row.insertCell(1).innerHTML= e.value;
-    row.insertCell(2).innerHTML= days;
-    row.insertCell(3).innerHTML= '<input type="button" value = "Delete"\
-    onClick="Javacsript:deleteListRow(this, legalBlocks)">';
+  else if(Number(s) < Number(e) && s != '' && e != ''){
+    $("#legalBlocks tr:last").remove();
 
-    days = "";
+    table.append('<tr><td>' + s + '</td>\
+    <td>' + e + '</td>\
+    <td>' + days + '</td>\
+    <td><input type="button" value = "Delete"\
+    onClick="Javacsript:deleteListRow(this, this)"></td>');
 
-    rowCount = rowCount + 1;
-    s.value = '';
-    e.value = '';
-    days.value = '';
-
-    table.deleteRow(rowCount);
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= '<input type="text" id="st">';
-    row.insertCell(1).innerHTML= '<input type="text" id="en">';
-    row.insertCell(2).innerHTML= 'Monday <input type="checkbox" value = "M" id="monday"> \
-    Tuesday <input type="checkbox" value = "Tues" id="tuesday"> \
-    Wednesday<input type="checkbox" id="wednes"> \
-    Thursday <input type="checkbox" id="thursday"> \
-    Friday <input type="checkbox" id="friday">';
-    row.insertCell(3).innerHTML= '';
+    table.append('<tr><td><input type="text" id="st"></td>\
+    <td><input type="text" id="en"></td>\
+    <td>Monday <input type="checkbox" id="monday">\
+        Tuesday <input type="checkbox" id="tuesday">\
+        Wednesday<input type="checkbox" id="wednes">\
+        Thursday <input type="checkbox" id="thursday">\
+        Friday <input type="checkbox" id="friday"<td>\
+    <td></td>');
   }
 }
 function start(){
