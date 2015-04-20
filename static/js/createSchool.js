@@ -7,11 +7,16 @@ function createSemesterTable(){
   var table = $('#semester').children();
 
   var numSemester = $('#numberOfSem').val();
-  
-  table.append('<tr><td><b>Name of Semester In Order</b></td>');
 
-  for(var i = 0; i < numSemester; i++){
-    table.append('<tr><td><input type = "text" id="semesterName"></td>');
+  if(Number(numSemester)>=1 && Number(numSemester)<=4){
+    table.append('<tr><td><b>Name of Semester In Order</b></td>');
+
+    for(var i = 0; i < numSemester; i++){
+        table.append('<tr><td><input type = "text" id="semesterName"></td>');
+    }
+  }
+  else{
+    $( "#dialog-error-number-semesters" ).dialog( "open" );
   }
 }
 function periodLunchList() {  
@@ -128,6 +133,17 @@ function start(){
 }
  $(function() {
     $( "#dialog-error-number-period" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+      effect: "fade",
+        duration: 1000
+      }
+    });
+     $( "#dialog-error-number-semesters" ).dialog({
       autoOpen: false,
       show: {
         effect: "blind",
