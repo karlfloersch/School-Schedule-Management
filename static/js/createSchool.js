@@ -28,7 +28,7 @@ var periodLunchList = function () {
 
   if(Number(numPeriod)>=6 && Number(numPeriod)<=12){
     $('#err_periods').html("");
-    table.append('<tr><td><b>Lunch Period</b></td>');
+    table.append('<tr><td><b>Valid Lunch Periods</b></td>');
 
     for(var i = 1; i <= numPeriod; i++){
        table.append('<tr><td>Period '+ i +'<input type="checkbox" id="i" value = "i"></td>');
