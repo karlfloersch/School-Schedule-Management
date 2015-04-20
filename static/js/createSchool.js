@@ -33,7 +33,7 @@ function addToPeriodLunch(){
 
     table.append('<tr><td>' + start + '</td>\
     <td>' + end + '</td>\
-    <td><input type="button" value = "Delete"\
+    <td><input type="button" class="btn" value = "Delete"\
     onClick="Javacsript:deleteListRow(this, this)"></td>');
 
     table.append('<tr><td><input type="text" id="periodStart"></td>\
@@ -97,7 +97,7 @@ function addToLegalBlocks(){
     table.append('<tr><td>' + s + '</td>\
     <td>' + e + '</td>\
     <td>' + days + '</td>\
-    <td><input type="button" value = "Delete"\
+    <td><input type="button" class="btn" value = "Delete"\
     onClick="Javacsript:deleteListRow(this, this)"></td>');
 
     table.append('<tr><td><input type="text" id="st"></td>\

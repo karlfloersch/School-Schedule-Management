@@ -1,115 +1,95 @@
-function deleteListRow(obj, list) {
-      
-    var index = obj.parentNode.parentNode.rowIndex;
-    list.deleteRow(index);
+function deleteListRow(list) {
+    $(list).closest('tr').remove();
 }
 function acceptAll(){
-  var table = document.getElementById("manageAccountReq");
-  var rowCount = table.rows.length;
+  var table = $('#manageAccountReq').children();
 
-  for(var i = 0; i < rowCount - 1; i++){
-    table.deleteRow(1);
-  }
+  $('#manageAccountReq tr').each(function (i, row) { 
+    if(i != '0'){
+      row.remove();
+    }
+  })
 }
-function createAcctReqList() {  
-  var table = document.getElementById("manageAccountReq");
+function createAcctReqList() { 
+  $('#manageAccountReq').append('<table></table>');
+  var table = $('#manageAccountReq').children();
+  
+  table.append('<tr><td><b>Name</b></td>\
+    <td><b>ID</b></td>\
+    <td><b>School</b></td>\
+    <td><b>Accept</b></td>\
+    <td><b>Deny</b></td>');
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td>Joe Poodle</td>\
+    <td>0000007</td>\
+    <td>MSC</td>\
+    <td><input type="button" class="btn" value = "Accept" \
+    onClick="Javacsript:deleteListRow(this)"></button></td>\
+    <td><input type="button" class="btn" value = "Deny" \
+    onClick="Javacsript:deleteListRow(this)"></td>');
 
-  row.insertCell(0).innerHTML= "<b>Name</b>";
-  row.insertCell(1).innerHTML= "<b>ID</b>";
-  row.insertCell(2).innerHTML= "<b>School</b>";
-  row.insertCell(3).innerHTML= '<b>Accept</b>';
-  row.insertCell(4).innerHTML= '<b>Deny</b>';
-
-
-  rowCount = rowCount + 1;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= "Joe Poodle";
-  row.insertCell(1).innerHTML= "0000007";
-  row.insertCell(2).innerHTML= "MSC";
-  row.insertCell(3).innerHTML= '<input type="button" class="btn" value = "Accept" \
-  onClick="Javacsript:deleteListRow(this, manageAccountReq)"></button>';
-  row.insertCell(4).innerHTML= '<input type="button" class="btn" value = "Delete" \
-  onClick="Javacsript:deleteListRow(this, manageAccountReq)">';
   for(var i = 0; i < 5; i++){
-    rowCount = rowCount+1;
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= "Bob";
-    row.insertCell(1).innerHTML= "DICK";
-    row.insertCell(2).innerHTML= "I3";
-    row.insertCell(3).innerHTML= '<input type="button" class="btn" value = "Accept" \
-    onClick="Javacsript:deleteListRow(this, manageAccountReq)"></button>';
-    row.insertCell(4).innerHTML= '<input type="button" class="btn" value = "Delete" \
-    onClick="Javacsript:deleteListRow(this, manageAccountReq)">';
+    table.append('<tr><td>Bob</td>\
+      <td>DICK</td>\
+      <td>I3</td>\
+      <td><input type="button" class="btn" value = "Accept" \
+      onClick="Javacsript:deleteListRow(this)"></button></td>\
+      <td><input type="button" class="btn" value = "Deny" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
   }
 }
 function createManageSchool() {  
-  var table = document.getElementById("manageSchool");
+    $('#manageSchool').append('<table></table>');
+  var table = $('#manageSchool').children();
+  
+  table.append('<tr><td><b>Name</b></td>\
+    <td><b>Year</b></td>\
+    <td><b>#Semester</b></td>\
+    <td><b>Range of Periods</b></td>\
+    <td><b>View/Edit</b></td>\
+    <td><b>Delete</b></td>');
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td>SBU</td>\
+    <td>30040</td>\
+    <td>2</td>\
+    <td>4</td>\
+    <td><input type="button" class="btn" value = "Edit" \
+      onClick=""></button></td>\
+    <td><input type="button" class="btn" value = "Delete" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-  row.insertCell(0).innerHTML= "<b>Name</b>";
-  row.insertCell(1).innerHTML= "<b>Year</b>";
-  row.insertCell(2).innerHTML= "<b>#Semester</b>";
-  row.insertCell(3).innerHTML= '<b>Range of Periods</b>';
-  row.insertCell(4).innerHTML= '<b>View/Edit</b>';
-  row.insertCell(5).innerHTML= '<b>Delete</b>';
-
-  rowCount = rowCount + 1;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= "SBU";
-  row.insertCell(1).innerHTML= "30040";
-  row.insertCell(2).innerHTML= "2";
-  row.insertCell(3).innerHTML= "4";
-  row.insertCell(4).innerHTML= '<input type="button" class="btn" value = "Edit" \
-  onClick=""></button>';
-  row.insertCell(5).innerHTML= '<input type="button" class="btn" value = "Delete" \
-  onClick="Javacsript:deleteListRow(this, manageSchool)">';
   for(var i = 0; i < 5; i++){
-    rowCount = rowCount + 1;
-    var row = table.insertRow(rowCount);    
-    row.insertCell(0).innerHTML= "NYU";
-    row.insertCell(1).innerHTML= "20231";
-    row.insertCell(2).innerHTML= "2";
-    row.insertCell(3).innerHTML= "4";
-    row.insertCell(4).innerHTML= '<input type="button" class="btn" value = "Edit" \
-    onClick=""></button>';
-    row.insertCell(5).innerHTML= '<input type="button" class="btn" value = "Delete" \
-    onClick="Javacsript:deleteListRow(this, manageSchool)">';
+    table.append('<tr><td>NYU</td>\
+      <td>20231</td>\
+      <td>2</td>\
+      <td>4</td>\
+      <td><input type="button" class="btn" value = "Edit" \
+        onClick=""></button></td>\
+      <td><input type="button" class="btn" value = "Delete" \
+        onClick="Javacsript:deleteListRow(this)"></td>');
   }
 }
 function createManageStudent() {  
-  var table = document.getElementById("manageStudents");
+  $('#manageStudents').append('<table></table>');
+  var table = $('#manageStudents').children();
+  
+  table.append('<tr><td><b>Name</b></td>\
+    <td><b>ID</b></td>\
+    <td><b>School</b></td>\
+    <td><b>Delete</b></td>');
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td>Joe Poodle</td>\
+    <td>0000007</td>\
+    <td>MSC</td>\
+    <td><input type="button" class="btn" value = "Delete" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-  row.insertCell(0).innerHTML= "<b>Name</b>";
-  row.insertCell(1).innerHTML= "<b>ID</b>";
-  row.insertCell(2).innerHTML= "<b>School</b>";
-  row.insertCell(3).innerHTML= '<b>Delete</b>';
-
-  rowCount = rowCount + 1;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= "Joe Poodle";
-  row.insertCell(1).innerHTML= "0000007";
-  row.insertCell(2).innerHTML= "MSC";
-  row.insertCell(3).innerHTML= '<input type="button" class="btn" value = "Delete" \
-  onClick="Javacsript:deleteListRow(this, manageStudents)">';
-  for(var i = 0; i < 5; i++){
-    rowCount = rowCount+1;
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= "Bob";
-    row.insertCell(1).innerHTML= "DICK";
-    row.insertCell(2).innerHTML= "I3";
-    row.insertCell(3).innerHTML= '<input type="button" class="btn" value = "Delete" \
-    onClick="Javacsript:deleteListRow(this, manageStudents)">';
+  for(var i = 0; i < 3; i++){
+    table.append('<tr><td>Bob</td>\
+      <td>DICK</td>\
+      <td>I3</td>\
+      <td><input type="button" class="btn" value = "Delete" \
+        onClick="Javacsript:deleteListRow(this)"></td>');
   }
 }
 function start(){

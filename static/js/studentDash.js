@@ -1,114 +1,95 @@
-
-  var numOfFriends = 0;
-function deleteListRow(obj, list) {
-      
-    var index = obj.parentNode.parentNode.rowIndex;
-    if(list == friendList){
-      numOfFriends = numOfFriends - 1;
-    }
-    list.deleteRow(index);
+function deleteListRow(obj) {
+    $(obj).closest('tr').remove();
 }
 function acceptFriendReq(obj){
-    var index = obj.parentNode.parentNode.rowIndex;
-    var table = document.getElementById("friendReqList");
-    table.deleteRow(index);
+     $(obj).closest('tr').remove();
 }
 
 function createFriendList() {  
   populFriend();
   populFriendReq();
-  document.getElementById("friendReqList").style.display = "none";
+  $("#friendReqList").hide();
 }
 
 function displayFriendList(){
-  document.getElementById("friendReqList").style.display = "none";
-  document.getElementById("friendList").style.display = "table";
+  $("#friendReqList").hide();
+  $("#friendList").show();
 }
 function displayFriendReq(){
-  document.getElementById("friendReqList").style.display = "table";
-  document.getElementById("friendList").style.display = "none";
+  $("#friendReqList").show();
+  $("#friendList").hide();
 }
 
 function addFriend(){
-  var studName = document.getElementById("studentName");
-  var table = document.getElementById("friendList");
-  numOfFriends = numOfFriends+1;
+  var table = $('#friendList').children();
+  
+  var studName = $('#studentName').val();
+  
+  table.append('<tr><td>'+ studName +'</td>\
+    <td>BBM@SBU.com</td>\
+    <td>SBU</td>\
+    <td><input type="button" value = "View"></button></td>\
+    <td><input type="button" class="btn" value = "Delete" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(numOfFriends);
-
-  row.insertCell(0).innerHTML= studName.value;
-  row.insertCell(1).innerHTML= "BBM@SBU.com";
-  row.insertCell(2).innerHTML= "SBU";
-  row.insertCell(3).innerHTML= '<input type="button" value = "View"></button>';  
-  row.insertCell(4).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteListRow(this, friendList)">';
-  studName.value = '';
+  $('#studentName').val('');
 }
 
 function populFriend(){
-  var table = document.getElementById("friendList");
+  $('#friendList').append('<table></table>');
+  var table = $('#friendList').children();
+  
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td><b>Name</b></td>\
+    <td><b>Email</b></td>\
+    <td><b>School</b></td>\
+    <td><b>View Schedule</b></td>\
+    <td><b>Delete</b></td>');
 
-  row.insertCell(0).innerHTML= "<b>Name</b>";
-  row.insertCell(1).innerHTML= "<b>Email</b>";
-  row.insertCell(2).innerHTML= "<b>School</b>";
-  row.insertCell(3).innerHTML= '<b>View Schedule</b>';
-  row.insertCell(4).innerHTML= '<b>Delete</b>';
+  table.append('<tr><td>Joe Poodle</td>\
+    <td>BBM@SBU.com</td>\
+    <td>SBU</td>\
+    <td><input type="button" class="btn" value = "View"></button></td>\
+    <td><input type="button" class="btn" value = "Delete" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-
-  rowCount = rowCount + 1;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= "Joe Poodle";
-  row.insertCell(1).innerHTML= "BBM@SBU.com";
-  row.insertCell(2).innerHTML= "SBU";
-  row.insertCell(3).innerHTML= '<input type="button" value = "View"></button>';
-  row.insertCell(4).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteListRow(this, friendList)">';
-    numOfFriends = numOfFriends+1;
-  for(var i = 0; i < 1; i++){
-    numOfFriends = numOfFriends+1;
-    rowCount = rowCount+1;
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= "Boba Poodle";
-    row.insertCell(1).innerHTML= "BBM@SBU.com";
-    row.insertCell(2).innerHTML= "SBU";
-    row.insertCell(3).innerHTML= '<input type="button" value = "View"></button>'; 
-    row.insertCell(4).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteListRow(this, friendList)">';
+  for(var i = 0; i < 5; i++){
+    table.append('<tr><td>--------</td>\
+      <td>--------</td>\
+      <td>--------</td>\
+      <td><input type="button" class="btn" value = "View"></button></td>\
+      <td><input type="button" class="btn" value = "Delete" \
+        onClick="Javacsript:deleteListRow(this)"></td>');
   }
 }
 
 function populFriendReq(){
-  var table = document.getElementById("friendReqList");
+  $('#friendReqList').append('<table></table>');
+  var table = $('#friendReqList').children();
+  
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
+  table.append('<tr><td><b>Name</b></td>\
+    <td><b>Email</b></td>\
+    <td><b>School</b></td>\
+    <td><b>Accept</b></td>\
+    <td><b>Delete</b></td>');
 
-  row.insertCell(0).innerHTML= "<b>Name</b>";
-  row.insertCell(1).innerHTML= "<b>Email</b>";
-  row.insertCell(2).innerHTML= "<b>School</b>";
-  row.insertCell(3).innerHTML= '<b>Accept</b>';
-  row.insertCell(4).innerHTML= '<b>Deny</b>';
-
-
-  rowCount = rowCount + 1;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= "Lonely Poodle";
-  row.insertCell(1).innerHTML= "BBM@SBU.com";
-  row.insertCell(2).innerHTML= "SBU";
-  row.insertCell(3).innerHTML= '<input type="button" value = "Accept" onClick = "Javacsript:acceptFriendReq(this)">';
-  row.insertCell(4).innerHTML= '<input type="button" value = "Deny" onClick="Javacsript:deleteListRow(this, friendReqList)">';
+  table.append('<tr><td>Joe Poodle</td>\
+    <td>BBM@SBU.com</td>\
+    <td>SBU</td>\
+    <td><input type="button" class="btn" value = "Accept"\
+      onClick = "Javacsript:acceptFriendReq(this)"></td>\
+    <td><input type="button" class="btn" value = "Delete" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
   for(var i = 0; i < 3; i++){
-    rowCount = rowCount+1;
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= "----";
-    row.insertCell(1).innerHTML= "----";
-    row.insertCell(2).innerHTML= "----";
-    row.insertCell(3).innerHTML= '<input type="button" value = "Accept" onClick = "Javacsript:acceptFriendReq(this)">';
-    row.insertCell(4).innerHTML= '<input type="button" value = "Deny" onClick="Javacsript:deleteListRow(this, friendReqList)">';
+    table.append('<tr><td>--------</td>\
+      <td>--------</td>\
+      <td>--------</td>\
+      <td><input type="button" class="btn" value = "Accept"\
+        onClick = "Javacsript:acceptFriendReq(this)"></td>\
+      <td><input type="button" class="btn" value = "Delete" \
+        onClick="Javacsript:deleteListRow(this)"></td>');
   }
 }
 
@@ -116,123 +97,150 @@ function createCourseList() {
     createAssignSche();
     createGenSche();
     createLunSche();
-    document.getElementById("genSch").style.display = "none";
-    document.getElementById("lunSch").style.display = "none";
+    $("#genSch").hide();
+    $("#lunSch").hide();
 }
 function createAssignSche(){
-  var t = document.getElementById("assignSch");
+  $('#assignSch').append('<table></table>');
+  var table = $('#assignSch').children();
+  
+  table.append('<tr><td><b>Course ID</b></td>\
+    <td><b>Course Name</b></td>\
+    <td><b>Instructor</b></td>\
+    <td><b>School</b></td>\
+    <td><b>Days</b></td>\
+    <td><b>Periods</b></td>\
+    <td><b>Add</b></td>\
+    <td><b>Remove</b></td>');
 
-  var rC = t.rows.length;
-  var r = t.insertRow(rC);
+  table.append('<tr><td>Technical Writing</td>\
+    <td>CSE300</td>\
+    <td>Liu</td>\
+    <td>SBU</td>\
+    <td>M W</td>\
+    <td>1</td>\
+    <td></td>\
+    <td><input type="button" class="btn" value = "Remove" \
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-  r.insertCell(0).innerHTML= '<b>' + 'Course ID' + '</b>';
-  r.insertCell(1).innerHTML= "<b>Course Name</b>";
-  r.insertCell(2).innerHTML= "<b>Instructor</b>";
-  r.insertCell(3).innerHTML= "<b>School</b>";
-  r.insertCell(4).innerHTML= "<b>Days</b>";
-  r.insertCell(5).innerHTML= "<b>Period</b>";
-  r.insertCell(6).innerHTML= "<b>Remove</b>";
+  table.append('<tr>\
+    <td><input type="text" id="courseID"></td>\
+    <td><input type="text" id="courseName"></td>\
+    <td><input type="text" id="instructor"></td>\
+    <td><input type="text" id="School"></td>\
+    <td><input type="text" id="days"></td>\
+    <td><input type="text" id="Period"></td>\
+    <td><input type="button" class="btn" value = "Add"\
+      onClick="Javacsript:addAssignCourse()"></td>\
+    <td></td>');
+}
 
-  rC = rC + 1;
-  var r = t.insertRow(rC);
-  r.insertCell(0).innerHTML= "blahblahblah";
-  r.insertCell(1).innerHTML= "CSE 308";
-  r.insertCell(2).innerHTML= "monkey";
-  r.insertCell(3).innerHTML= "BoB";
-  r.insertCell(4).innerHTML= "M W";
-  r.insertCell(5).innerHTML= "1";
-  r.insertCell(6).innerHTML= '<input type="button" value = "Remove" onClick="Javacsript:deleteListRow(this, assignSch)">';
+function addAssignCourse(){
+  var courseName = $('#courseID').val();
+  var sectEx = $('#courseName').val();
+  var instr = $('#instructor').val();
+  var sch = $('#School').val();
+  var days = $('#days').val();
+  var period = $('#Period').val();
 
-  var n = 5;
-  for(var j = 0; j < 3; j++){
-    rC = rC+1;
-    r = t.insertRow(rC);
-    r.insertCell(0).innerHTML= "----";
-    r.insertCell(1).innerHTML= "----";
-    r.insertCell(2).innerHTML= "----";
-    r.insertCell(3).innerHTML= "----";
-    r.insertCell(4).innerHTML= "----";
-    r.insertCell(5).innerHTML= "----";
-    r.insertCell(6).innerHTML= '<input type="button" value = "Remove" onClick="Javacsript:deleteListRow(this, assignSch)">';
+  var table = $('#assignSch').children();
+
+  if(courseName != ""){
+    $("#assignSch tr:last").remove();
+    table.append('<tr>\
+    <td>'+ courseName +'</td>\
+    <td>'+ sectEx +'</td>\
+    <td>'+ instr +'</td>\
+    <td>'+ sch +'</td>\
+    <td>'+ days +'</td>\
+    <td>'+ period +'</td>\
+    <td></td>\
+    <td><input type="button" class="btn" value = "Delete"\
+      onClick="Javacsript:deleteListRow(this)"></td>');
+
+    table.append('<tr>\
+      <td><input type="text" id="courseID"></td>\
+      <td><input type="text" id="courseName"></td>\
+      <td><input type="text" id="instructor"></td>\
+      <td><input type="text" id="School"></td>\
+      <td><input type="text" id="days"></td>\
+      <td><input type="text" id="Period"></td>\
+      <td><input type="button" class="btn" value = "Add"\
+        onClick="Javacsript:addAssignCourse()"></td>\
+      <td></td>');
   }
 }
+
 function createGenSche(){
-  var t = document.getElementById("genSch");
+  $('#genSch').append('<table></table>');
+  var table = $('#genSch').children();
+  
+  table.append('<tr><td><b>Course</b></td>\
+    <td><b>Section To Exclude(optional)</b></td>\
+    <td><b>Instructor(optional)</b></td>\
+    <td><b>Add</b></td>\
+    <td><b>Remove</b></td>');
 
-  var rC = t.rows.length;
-  var r = t.insertRow(rC);
-
-  r.insertCell(0).innerHTML= "<b>Course</b>";
-  r.insertCell(1).innerHTML= "<b>Section To Exclude(optional)</b>";
-  r.insertCell(2).innerHTML= "<b>Instructor(optional)</b>";
-  r.insertCell(3).innerHTML= "<b>Add</b>";
-  r.insertCell(4).innerHTML= "<b>Remove</b>";
-
-  rC = rC + 1;
-  r = t.insertRow(rC);
-  r.insertCell(0).innerHTML= '<input type="text" id="course">';
-  r.insertCell(1).innerHTML= '<input type="text" id="sections">';
-  r.insertCell(2).innerHTML= '<input type="text" id="instructor">';
-  r.insertCell(3).innerHTML= '<input type="button" value = "Add" onClick="Javacsript:addGenCourse()">';
-  r.insertCell(4).innerHTML= "";
+  table.append('<tr>\
+    <td><input type="text" id="course"></td>\
+    <td><input type="text" id="sections"></td>\
+    <td><input type="text" id="instructor"></td>\
+    <td><input type="button" class="btn" value = "Add"\
+      onClick="Javacsript:addGenCourse()"></td>\
+    <td></td>');
 }
 
 function addGenCourse(){
-  var courseName = document.getElementById("course");
-  var sectEx = document.getElementById("sections");
-  var instr = document.getElementById("instructor");
-  var table = document.getElementById("genSch");
+  var courseName = $('#course').val();
+  var sectEx = $('#sections').val();
+  var instr = $('#instructor').val();
+  var table = $('#genSch').children();
 
-  var rowCount = table.rows.length - 1;
-  if(course.value != ""){
-    var row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= courseName.value;
-    row.insertCell(1).innerHTML= sectEx.value;
-    row.insertCell(2).innerHTML= instr.value;
-    row.insertCell(3).innerHTML= '';
-    row.insertCell(4).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteListRow(this, genSch)">';
+  if(courseName != ""){
+    $("#genSch tr:last").remove();
+    table.append('<tr>\
+    <td>'+ courseName +'</td>\
+    <td>'+ sectEx +'</td>\
+    <td>'+ instr +'</td>\
+    <td></td>\
+    <td><input type="button" class="btn" value = "Delete"\
+      onClick="Javacsript:deleteListRow(this)"></td>');
 
-    rowCount = rowCount + 1;
-    courseName.value = '';
-    sectEx.value = '';
-    instr.value = '';
-    table.deleteRow(rowCount);
-    row = table.insertRow(rowCount);
-    row.insertCell(0).innerHTML= '<input type="text" id="course">';
-    row.insertCell(1).innerHTML= '<input type="text" id="sections">';
-    row.insertCell(2).innerHTML= '<input type="text" id="instructor">';
-    row.insertCell(3).innerHTML= '<input type="button" value = "Add" onClick="Javacsript:addGenCourse()">';
-    row.insertCell(4).innerHTML= "";
+    table.append('<tr>\
+    <td><input type="text" id="course"></td>\
+    <td><input type="text" id="sections"></td>\
+    <td><input type="text" id="instructor"></td>\
+    <td><input type="button" class="btn" value = "Add"\
+      onClick="Javacsript:addGenCourse()"></td>\
+    <td></td>');
   }
 }
 
 function createLunSche(){
-  var table = document.getElementById("lunSch");
+  $('#lunSch').append('<table></table>');
+  var table = $('#lunSch').children();
+  
+  table.append('<tr>\
+    <td></td>\
+    <td><b>Monday</b></td>\
+    <td><b>Tuesday</b></td>\
+    <td><b>Wednesday</b></td>\
+    <td><b>Thursday</b></td>\
+    <td><b>Friday</b></td>');
 
-  var rowCount = table.rows.length;
-  var row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= '';
-  row.insertCell(1).innerHTML= 'Monday';
-  row.insertCell(2).innerHTML= 'Tuesday';
-  row.insertCell(3).innerHTML= 'Wednesday';
-  row.insertCell(4).innerHTML= 'Thursday';
-  row.insertCell(5).innerHTML= 'Friday';
-
-  rowCount = rowCount + 1;
-  row = table.insertRow(rowCount);
-
-  row.insertCell(0).innerHTML= 'Lunch: ';
-  row.insertCell(1).innerHTML= '<input type="checkbox" id="monday">';
-  row.insertCell(2).innerHTML= '<input type="checkbox" id="tuesday">';
-  row.insertCell(3).innerHTML= '<input type="checkbox" id="wednes">';
-  row.insertCell(4).innerHTML= '<input type="checkbox" id="thursday">';
-  row.insertCell(5).innerHTML= '<input type="checkbox" id="friday">';
+  table.append('<tr>\
+    <td>Lunch: </td>\
+    <td><input type="checkbox" id="monday"></td>\
+    <td><input type="checkbox" id="tuesday"></td>\
+    <td><input type="checkbox" id="wednes"></td>\
+    <td><input type="checkbox" id="thursday"></td>\
+    <td><input type="checkbox" id="friday"></td>');
 }
 function displayGen(){
-  document.getElementById("assignSch").style.display = "none";
-  document.getElementById("genSch").style.display = "table";
-  document.getElementById("lunSch").style.display = "table";
+  $("#assignSch").hide();
+  $("#genSch").show();
+  $("#lunSch").show();
+
   // Add autocomplete for generated schedule
   var courses = [
        "CSE300",
@@ -263,9 +271,9 @@ function displayGen(){
   addAutoComplete($("#sections"), sections);
 }
 function displayAssign(){
-  document.getElementById("assignSch").style.display = "table";
-  document.getElementById("genSch").style.display = "none";
-  document.getElementById("lunSch").style.display = "none";
+  $("#assignSch").show();
+  $("#genSch").hide();
+  $("#lunSch").hide();
 }
 function addAutoComplete(element, values) {  
   element.autocomplete({
