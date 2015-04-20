@@ -201,9 +201,12 @@ def redirect_to_login(request):
     return redirect("/login")
 
 
-def ajax_post(request):
-    print(request.POST["test1"])
-    data = {'test1': request.POST["test1"]}
+@login_required(redirect_field_name='/login')
+def friend_ajax(request):
+    data = {'first_name': request.POST["first_name"]}
     print(data)
     print("\n\n")
+    data = db_views.get_possible_friends(request.user.username,
+                                         request.POST["first_name"])
+    print(data)
     return HttpResponse(json.dumps(data), content_type="application/json")

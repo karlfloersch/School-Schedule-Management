@@ -236,6 +236,38 @@ function createLunSche(){
     <td><input type="checkbox" id="thursday"></td>\
     <td><input type="checkbox" id="friday"></td>');
 }
+
+// Setup stuff for the CSRF Token/post requests
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+// End CSRF stuff
+
 function displayGen(){
   $("#assignSch").hide();
   $("#genSch").show();
@@ -280,68 +312,50 @@ function addAutoComplete(element, values) {
     source: values
   });
 }
-  var students = [
-       "Joe Shmoe - joe.shmoe@gmail.com",
-       "Karl Floersch - karl.floersch@gmail.com",
-       "Poodle Man - poodle.man@pooodle.com",
-       "Silly Bit - silly.bit@goose.com",
-       "King Tut - king.tut@kingtut.com",
-       "Martin Luther King - mlk@gmail.com",
-       ];
 
-// Setup stuff for the CSRF Token/post requests
-// using jQuery
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+function addFriendAutoComplete() {
+    $("#studentName").keyup(function(){
+        var textValue = $("#studentName").val();
+        if(textValue.slice(-1) != " "){
+            return;
         }
-    }
-    return cookieValue;
+        var firstName = textValue.trim();
+
+       var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-friends";
+     
+       var data ={
+           "first_name": firstName
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+               // set the autocomplete
+               console.log("working?");
+               console.log(response);
+               var students = [];//JSON.parse(response);
+               var i = 0;
+               for(i = 0; i < response.length; i++){
+                   students.push(response[i].first_name + " " + 
+                           response[i].last_name + " - " + response[i].email);
+               }
+               console.log(students);
+               addAutoComplete($("#studentName"), students);
+           }
+       });
+    });
+
 }
-var csrftoken = getCookie('csrftoken');
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-// End CSRF stuff
+
 $( document ).ready(function() {
     // add auto complete to our text boxes
-  addAutoComplete($("#studentName"), students);
+  addFriendAutoComplete();
+  addAutoComplete($("#studentName"), []);
 
-  var getUrl = window.location;
-  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-  var urlSubmit = baseUrl + "/ajax";
-
-  var data ={
-      "test1": "testingtesting",
-      "test2": "the value"
-  }; 
-  $.ajax({  
-      type: "POST",
-      url: urlSubmit,
-      dataType: "json",               
-      data      : data,//$(this).serializeArray(),
-      success: function(response){
-          console.log(response);
-          console.log(response.test1);
-              // now get the variables from the json_response
-      }
-  });
 });
 function start(){
   createFriendList();
