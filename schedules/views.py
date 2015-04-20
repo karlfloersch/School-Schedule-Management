@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from . import db_views
 import json
 
 
@@ -129,6 +130,7 @@ def create_user_view(request):
                 user = User.objects.create_user(username=data['email'],
                                                 password=data['pw'])
                 user.save()
+                db_views.add_student_entry(data)
                 # db_views.add_students_to_database(data)
                 return redirect("/login")
             else:
