@@ -1,5 +1,3 @@
-
-  var numOfFriends = 0;
 function deleteListRow(obj) {
     $(obj).closest('tr').remove();
 }
@@ -51,7 +49,7 @@ function populFriend(){
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
     <td>SBU</td>\
-    <td><input type="button" value = "View"></button></td>\
+    <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 
@@ -59,7 +57,7 @@ function populFriend(){
     table.append('<tr><td>--------</td>\
       <td>--------</td>\
       <td>--------</td>\
-      <td><input type="button" value = "View"></button></td>\
+      <td><input type="button" class="btn" value = "View"></button></td>\
       <td><input type="button" class="btn" value = "Delete" \
         onClick="Javacsript:deleteListRow(this)"></td>');
   }
@@ -79,7 +77,7 @@ function populFriendReq(){
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
     <td>SBU</td>\
-    <td><input type="button" value = "Accept"\
+    <td><input type="button" class="btn" value = "Accept"\
       onClick = "Javacsript:acceptFriendReq(this)"></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
@@ -88,7 +86,7 @@ function populFriendReq(){
     table.append('<tr><td>--------</td>\
       <td>--------</td>\
       <td>--------</td>\
-      <td><input type="button" value = "Accept"\
+      <td><input type="button" class="btn" value = "Accept"\
         onClick = "Javacsript:acceptFriendReq(this)"></td>\
       <td><input type="button" class="btn" value = "Delete" \
         onClick="Javacsript:deleteListRow(this)"></td>');
@@ -111,7 +109,8 @@ function createAssignSche(){
     <td><b>Instructor</b></td>\
     <td><b>School</b></td>\
     <td><b>Days</b></td>\
-    <td><b>Period</b></td>\
+    <td><b>Periods</b></td>\
+    <td><b>Add</b></td>\
     <td><b>Remove</b></td>');
 
   table.append('<tr><td>Technical Writing</td>\
@@ -120,20 +119,58 @@ function createAssignSche(){
     <td>SBU</td>\
     <td>M W</td>\
     <td>1</td>\
+    <td></td>\
     <td><input type="button" class="btn" value = "Remove" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 
-  for(var i = 0; i < 3; i++){
-    table.append('<tr><td>Technical Writing</td>\
-      <td>------</td>\
-      <td>------</td>\
-      <td>------</td>\
-      <td>------</td>\
-      <td>------</td>\
-      <td><input type="button" class="btn" value = "Remove" \
-        onClick="Javacsript:deleteListRow(this)"></td>');
+  table.append('<tr>\
+    <td><input type="text" id="courseID"></td>\
+    <td><input type="text" id="courseName"></td>\
+    <td><input type="text" id="instructor"></td>\
+    <td><input type="text" id="School"></td>\
+    <td><input type="text" id="days"></td>\
+    <td><input type="text" id="Period"></td>\
+    <td><input type="button" class="btn" value = "Add"\
+      onClick="Javacsript:addAssignCourse()"></td>\
+    <td></td>');
+}
+
+function addAssignCourse(){
+  var courseName = $('#courseID').val();
+  var sectEx = $('#courseName').val();
+  var instr = $('#instructor').val();
+  var sch = $('#School').val();
+  var days = $('#days').val();
+  var period = $('#Period').val();
+
+  var table = $('#assignSch').children();
+
+  if(courseName != ""){
+    $("#assignSch tr:last").remove();
+    table.append('<tr>\
+    <td>'+ courseName +'</td>\
+    <td>'+ sectEx +'</td>\
+    <td>'+ instr +'</td>\
+    <td>'+ sch +'</td>\
+    <td>'+ days +'</td>\
+    <td>'+ period +'</td>\
+    <td></td>\
+    <td><input type="button" class="btn" value = "Delete"\
+      onClick="Javacsript:deleteListRow(this)"></td>');
+
+    table.append('<tr>\
+      <td><input type="text" id="courseID"></td>\
+      <td><input type="text" id="courseName"></td>\
+      <td><input type="text" id="instructor"></td>\
+      <td><input type="text" id="School"></td>\
+      <td><input type="text" id="days"></td>\
+      <td><input type="text" id="Period"></td>\
+      <td><input type="button" class="btn" value = "Add"\
+        onClick="Javacsript:addAssignCourse()"></td>\
+      <td></td>');
   }
 }
+
 function createGenSche(){
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
@@ -148,7 +185,7 @@ function createGenSche(){
     <td><input type="text" id="course"></td>\
     <td><input type="text" id="sections"></td>\
     <td><input type="text" id="instructor"></td>\
-    <td><input type="button" value = "Add"\
+    <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
     <td></td>');
 }
@@ -166,14 +203,14 @@ function addGenCourse(){
     <td>'+ sectEx +'</td>\
     <td>'+ instr +'</td>\
     <td></td>\
-    <td><input type="button" value = "Delete"\
+    <td><input type="button" class="btn" value = "Delete"\
       onClick="Javacsript:deleteListRow(this)"></td>');
 
     table.append('<tr>\
     <td><input type="text" id="course"></td>\
     <td><input type="text" id="sections"></td>\
     <td><input type="text" id="instructor"></td>\
-    <td><input type="button" value = "Add"\
+    <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
     <td></td>');
   }
