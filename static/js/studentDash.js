@@ -28,7 +28,7 @@ function addFriend(){
   table.append('<tr><td>'+ studName +'</td>\
     <td>BBM@SBU.com</td>\
     <td>SBU</td>\
-    <td><input type="button" value = "View"></button></td>\
+    <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 
@@ -155,7 +155,7 @@ function addAssignCourse(){
     <td>'+ days +'</td>\
     <td>'+ period +'</td>\
     <td></td>\
-    <td><input type="button" class="btn" value = "Delete"\
+    <td><input type="button" class="btn" value = "Remove"\
       onClick="Javacsript:deleteListRow(this)"></td>');
 
     table.append('<tr>\
@@ -184,7 +184,7 @@ function createGenSche(){
   table.append('<tr>\
     <td><input type="text" id="course"></td>\
     <td><input type="text" id="sections"></td>\
-    <td><input type="text" id="instructor"></td>\
+    <td><input type="text" id="professor"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
     <td></td>');
@@ -193,7 +193,7 @@ function createGenSche(){
 function addGenCourse(){
   var courseName = $('#course').val();
   var sectEx = $('#sections').val();
-  var instr = $('#instructor').val();
+  var instr = $('#professor').val();
   var table = $('#genSch').children();
 
   if(courseName != ""){
@@ -209,7 +209,7 @@ function addGenCourse(){
     table.append('<tr>\
     <td><input type="text" id="course"></td>\
     <td><input type="text" id="sections"></td>\
-    <td><input type="text" id="instructor"></td>\
+    <td><input type="text" id="professor"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
     <td></td>');
