@@ -48,6 +48,57 @@ def add_students_to_database_two(self, data):
 
 
 @task(bind=True)
+def add_school_to_database_two(self, data):
+    db = client.students
+    school_collection = db.school_list
+    course_offerings = db.course_offerings
+    #data= {'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year}
+    name_of_school = data['name']
+    days_in_a_year = data['num_days']
+    address = data['address']
+    semesters_in_year= data['num_sem']
+    num_days_in_a_schedule=data['num_days_in_schedule'] 
+    #num_periods_in_a_day=data['periodInADay']
+    #dictionary {nameofsemester}
+    name_of_semesters=data['semester_names']
+    #must be bundled with year
+    #dictionary
+    # lunch_periods = data['luch_periods']
+    # legal_blocks = data['legal_blocks']
+    year = data['year_obj']
+    semester = []
+    courses = []
+    course_list =[]
+    course_obj_ids=[]
+    course_name_id_tuple=[]
+    for current_sem_name in name_of_semesters:
+        course_list.append({'year':year['year_name'], 'sem_name':current_sem_name, 'courses_held':courses})
+
+    for semester_temp in course_list:
+        course_obj_ids.append(course_offerings.insert_one(semester_temp).inserted_id)
+    
+    # return str(course_obj_ids)
+
+    #for index, g in enumerate(name_of_semesters):
+    # for i in range(len(name_of_semesters)):
+    #     semester+={'semester_name': i,'course_listing': DBRef('course_offerings',course_obj_ids[i])}
+    for index ,g in enumerate(name_of_semesters):
+        semester.append({'semester_name': g,'course_listing': DBRef('course_offerings',course_obj_ids[index])})
+
+    year['semesters'] = semester
+
+
+    data_input = {'name':name_of_school, 'days_in_a_year': days_in_a_year,
+     'address':address, 'semesters_in_year':semesters_in_year,
+     'num_days_in_a_schedule':num_days_in_a_schedule,'name_of_semesters':name_of_semesters,
+     'year':year
+     }
+    id_1 = school_collection.insert_one(data_input)
+
+    return
+
+
+@task(bind=True)
 def possible_friends(self, username, first_name):
     # """ render the create school view. """
     # Display the create school view if the admin is logged in

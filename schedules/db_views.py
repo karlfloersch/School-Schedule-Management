@@ -41,6 +41,43 @@ def add_a_student_to_friendslist_view(request):
     return HttpResponse(html)
 
 
+@login_required(redirect_field_name='/login')
+def add_school_to_db(data):
+	# def add_school_to_db(data):
+	# THIS IS DUMMY DATA
+	name_of_school = "larz school of balance"
+	days_in_a_year = 40
+	number_of_sem = 3
+	address = "20 monkie ave."
+	num_days_in_a_schedule = 5
+	num_periods_in_a_day = 5
+	#dictionary {nameofsemester}
+	name_of_semesters=["fall","winter","spring"]
+	#must be bundled with year
+	#dictionary
+	# lunch_periods = data['luch_periods']
+	# legal_blocks = data['legal_blockname_of_semesters,s']
+	blocks1={'start': 3,'end': 4,'days_active':['monday','tuesday','thursday']}
+	blocks2={'start': 2,'end': 3,'days_active':['monday','tuesday','friday']}
+	blocks3={'start': 1,'end': 4,'days_active':['tuesday','thursday']}
+	year_name = "2014"
+	course_listing_and_semster = []
+
+	#for x in range len(name_of_semesters)
+		#course_listing_and_semster += {None, name_of_semesters[x]} 
+
+	year = {'year_name':year_name,'num_periods_in_a_day':num_periods_in_a_day,
+	'blocks':[blocks1, blocks2, blocks3],
+	'semesters':course_listing_and_semster}
+
+	data= {'semester_names':name_of_semesters,'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year}
+
+	taskObject_from_task = add_school_to_database_two.delay(data)
+	result = check_task_http(taskObject_from_task.task_id)
+
+	return result
+
+
 def check_task_http(request):
     async_result = AsyncResult(request)
     try:
