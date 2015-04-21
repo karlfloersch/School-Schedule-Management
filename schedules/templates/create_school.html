@@ -11,7 +11,7 @@
 <form method="post" id="create_school_form">
     {% csrf_token %}
 Name:
-<input type="text" name="name"><span id="err_name" class="error"></span>
+<input type="text" id = "name" name="name"><span id="err_name" class="error"></span>
 <br>
 School Address: 
 <input type="text" id = "address" name="address"><span id="err_address" class="error"></span>
@@ -52,9 +52,10 @@ Set of Legal Blocks
 
 <br>
 <p class="floatRight">
-<button id="save_btn" type="submit" name="save" value="Save">Save</button>
-<button type="submit" name="cancel" value="Cancel">Cancel</button>
+<button id="save_btn" class="btn" type="submit" name="save" value="Save" disabled=true>Save</button>
+<button type="submit" class="btn" name="cancel" value="Cancel">Cancel</button>
 </p>
+
 
 
 {% endblock %}

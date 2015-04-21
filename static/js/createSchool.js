@@ -1,7 +1,7 @@
 function deleteListRow(obj, list) {
     $(list).closest('tr').remove();
 }
-var semesterTable = function (){
+function semesterTable(){
   $('#semester').empty();
   $('#semester').append('<table></table>');
   var table = $('#semester').children();
@@ -15,12 +15,25 @@ var semesterTable = function (){
     for(var i = 0; i < numSemester; i++){
         table.append('<tr><td><input type="text" name="semester_' + i + '"></td>');
     }
+    return true;
   }
   else{
     $('#err_number_semester').html("Semesters must range from 1-4");
+    return false;
   }
 }
-var periodLunchList = function () {  
+function semesterTableCheck(){
+  var table = $('#semester').children();
+  var numSemester = $('#numberOfSem').val();
+
+  if(Number(numSemester)>=1 && Number(numSemester)<=4){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+function periodLunchList() {  
   $('#periodLunch').empty();
   $('#periodLunch').append('<table></table>');
   var table = $('#periodLunch').children();
@@ -33,9 +46,22 @@ var periodLunchList = function () {
     for(var i = 1; i <= numPeriod; i++){
        table.append('<tr><td>Period '+ i +'<input type="checkbox" name="lunch_'+ i +'"></td>');
     }
+    return true;
   }
   else{
     $('#err_periods').html("Periods must range from 6-12");
+    return false;
+  }
+}
+function periodLunchListCheck() {  
+  var table = $('#periodLunch').children();
+  var numPeriod = $('#periodInADay').val();
+
+  if(Number(numPeriod)>=6 && Number(numPeriod)<=12){
+    return true;
+  }
+  else{
+    return false;
   }
 }
 function legalBlocksList() {  
@@ -112,14 +138,82 @@ function addToLegalBlocks(){
 function start() {
     legalBlocksList();
 }
+function validateUserInput() {
+  isValid = true;
+
+  if(!semesterTableCheck() || !periodLunchListCheck()){
+    isValid = false;
+  }
+  //check for school name
+  var schoolName = $('#name').val();
+  if(schoolName = ''){
+    isValid = false;
+  }
+  //check for school name
+  var schoolAddress = $('#address').val();
+  if(schoolAddress = ''){
+    isValid = false;
+  }
+  //check for Academic Year
+  var year = $('#academicYear').val();
+  if(Number(year) < new Date().getFullYear() || Number(year) > new Date().getFullYear()+20){
+    isValid = false;
+  }
+  //check for days in Academic Year
+  var days = $('#daysInAcademicYear').val();
+  if(Number(days) < 15 || Number(days) > 365){
+    isValid = false;
+  }
+  //check for days in schedules
+  var dayInSchedule = $('#daysInASchedule').val();
+  if(Number(dayInSchedule) < 1 || Number(dayInSchedule) > 7){
+    isValid = false;
+  }
+
+  //after all input
+  if(isValid){
+    //activate save-btn
+    $("#save_btn").attr("disabled", false);
+  }
+  else{
+    $("#save_btn").attr("disabled", true);
+  }
+};
 $( document ).ready(function() {
   //legalBlocksList();
-  $('#numberOfSem').keyup(semesterTable);
-  $('#periodInADay').keyup(periodLunchList);
+  $('#numberOfSem').keyup(function(){
+    semesterTable();
+    validateUserInput();
+  });
+  $('#periodInADay').keyup(function(){
+    periodLunchList();
+    validateUserInput();
+  });
+  $('#academicYear').keyup(function (){
+    validateUserInput();
+    var year = $('#academicYear').val();
+    if(Number(year) < new Date().getFullYear() || Number(year) > new Date().getFullYear()+20){
+      $('#err_academic_year').html("Between current year to 20 years from current");
+    }
+    else{
+       $('#err_academic_year').html("");
+    }
+  });
+  $('#daysInASchedule').keyup(function (){
+    validateUserInput();
+    var dayInSchedule = $('#daysInASchedule').val();
+    if(Number(dayInSchedule) < 1 || Number(dayInSchedule) > 7){
+      $('#err_days').html("Days has to be between 1 and 7");
+    }
+    else{
+       $('#err_days').html("");
+    }
+  });
   $('#daysInAcademicYear').keyup(function (){
+    validateUserInput();
     var days = $('#daysInAcademicYear').val();
-    if(days < 15){
-      $('#err_day_acad').html("Days much exceed 15");
+    if(Number(days) < 15 || Number(days) > 365){
+      $('#err_day_acad').html("Days has to be between 15 and 365");
     }
     else{
       $('#err_day_acad').html("");
