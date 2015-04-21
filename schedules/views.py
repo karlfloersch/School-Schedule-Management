@@ -63,13 +63,13 @@ def create_school_view(request):
         return render(request, 'create_school.html')
     elif request.method == 'POST':
         # TODO: Actually implement this-This is a copy of create user
-        if request.POST.get("request"):
+        if request.POST.get("save"):
+            print(request.POST)
             is_valid, data = validate_new_school(request)
+            print(data)
             if is_valid:
                 # Data is valid and let's store it in the db
-                user = User.objects.create_user(username=data['email'],
-                                                password=data['pw'])
-                user.save()
+                db_views.add_school_to_db(data)
                 return redirect("/login")
             else:
                 return render(request, 'create_user.html', dictionary=data)
@@ -85,34 +85,63 @@ def validate_new_school(request):
     """
     # TODO: Implement this-This is a copy of validate_new_user
     # Fill data with the information that the user entered
-    data = {}
-    data['studName'] = request.POST.get('studName', False)
-    data['email'] = request.POST.get('email', False)
-    data['school'] = request.POST.get('school', False)
-    data['pw'] = request.POST.get('password', False)
-    data['conf_pw'] = request.POST.get('confirm', False)
+    data = create_school_data(request)
     valid_data = True
+    # TODO: Validate the data-Right now we are just assuming it's correct
     # If any data is invalid, set valid_data to False and print error
-    if len(data['studName'].strip()) == 0:
-        valid_data = False
-        data['err_studName'] = "Please enter a name"
-    if validate_email(data['email']):
-        valid_data = False
-        data['err_email'] = "Invalid email"
-    if User.objects.filter(username=data['email']).count():
-        valid_data = False
-        data['err_email'] = "A user with that email already exists"
-    if len(data['school'].strip()) == 0:
-        valid_data = False
-        data['err_school'] = "Please enter a school"
-    if len(data['pw'].strip()) == 0:
-        valid_data = False
-        data['err_pw'] = "Please enter a password"
-    if not data['pw'] == data['conf_pw']:
-        valid_data = False
-        data['err_conf_pw'] = "Passwords didn't match"
+#    if len(data['studName'].strip()) == 0:
+#        valid_data = False
+#        data['err_studName'] = "Please enter a name"
+#    if validate_email(data['email']):
+#        valid_data = False
+#        data['err_email'] = "Invalid email"
+#    if User.objects.filter(username=data['email']).count():
+#        valid_data = False
+#        data['err_email'] = "A user with that email already exists"
+#    if len(data['school'].strip()) == 0:
+#        valid_data = False
+#        data['err_school'] = "Please enter a school"
+#    if len(data['pw'].strip()) == 0:
+#        valid_data = False
+#        data['err_pw'] = "Please enter a password"
+#    if not data['pw'] == data['conf_pw']:
+#        valid_data = False
+#        data['err_conf_pw'] = "Passwords didn't match"
     # Return if the valid
     return valid_data, data
+
+
+def create_school_data(request):
+    data = {}
+    data['name'] = request.POST.get('name', False)
+    data['address'] = request.POST.get('address', False)
+    data['academicYear'] = request.POST.get('academicYear', False)
+    data['daysInYear'] = request.POST.get('daysInYear', False)
+    data['semesterInYear'] = request.POST.get('semesterInYear', False)
+    data['periodInDay'] = request.POST.get('periodInDay', False)
+    # Parse the block information
+    start_periods = request.POST.get('start_periods', False).split()
+    end_periods = request.POST.get('end_periods', False).split()
+    days_active = request.POST.get('days_active', False).split()
+    block_info = []
+    for i, item in enumerate(start_periods):
+        block_info.append({'start': start_periods[i],
+                           'end': end_periods[i],
+                           'days_active': days_active[i].split(',')})
+    data['block_info'] = block_info
+    # Missing: semester=listofstrings and lunch=listofints
+    # Find all the semesters added and lunches added
+    data['semesters'] = []
+    for i in range(int(data['semesterInYear'])):
+        semester = request.POST.get('semester_' + str(i), False)
+        if semester:
+            data['semesters'].append(semester)
+    data['lunches'] = []
+    for i in range(int(data['periodInDay'])):
+        lunch = request.POST.get('lunch_' + str(i), False)
+        if lunch:
+            data['lunches'].append(i+1)
+    return data
 
 
 def create_user_view(request):
