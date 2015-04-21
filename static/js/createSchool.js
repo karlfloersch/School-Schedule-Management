@@ -82,12 +82,15 @@ function addToLegalBlocks(){
   }
 
   if(Number(e) > Number(numPeriod)){
-      $( "#dialog-error-number-period" ).dialog( "open" );
+    $( "#dialog-error-number-period" ).dialog( "open" );
   }
   else if(numPeriod == ""){
-      $( "#dialog-error-number-period" ).dialog( "open" );
+    $( "#dialog-error-number-period" ).dialog( "open" );
   }
-  else if(Number(s) < Number(e) && s != '' && e != ''){
+  else if(days == ""){
+    $( "#dialog-error-days" ).dialog( "open" );
+  }
+  else if(Number(s) <= Number(e) && s != '' && e != ''){
     $("#legalBlocks tr:last").remove();
 
     table.append('<tr><td class="period_start">' + s + '</td>\
@@ -106,30 +109,6 @@ function addToLegalBlocks(){
       <td></td>');
   }
 }
- $(function() {
-    $( "#dialog-error-number-period" ).dialog({
-      autoOpen: false,
-      show: {
-        effect: "blind",
-        duration: 1000
-      },
-      hide: {
-      effect: "fade",
-        duration: 1000
-      }
-    });
-     $( "#dialog-error-number-semesters" ).dialog({
-      autoOpen: false,
-      show: {
-        effect: "blind",
-        duration: 1000
-      },
-      hide: {
-      effect: "fade",
-        duration: 1000
-      }
-    });
-  });
 function start() {
     legalBlocksList();
 }
