@@ -4,13 +4,11 @@ function deleteListRow(obj) {
 function acceptFriendReq(obj){
      $(obj).closest('tr').remove();
 }
-
 function createFriendList() {  
   populFriend();
   populFriendReq();
   $("#friendReqList").hide();
 }
-
 function displayFriendList(){
   $("#friendReqList").hide();
   $("#friendList").show();
@@ -19,7 +17,6 @@ function displayFriendReq(){
   $("#friendReqList").show();
   $("#friendList").hide();
 }
-
 function addFriend(){
   var table = $('#friendList').children();
   
@@ -34,11 +31,9 @@ function addFriend(){
 
   $('#studentName').val('');
 }
-
 function populFriend(){
   $('#friendList').append('<table></table>');
   var table = $('#friendList').children();
-  
 
   table.append('<tr><td><b>Name</b></td>\
     <td><b>Email</b></td>\
@@ -53,12 +48,10 @@ function populFriend(){
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 }
-
 function populFriendReq(){
   $('#friendReqList').append('<table></table>');
   var table = $('#friendReqList').children();
   
-
   table.append('<tr><td><b>Name</b></td>\
     <td><b>Email</b></td>\
     <td><b>School</b></td>\
@@ -73,13 +66,13 @@ function populFriendReq(){
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 }
-
 function createCourseList() {
     createAssignSche();
     createGenSche();
     createLunSche();
     $("#genSch").hide();
     $("#lunSch").hide();
+    $("#genButtons").hide();
 }
 function createAssignSche(){
   $('#assignSch').append('<table></table>');
@@ -115,7 +108,6 @@ function createAssignSche(){
       onClick="Javacsript:addAssignCourse()"></td>\
     <td></td>');
 }
-
 function addAssignCourse(){
   var courseName = $('#courseID').val();
   var sectEx = $('#courseName').val();
@@ -151,7 +143,6 @@ function addAssignCourse(){
       <td></td>');
   }
 }
-
 function createGenSche(){
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
@@ -170,7 +161,6 @@ function createGenSche(){
       onClick="Javacsript:addGenCourse()"></td>\
     <td></td>');
 }
-
 function addGenCourse(){
   var courseName = $('#course').val();
   var sectEx = $('#sections').val();
@@ -196,7 +186,6 @@ function addGenCourse(){
     <td></td>');
   }
 }
-
 function createLunSche(){
   $('#lunSch').append('<table></table>');
   var table = $('#lunSch').children();
@@ -217,7 +206,6 @@ function createLunSche(){
     <td><input type="checkbox" id="thursday"></td>\
     <td><input type="checkbox" id="friday"></td>');
 }
-
 // Setup stuff for the CSRF Token/post requests
 // using jQuery
 function getCookie(name) {
@@ -248,12 +236,13 @@ $.ajaxSetup({
     }
 });
 // End CSRF stuff
-
 function displayGen(){
   $("#assignSch").hide();
+  $("#assignButtons").hide();
   $("#genSch").show();
+  $("#genButtons").show();
   $("#lunSch").show();
-
+  
   // Add autocomplete for generated schedule
   var courses = [
        "CSE300",
@@ -285,7 +274,9 @@ function displayGen(){
 }
 function displayAssign(){
   $("#assignSch").show();
+  $("#assignButtons").show();
   $("#genSch").hide();
+  $("#genButtons").hide();
   $("#lunSch").hide();
 }
 function addAutoComplete(element, values) {  
@@ -293,7 +284,6 @@ function addAutoComplete(element, values) {
     source: values
   });
 }
-
 function addFriendAutoComplete() {
     $("#studentName").keyup(function(){
         var textValue = $("#studentName").val();
@@ -329,9 +319,7 @@ function addFriendAutoComplete() {
            }
        });
     });
-
 }
-
 $( document ).ready(function() {
     // add auto complete to our text boxes
   addFriendAutoComplete();

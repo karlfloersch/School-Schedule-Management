@@ -74,7 +74,6 @@ function createManageStudent() {
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
 }
-
 $( document ).ready(function() {
   createAcctReqList();
   createManageSchool();
