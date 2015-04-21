@@ -83,7 +83,8 @@ function createAssignSche(){
     <td><b>Instructor</b></td>\
     <td><b>School</b></td>\
     <td><b>Days</b></td>\
-    <td><b>Periods</b></td>\
+    <td><b>Period Start</b></td>\
+    <td><b>Period End</b></td>\
     <td><b>Add</b></td>\
     <td><b>Remove</b></td>');
 
@@ -93,6 +94,7 @@ function createAssignSche(){
     <td>SBU</td>\
     <td>M W</td>\
     <td>1</td>\
+    <td>3</td>\
     <td></td>\
     <td><input type="button" class="btn" value = "Remove" \
       onClick="Javacsript:deleteListRow(this)"></td>');
@@ -103,7 +105,8 @@ function createAssignSche(){
     <td><input type="text" id="instructor"></td>\
     <td><input type="text" id="School"></td>\
     <td><input type="text" id="days"></td>\
-    <td><input type="text" id="Period"></td>\
+    <td><input type="text" id="periodStart"></td>\
+    <td><input type="text" id="periodEnd"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addAssignCourse()"></td>\
     <td></td>');
@@ -114,7 +117,8 @@ function addAssignCourse(){
   var instr = $('#instructor').val();
   var sch = $('#School').val();
   var days = $('#days').val();
-  var period = $('#Period').val();
+  var periodStart = $('#periodStart').val();
+  var periodEnd = $('#periodEnd').val();
 
   var table = $('#assignSch').children();
 
@@ -126,7 +130,8 @@ function addAssignCourse(){
     <td>'+ instr +'</td>\
     <td>'+ sch +'</td>\
     <td>'+ days +'</td>\
-    <td>'+ period +'</td>\
+    <td>'+ periodStart +'</td>\
+    <td>'+ periodEnd +'</td>\
     <td></td>\
     <td><input type="button" class="btn" value = "Remove"\
       onClick="Javacsript:deleteListRow(this)"></td>');
@@ -137,7 +142,8 @@ function addAssignCourse(){
       <td><input type="text" id="instructor"></td>\
       <td><input type="text" id="School"></td>\
       <td><input type="text" id="days"></td>\
-      <td><input type="text" id="Period"></td>\
+      <td><input type="text" id="periodStart"></td>\
+      <td><input type="text" id="periodEnd"></td>\
       <td><input type="button" class="btn" value = "Add"\
         onClick="Javacsript:addAssignCourse()"></td>\
       <td></td>');
