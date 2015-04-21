@@ -27,19 +27,9 @@ function createAcctReqList() {
     onClick="Javacsript:deleteListRow(this)"></button></td>\
     <td><input type="button" class="btn" value = "Deny" \
     onClick="Javacsript:deleteListRow(this)"></td>');
-
-  for(var i = 0; i < 5; i++){
-    table.append('<tr><td>Bob</td>\
-      <td>DICK</td>\
-      <td>I3</td>\
-      <td><input type="button" class="btn" value = "Accept" \
-      onClick="Javacsript:deleteListRow(this)"></button></td>\
-      <td><input type="button" class="btn" value = "Deny" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
-  }
 }
 function createManageSchool() {  
-    $('#manageSchool').append('<table></table>');
+  $('#manageSchool').append('<table></table>');
   var table = $('#manageSchool').children();
   
   table.append('<tr><td><b>Name</b></td>\
@@ -83,17 +73,10 @@ function createManageStudent() {
     <td>MSC</td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
-
-  for(var i = 0; i < 3; i++){
-    table.append('<tr><td>Bob</td>\
-      <td>DICK</td>\
-      <td>I3</td>\
-      <td><input type="button" class="btn" value = "Delete" \
-        onClick="Javacsript:deleteListRow(this)"></td>');
-  }
 }
-function start(){
+
+$( document ).ready(function() {
   createAcctReqList();
   createManageSchool();
   createManageStudent();
-}
+});

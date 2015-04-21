@@ -52,15 +52,6 @@ function populFriend(){
     <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
-
-  for(var i = 0; i < 5; i++){
-    table.append('<tr><td>--------</td>\
-      <td>--------</td>\
-      <td>--------</td>\
-      <td><input type="button" class="btn" value = "View"></button></td>\
-      <td><input type="button" class="btn" value = "Delete" \
-        onClick="Javacsript:deleteListRow(this)"></td>');
-  }
 }
 
 function populFriendReq(){
@@ -81,16 +72,6 @@ function populFriendReq(){
       onClick = "Javacsript:acceptFriendReq(this)"></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td>');
-
-  for(var i = 0; i < 3; i++){
-    table.append('<tr><td>--------</td>\
-      <td>--------</td>\
-      <td>--------</td>\
-      <td><input type="button" class="btn" value = "Accept"\
-        onClick = "Javacsript:acceptFriendReq(this)"></td>\
-      <td><input type="button" class="btn" value = "Delete" \
-        onClick="Javacsript:deleteListRow(this)"></td>');
-  }
 }
 
 function createCourseList() {
@@ -355,9 +336,6 @@ $( document ).ready(function() {
     // add auto complete to our text boxes
   addFriendAutoComplete();
   addAutoComplete($("#studentName"), []);
-
-});
-function start(){
   createFriendList();
   createCourseList();
-}
+});
