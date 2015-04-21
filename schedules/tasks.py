@@ -76,6 +76,7 @@ def search_school_from_database_two(self, data):
 
     # return_bundle = {'result': array_of_schools}
     return json_util.dumps(array_of_schools)
+    # return array_of_schools
 
 @task(bind=True)
 def add_school_to_database_two(self, data):

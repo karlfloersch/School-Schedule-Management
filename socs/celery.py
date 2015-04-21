@@ -17,7 +17,7 @@ app.conf.update(CELERY_RESULT_BACKEND='amqp')
 #app.config_from_object('django.conf:settings')
 app.conf.update(
 	BROKER_URL = 'amqp://guest:guest@localhost//',
-	CELERY_ACCEPT_CONTENT = ['json'],
+	CELERY_ACCEPT_CONTENT = ['json', 'pickle'],
 	CELERY_EVENT_SERIALIZER = 'json',
 	CELERY_TASK_SERIALIZER = 'json',
 	CELERY_RESULT_SERIALIZER = 'json',

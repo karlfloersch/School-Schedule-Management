@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from celery.result import AsyncResult
 import pymongo
 import json
+from bson import json_util,ObjectId
 from schedules.tasks import *
 from celery import Celery
 from pymongo import MongoClient
@@ -82,9 +83,16 @@ def get_schools_view(request):
 	data= {}
 	data['school_name'] = 'larz school of balance'
 	taskObject_from_task = search_school_from_database_two.delay(data)
-	result = check_task_http(taskObject_from_task.task_id)
+	result = check_task(taskObject_from_task.task_id)
+	# results['name']
+	result2 = json_util.loads(result)
 
-	return result    
+	# Front end modify to your hearts content
+	this_school = result2[0]
+	name_of_this_school = this_school['name']
+	html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
+	return HttpResponse(html)
+	# return str(result2[0])   
 
 
 
