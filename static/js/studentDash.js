@@ -27,7 +27,7 @@ function addFriend(){
     <td>SBU</td>\
     <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 
   $('#studentName').val('');
 }
@@ -39,14 +39,14 @@ function populFriend(){
     <td><b>Email</b></td>\
     <td><b>School</b></td>\
     <td><b>View Schedule</b></td>\
-    <td><b>Delete</b></td>');
+    <td><b>Delete</b></td></tr>');
 
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
     <td>SBU</td>\
     <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 }
 function populFriendReq(){
   $('#friendReqList').append('<table></table>');
@@ -56,7 +56,7 @@ function populFriendReq(){
     <td><b>Email</b></td>\
     <td><b>School</b></td>\
     <td><b>Accept</b></td>\
-    <td><b>Delete</b></td>');
+    <td><b>Delete</b></td></tr>');
 
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
@@ -64,7 +64,7 @@ function populFriendReq(){
     <td><input type="button" class="btn" value = "Accept"\
       onClick = "Javacsript:acceptFriendReq(this)"></td>\
     <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 }
 function createCourseList() {
     createAssignSche();
@@ -85,7 +85,7 @@ function createAssignSche(){
     <td><b>Period Start</b></td>\
     <td><b>Period End</b></td>\
     <td><b>Add</b></td>\
-    <td><b>Remove</b></td>');
+    <td><b>Remove</b></td></tr>');
 
   table.append('<tr><td>Technical Writing</td>\
     <td>CSE300</td>\
@@ -95,7 +95,7 @@ function createAssignSche(){
     <td>3</td>\
     <td></td>\
     <td><input type="button" class="btn" value = "Remove" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 
   table.append('<tr>\
     <td><input type="text" id="courseID"></td>\
@@ -106,7 +106,7 @@ function createAssignSche(){
     <td><input type="text" id="periodEnd"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addAssignCourse()"></td>\
-    <td></td>');
+    <td></td></tr>');
 }
 function addAssignCourse(){
   var courseName = $('#courseID').val();
@@ -129,7 +129,7 @@ function addAssignCourse(){
     <td>'+ periodEnd +'</td>\
     <td></td>\
     <td><input type="button" class="btn" value = "Remove"\
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 
     table.append('<tr>\
       <td><input type="text" id="courseID"></td>\
@@ -140,7 +140,7 @@ function addAssignCourse(){
       <td><input type="text" id="periodEnd"></td>\
       <td><input type="button" class="btn" value = "Add"\
         onClick="Javacsript:addAssignCourse()"></td>\
-      <td></td>');
+      <td></td></tr>');
   }
 }
 function createGenSche(){
@@ -151,7 +151,7 @@ function createGenSche(){
     <td><b>Section To Exclude(optional)</b></td>\
     <td><b>Instructor(optional)</b></td>\
     <td><b>Add</b></td>\
-    <td><b>Remove</b></td>');
+    <td><b>Remove</b></td></tr>');
 
   table.append('<tr>\
     <td><input type="text" id="course"></td>\
@@ -159,7 +159,7 @@ function createGenSche(){
     <td><input type="text" id="professor"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
-    <td></td>');
+    <td></td></tr>');
 }
 function addGenCourse(){
   var courseName = $('#course').val();
@@ -175,7 +175,7 @@ function addGenCourse(){
     <td>'+ instr +'</td>\
     <td></td>\
     <td><input type="button" class="btn" value = "Delete"\
-      onClick="Javacsript:deleteListRow(this)"></td>');
+      onClick="Javacsript:deleteListRow(this)"></td></tr>');
 
     table.append('<tr>\
     <td><input type="text" id="course"></td>\
@@ -183,7 +183,7 @@ function addGenCourse(){
     <td><input type="text" id="professor"></td>\
     <td><input type="button" class="btn" value = "Add"\
       onClick="Javacsript:addGenCourse()"></td>\
-    <td></td>');
+    <td></td></tr>');
   }
 }
 function createLunSche(){
@@ -196,7 +196,7 @@ function createLunSche(){
     <td><b>Tuesday</b></td>\
     <td><b>Wednesday</b></td>\
     <td><b>Thursday</b></td>\
-    <td><b>Friday</b></td>');
+    <td><b>Friday</b></td></tr>');
 
   table.append('<tr>\
     <td>Lunch: </td>\
@@ -204,7 +204,7 @@ function createLunSche(){
     <td><input type="checkbox" id="tuesday"></td>\
     <td><input type="checkbox" id="wednes"></td>\
     <td><input type="checkbox" id="thursday"></td>\
-    <td><input type="checkbox" id="friday"></td>');
+    <td><input type="checkbox" id="friday"></td></tr>');
 }
 // Setup stuff for the CSRF Token/post requests
 // using jQuery

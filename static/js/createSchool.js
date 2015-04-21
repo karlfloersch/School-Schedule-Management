@@ -41,10 +41,10 @@ function periodLunchList() {
 
   if(Number(numPeriod)>=6 && Number(numPeriod)<=12){
     $('#err_periods').html("");
-    table.append('<tr><td><b>Valid Lunch Periods</b></td>');
+    table.append('<tr><td><b>Valid Lunch Periods</b></td></tr>');
 
     for(var i = 1; i <= numPeriod; i++){
-       table.append('<tr><td>Period '+ i +'<input type="checkbox" name="lunch_'+ i +'"></td>');
+       table.append('<tr><td>Period '+ i +'<input type="checkbox" name="lunch_'+ i +'"></td></tr>');
     }
     return true;
   }
@@ -72,7 +72,7 @@ function legalBlocksList() {
   table.append('<tr><td><b>Period Start</b></td>\
     <td><b>Period End</b></td>\
     <td><b>Days Active</b></td>\
-    <td><b>Remove</b></td>');
+    <td><b>Remove</b></td></tr>');
 
   table.append('<tr><td><input type="text" id="st"></td>\
     <td><input type="text" id="en"></td>\
@@ -81,7 +81,7 @@ function legalBlocksList() {
         Wednesday<input type="checkbox" id="wednes">\
         Thursday <input type="checkbox" id="thursday">\
         Friday <input type="checkbox" id="friday"<td>\
-    <td></td>');
+    <td></td></tr>');
 }
 function addToLegalBlocks(){
   var table = $('#legalBlocks').children();
@@ -123,7 +123,7 @@ function addToLegalBlocks(){
     <td class="period_end">' + e + '</td>\
     <td class="days_active">' + days.substring(0, days.length - 1) + '</td>\
     <td><input type="button" class="btn" value = "Delete"\
-    onClick="Javacsript:deleteListRow(this, this)"></td>');
+    onClick="Javacsript:deleteListRow(this, this)"></td></tr>');
 
     table.append('<tr><td><input type="text" id="st"></td>\
       <td><input type="text" id="en"></td>\
@@ -132,7 +132,7 @@ function addToLegalBlocks(){
       Wednesday<input type="checkbox" id="wednes">\
       Thursday <input type="checkbox" id="thursday">\
       Friday <input type="checkbox" id="friday"<td>\
-      <td></td>');
+      <td></td></tr>');
   }
 }
 function start() {
