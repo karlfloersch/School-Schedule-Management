@@ -81,7 +81,6 @@ function createAssignSche(){
   table.append('<tr><td><b>Course ID</b></td>\
     <td><b>Course Name</b></td>\
     <td><b>Instructor</b></td>\
-    <td><b>School</b></td>\
     <td><b>Days</b></td>\
     <td><b>Period Start</b></td>\
     <td><b>Period End</b></td>\
@@ -91,7 +90,6 @@ function createAssignSche(){
   table.append('<tr><td>Technical Writing</td>\
     <td>CSE300</td>\
     <td>Liu</td>\
-    <td>SBU</td>\
     <td>M W</td>\
     <td>1</td>\
     <td>3</td>\
@@ -103,7 +101,6 @@ function createAssignSche(){
     <td><input type="text" id="courseID"></td>\
     <td><input type="text" id="courseName"></td>\
     <td><input type="text" id="instructor"></td>\
-    <td><input type="text" id="School"></td>\
     <td><input type="text" id="days"></td>\
     <td><input type="text" id="periodStart"></td>\
     <td><input type="text" id="periodEnd"></td>\
@@ -115,7 +112,6 @@ function addAssignCourse(){
   var courseName = $('#courseID').val();
   var sectEx = $('#courseName').val();
   var instr = $('#instructor').val();
-  var sch = $('#School').val();
   var days = $('#days').val();
   var periodStart = $('#periodStart').val();
   var periodEnd = $('#periodEnd').val();
@@ -128,7 +124,6 @@ function addAssignCourse(){
     <td>'+ courseName +'</td>\
     <td>'+ sectEx +'</td>\
     <td>'+ instr +'</td>\
-    <td>'+ sch +'</td>\
     <td>'+ days +'</td>\
     <td>'+ periodStart +'</td>\
     <td>'+ periodEnd +'</td>\
@@ -140,7 +135,6 @@ function addAssignCourse(){
       <td><input type="text" id="courseID"></td>\
       <td><input type="text" id="courseName"></td>\
       <td><input type="text" id="instructor"></td>\
-      <td><input type="text" id="School"></td>\
       <td><input type="text" id="days"></td>\
       <td><input type="text" id="periodStart"></td>\
       <td><input type="text" id="periodEnd"></td>\
