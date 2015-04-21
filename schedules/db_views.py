@@ -78,6 +78,7 @@ def add_school_to_db(data):
 
 	return result
 
+
 @login_required(redirect_field_name='/login')
 def get_schools_view(request):
 	data= {}
@@ -94,6 +95,17 @@ def get_schools_view(request):
 	return HttpResponse(html)
 	# return str(result2[0])   
 
+
+@login_required(redirect_field_name='/login')
+def get_all_students_view(request):
+	taskObject_from_task = search_all_students_two.delay()
+	result = check_task(taskObject_from_task.task_id)
+	result2 = json_util.loads(result)
+
+	this_student= result2[0]
+	name_of_this_student = this_student['first_name']
+	html = "<html><body> string: "+str(name_of_this_student)+"</body></html>"
+	return HttpResponse(html)
 
 
 def check_task_http(request):

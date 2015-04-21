@@ -53,13 +53,26 @@ def add_students_to_database_two(self, data):
 
     return str(student_dict)
 
+
 @task(bind=True)
 def delete_school_from_database_two(self, data):
+    # not done
     db = client.students
     school_collection = db.school_list
-   
-
     return str(student_dict)
+
+
+@task(bind=True)
+def search_all_students_two(self):
+    db = client.students
+    student_collection = db.students
+    students = student_collection.find({})
+    array_of_students=[]
+    for stud in students:
+        array_of_students.append(stud)
+
+    return json_util.dumps(array_of_students)
+
 
 @task(bind=True)
 def search_school_from_database_two(self, data):
@@ -77,6 +90,7 @@ def search_school_from_database_two(self, data):
     # return_bundle = {'result': array_of_schools}
     return json_util.dumps(array_of_schools)
     # return array_of_schools
+
 
 @task(bind=True)
 def add_school_to_database_two(self, data):
