@@ -34,6 +34,7 @@ def add_students_to_database_two(self, data):
     last_name_var = data['last_name']
     email_stuff = data['email']
     school_name = data['school']
+    school_address = data['address']
     friend_info_dict = {
         'first_name': first_name_var,
         'last_name': last_name_var,
@@ -45,6 +46,7 @@ def add_students_to_database_two(self, data):
         'last_name': last_name_var,
         'email': email_stuff,
         'school': school_name,
+        'address':school_address,
         'friendslist': DBRef(
             'friends_list',
             friend_info_dict["_id"])}
@@ -54,6 +56,77 @@ def add_students_to_database_two(self, data):
     return str(student_dict)
 
 
+# unfinshed
+@task(bind=True)
+def add_classes_to_database_two(self, data):
+    db = client.students
+    students_collection = db.students
+    school_collection = db.school_list
+
+    name= data['username']
+    course_id=data['course_id']
+    course_name=data['course_name']
+    instructor=data['instructor']
+    # data['school'] = ''
+    days=data['days'] #= ['','']
+    start_period=data['start_period']
+    end_period=data['end_period']
+    year=data['year']
+    semester=data['semester']
+    myself = students_temp.find_one({'email': username})
+    address_of_school = myself['address']
+    school_name = myself['school']
+    is_new_year=data['new_year_flag']
+
+
+    the_school_info = school_collection.find_one({'name':school_name, 'address': address_of_school})
+    # info doesnt exist in the schools
+    # create info
+    # if newyear and not already in the database
+    if(is_new_year):
+        # create year object
+
+        course_listing_and_semster = []
+
+    #for x in range len(name_of_semesters)
+        #course_listing_and_semster += {None, name_of_semesters[x]} 
+
+        year_obj = {'year_name':year,'num_periods_in_a_day': 0,'blocks':[],'semesters':[]}
+
+
+
+    else:
+        pass
+
+    return
+
+
+#dont use this yet
+@task(bind=True)
+def get_schools_address_two(self):
+
+    db = client.students
+    school_collection = db.school_list
+    name_of_school = data['school_name']
+    address_of_school = data['address']
+    schools = school_collection.find_one({'name':name_of_school, 'address': address_of_school})
+    # schools = school_collection.find({'name':name_of_school, 'address': address_of_school})
+    array_of_schools=[]
+    for cus in schools:
+        # my_values['name'] = cus['name']
+        # cus['_id']= JSONEncoder().encode(cus['_id'])
+        array_of_schools.append(cus)
+
+
+    # return_bundle = {'result': array_of_schools}
+    return json_util.dumps(array_of_schools)
+
+
+   
+
+
+
+#unfinished
 @task(bind=True)
 def delete_school_from_database_two(self, data):
     # not done
@@ -96,7 +169,7 @@ def search_school_from_database_two(self, data):
 def add_school_to_database_two(self, data):
     db = client.students
     school_collection = db.school_list
-    course_offerings = db.course_offerings
+    semester_courses_ref = db.semester_courses_ref
     #data= {'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year}
     name_of_school = data['name']
     days_in_a_year = data['num_days']
@@ -120,7 +193,7 @@ def add_school_to_database_two(self, data):
         course_list.append({'year':year['year_name'], 'sem_name':current_sem_name, 'courses_held':courses})
 
     for semester_temp in course_list:
-        course_obj_ids.append(course_offerings.insert_one(semester_temp).inserted_id)
+        course_obj_ids.append(semester_courses_ref.insert_one(semester_temp).inserted_id)
     
     # return str(course_obj_ids)
 
@@ -128,7 +201,7 @@ def add_school_to_database_two(self, data):
     # for i in range(len(name_of_semesters)):
     #     semester+={'semester_name': i,'course_listing': DBRef('course_offerings',course_obj_ids[i])}
     for index ,g in enumerate(name_of_semesters):
-        semester.append({'semester_name': g,'course_listing': DBRef('course_offerings',course_obj_ids[index])})
+        semester.append({'semester_name': g,'semester_courses_ref': DBRef('semester_courses_ref',course_obj_ids[index])})
 
     year['semesters'] = semester
 
