@@ -8,7 +8,8 @@
 
 <div id="section">
 <p>
-<form>
+<form method="post" id="create_school_form">
+    {% csrf_token %}
 Name:
 <input type="text" name="name"><span id="err_name" class="error"></span>
 <br>
@@ -51,10 +52,9 @@ Set of Legal Blocks
 
 <br>
 <p class="floatRight">
-<button type="cancel" >Cancel</button>
-<button type="save">Save</button>
+<button id="save_btn" type="submit" name="save" value="Save">Save</button>
+<button type="submit" name="cancel" value="Cancel">Cancel</button>
 </p>
 
-<body onload="start();">
 
 {% endblock %}
