@@ -33,26 +33,13 @@ function createManageSchool() {
   var table = $('#manageSchool').children();
   
   table.append('<tr><td><b>Name</b></td>\
-    <td><b>Year</b></td>\
-    <td><b>#Semester</b></td>\
-    <td><b>Range of Periods</b></td>\
+    <td><b>School Address</b></td>\
     <td><b>View/Edit</b></td>\
     <td><b>Delete</b></td>');
 
-  table.append('<tr><td>SBU</td>\
-    <td>30040</td>\
-    <td>2</td>\
-    <td>4</td>\
-    <td><input type="button" class="btn" value = "Edit" \
-      onClick=""></button></td>\
-    <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td>');
-
-  for(var i = 0; i < 5; i++){
-    table.append('<tr><td>NYU</td>\
-      <td>20231</td>\
-      <td>2</td>\
-      <td>4</td>\
+  for(var i = 0; i < 1; i++){
+    table.append('<tr><td class="schoolName">SBU</td>\
+      <td class = "schoolAddress">Stony Brook, NY 11794</td>\
       <td><input type="button" class="btn" value = "Edit" \
         onClick=""></button></td>\
       <td><input type="button" class="btn" value = "Delete" \
