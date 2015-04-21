@@ -150,6 +150,7 @@ def validate_new_user(request):
     data['studName'] = request.POST.get('studName', False).strip().split()
     data['email'] = request.POST.get('email', False)
     data['school'] = request.POST.get('school', False)
+    data['address'] = request.POST.get('address', False)
     data['pw'] = request.POST.get('password', False)
     data['conf_pw'] = request.POST.get('confirm', False)
     valid_data = True
@@ -169,6 +170,9 @@ def validate_new_user(request):
     if len(data['school'].strip()) == 0:
         valid_data = False
         data['err_school'] = "Please enter a school"
+    if len(data['address'].strip()) == 0:
+        valid_data = False
+        data['err_address'] = "Please enter an address"
     if len(data['pw'].strip()) == 0:
         valid_data = False
         data['err_pw'] = "Please enter a password"
