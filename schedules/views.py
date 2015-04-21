@@ -116,17 +116,18 @@ def create_school_data(request):
     data['name'] = request.POST.get('name', False)
     data['address'] = request.POST.get('address', False)
     data['academicYear'] = request.POST.get('academicYear', False)
-    data['daysInYear'] = request.POST.get('daysInYear', False)
-    data['semesterInYear'] = request.POST.get('semesterInYear', False)
-    data['periodInDay'] = request.POST.get('periodInDay', False)
+    data['daysInYear'] = int(request.POST.get('daysInYear', False))
+    data['daysInASchedule'] = int(request.POST.get('daysInASchedule', False))
+    data['semesterInYear'] = int(request.POST.get('semesterInYear', False))
+    data['periodInDay'] = int(request.POST.get('periodInDay', False))
     # Parse the block information
     start_periods = request.POST.get('start_periods', False).split()
     end_periods = request.POST.get('end_periods', False).split()
     days_active = request.POST.get('days_active', False).split()
     block_info = []
     for i, item in enumerate(start_periods):
-        block_info.append({'start': start_periods[i],
-                           'end': end_periods[i],
+        block_info.append({'start': int(start_periods[i]),
+                           'end': int(end_periods[i]),
                            'days_active': days_active[i].split(',')})
     data['block_info'] = block_info
     # Missing: semester=listofstrings and lunch=listofints

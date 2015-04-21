@@ -22,6 +22,30 @@ def get_possible_friends(username, first_name):
 	result = check_task(taskObject_from_task.task_id)
 	return result
 
+# Unfinished
+@login_required(redirect_field_name='/login')
+def add_classes_to_database(request):
+	# Course ID 	Course Name 	Instructor 	School 	Days 	Period Start 	Period End
+	data= {}
+	data['username']=request.user.username
+	data['course_id'] = ''
+	data['course_name'] = ''
+	data['instructor'] = ''
+	# data['school'] = ''
+	data['days'] = ['','']
+	data['start_period']=''
+	data['end_period']=''
+	data['year']=''
+	data['semester']=''
+	data['new_year_flag']=False
+
+	taskObject_from_task = add_classes_to_database_two.delay(data)
+	result = check_task(taskObject_from_task.task_id)
+	return result
+
+
+
+
 
 @login_required(redirect_field_name='/login')
 def add_a_student_to_friendslist_view(request):
@@ -42,36 +66,37 @@ def add_a_student_to_friendslist_view(request):
 	return HttpResponse(html)
 
 
-@login_required(redirect_field_name='/login')
 def add_school_to_db(data):
 	# def add_school_to_db(data):
 	# THIS IS DUMMY DATA
-	name_of_school = "larz school of balance"
-	days_in_a_year = 40
-	number_of_sem = 3
-	address = "20 monkie ave."
-	num_days_in_a_schedule = 5
-	num_periods_in_a_day = 5
+	name_of_school = data['name']
+	days_in_a_year = data['daysInYear']
+	number_of_sem = data['semesterInYear']
+	address = data['address']
+	num_days_in_a_schedule = data['daysInASchedule']
+	num_periods_in_a_day = data['periodInDay']
 	#dictionary {nameofsemester}
-	name_of_semesters=["fall","winter","spring"]
+	name_of_semesters=data['semesters']
 	#must be bundled with year
 	#dictionary
 	# lunch_periods = data['luch_periods']
 	# legal_blocks = data['legal_blockname_of_semesters,s']
-	blocks1={'start': 3,'end': 4,'days_active':['monday','tuesday','thursday']}
-	blocks2={'start': 2,'end': 3,'days_active':['monday','tuesday','friday']}
-	blocks3={'start': 1,'end': 4,'days_active':['tuesday','thursday']}
-	year_name = "2014"
+	# blocks1={'start': 3,'end': 4,'days_active':['monday','tuesday','thursday']}
+	# blocks2={'start': 2,'end': 3,'days_active':['monday','tuesday','friday']}
+	# blocks3={'start': 1,'end': 4,'days_active':['tuesday','thursday']}
+	blocks =data['block_info']
+	year_name = data['academicYear']
 	course_listing_and_semster = []
+	lunches = data['lunches']
 
 	#for x in range len(name_of_semesters)
 		#course_listing_and_semster += {None, name_of_semesters[x]} 
 
 	year = {'year_name':year_name,'num_periods_in_a_day':num_periods_in_a_day,
-	'blocks':[blocks1, blocks2, blocks3],
+	'blocks':blocks,
 	'semesters':course_listing_and_semster}
 
-	data= {'semester_names':name_of_semesters,'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year}
+	data= {'semester_names':name_of_semesters,'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year, 'lunches': lunches}
 
 	taskObject_from_task = add_school_to_database_two.delay(data)
 	result = check_task_http(taskObject_from_task.task_id)
@@ -94,6 +119,25 @@ def get_schools_view(request):
 	html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
 	return HttpResponse(html)
 	# return str(result2[0])   
+
+# not done
+@login_required(redirect_field_name='/login')
+def get_schools_address_view(request):
+	data= {}
+	data['school_name'] = 'larz school of balance'
+	data['address'] = 'place holder'
+	taskObject_from_task = get_schools_address_two.delay(data)
+	result = check_task(taskObject_from_task.task_id)
+	# results['name']
+	result2 = json_util.loads(result)
+
+	# Front end modify to your hearts content
+	this_school = result2[0]
+	name_of_this_school = this_school['name']
+	html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
+	return HttpResponse(html)
+	# return str(result2[0])   
+
 
 
 @login_required(redirect_field_name='/login')
