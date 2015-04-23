@@ -10,6 +10,7 @@ from pymongo import MongoClient
 from bson.dbref import DBRef
 from pymongo.mongo_replica_set_client import MongoReplicaSetClient
 from pymongo.read_preferences import ReadPreference
+# from pymongo.objectid import ObjectId  
 
 #client = MongoClient()
 client = MongoReplicaSetClient(
@@ -78,27 +79,108 @@ def add_classes_to_database_two(self, data):
     school_name = myself['school']
     is_new_year=data['new_year_flag']
 
-
-    the_school_info = school_collection.find_one({'name':school_name, 'address': address_of_school})
+    #the_school_info = school_collection.find_one({'name':school_name, 'address': address_of_school})
     # info doesnt exist in the schools
     # create info
     # if newyear and not already in the database
     if(is_new_year):
         # create year object
 
-        course_listing_and_semster = []
+        course_list= []
+        courses = []
+        course_obj_ids=[]
+        semester = []
+
 
     #for x in range len(name_of_semesters)
         #course_listing_and_semster += {None, name_of_semesters[x]} 
 
         year_obj = {'year_name':year,'num_periods_in_a_day': 0,'blocks':[],'semesters':[]}
+        #school_collection.update_one({'$addToSet': {'year': year_obj}})
+        
 
 
+        course_list.append({'year':year, 'sem_name':semester, 'courses_held':courses})
+
+        course_obj_ids.append(semester_courses_ref.insert_one(semester_temp).inserted_id)
+        #semester.append({'semester_name': semester,'semester_courses_ref': DBRef('semester_courses_ref':ObjectId(course_obj_ids[0])}))
+        semester.append({'semester_name': semester,'semester_courses_ref': str(course_obj_ids[0])})
+        year_obj['semester']=semester
+        # return str(course_obj_ids)
+        #for index, g in enumerate(name_of_semesters):
+        # for i in range(len(name_of_semesters)):
+        #     semester+={'semester_name': i,'course_listing': DBRef('course_offerings',course_obj_ids[i])}
+        school_collection.find_one_and_update({'name':school_name, 'address': address_of_school}, {'$addToSet': {'year': year_obj}})
 
     else:
         pass
 
+    temp_school = school_collection.find_one({{'name':school_name, 'address': address_of_school}})
+    year_sem = None
+    current_semester = None
+
+    for y in temp_school['year']:
+        if year == y['year_name']:
+            year_sem = y
+            break
+
+    for s in year_sem['semesters']:
+        if semester == s['semester_name']:
+            current_semester = s
+
+    deference(s['semester_courses_ref'])
+
+
+
     return
+
+@task(bind=True)
+def send_a_friend_request_two(self,data):
+    db = client.students
+    email_of_requester = data['email_of_sender']
+    first_name_of_requester = data['first_name_emailer']
+    last_name_of_requester = data['last_name']
+    email_of_emailee = data['email_of_sendee']
+    first_name_of_emailee = ['first_name_emailee']
+    last_name_of_emailee = ['last_name_emailee']
+
+    friend_request_info = {"email_of_requester": email_of_requester,
+                           "first_name_of_requester": first_name_of_requester,
+                           "last_name_of_requester": last_name_of_requester,
+                           "email_of_emailee": email_of_emailee,
+                           "first_of_emailee": first_of_emailee,
+                           'last_name_emailee':last_name_emailee}
+    db.friend_requests.insert_one(friend_request_info)
+
+@task(bind=True)
+def get_friends_list_two(self,data):
+    db = client.students
+    # dat_base_var = "students"
+    # first_name_var = data['first_name']
+    # last_name_var = data['last_name']
+    email_stuff = data['email']
+    
+    # original_id_2=db.students.insert(info2)
+    value = db.students.find_one({'email':email_stuff})
+    friends_loc = str(value['friendslist'])
+
+    friends_loc = friends_loc.split(",",1)
+    friends_loc = friends_loc[1]
+    friends_loc = friends_loc.split("'",2)
+    friends_loc = friends_loc[1]
+    # friends_loc = friends_loc.split("'",1)
+    # friends_loc = friends_loc[:-1]
+    # friends_loc = friends_loc[1:]
+    print(friends_loc)
+    list_of_stuff= db.friends_list.find_one({'_id':ObjectId(friends_loc)})
+    print(list_of_stuff)
+    list_of_stuff= list_of_stuff['list']
+    print(list_of_stuff)
+    # html = "<html><body> string: "+""+"</body></html>"
+    # print(list_of_stuff)
+    return list_of_stuff
+
+
 
 
 #dont use this yet
@@ -184,6 +266,9 @@ def add_school_to_database_two(self, data):
     # lunch_periods = data['luch_periods']
     # legal_blocks = data['legal_blocks']
     year = data['year_obj']
+    year_container = []
+
+
     semester = []
     courses = []
     course_list =[]
@@ -194,6 +279,9 @@ def add_school_to_database_two(self, data):
 
     for semester_temp in course_list:
         course_obj_ids.append(semester_courses_ref.insert_one(semester_temp).inserted_id)
+
+    # print (type(course_obj_ids[0]))
+    # print(str(course_obj_ids[0]))
     
     # return str(course_obj_ids)
 
@@ -201,15 +289,16 @@ def add_school_to_database_two(self, data):
     # for i in range(len(name_of_semesters)):
     #     semester+={'semester_name': i,'course_listing': DBRef('course_offerings',course_obj_ids[i])}
     for index ,g in enumerate(name_of_semesters):
-        semester.append({'semester_name': g,'semester_courses_ref': DBRef('semester_courses_ref',course_obj_ids[index])})
+        semester.append({'semester_name': g,'semester_courses_ref': str(course_obj_ids[index])})
+        #some_val = db.dereference(semester[index])
 
     year['semesters'] = semester
-
+    year_container.append(year)
 
     data_input = {'name':name_of_school, 'days_in_a_year': days_in_a_year,
      'address':address, 'semesters_in_year':semesters_in_year,
      'num_days_in_a_schedule':num_days_in_a_schedule,'name_of_semesters':name_of_semesters,
-     'year':year
+     'year':year_container
      }
     id_1 = school_collection.insert_one(data_input)
 
