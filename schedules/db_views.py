@@ -284,7 +284,29 @@ def send_a_friend_request(request):
 # needs to be done
 def accept_friend_request(request):
     data = {}
+
+    # "email_of_requester" : "ray@gmail.com"
+
+    data['email_of_sendee']="cheap@gmail.com"
+    data['email_of_requester']="ray@gmail.com"
+
+    taskObject_from_task = accept_friend_request_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
     # data[]
+
+
+# needs to be done
+def deny_friend_request(request):
+    data = {}
+    data['email_of_sendee']="cheap@gmail.com"
+    data['email_of_requester']="ray@gmail.com"
+
+    taskObject_from_task = deny_friend_request_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
 
 
 def get_friend_requests(request):
@@ -297,15 +319,13 @@ def get_friend_requests(request):
     # "last_name_emailee" : "will",
     # "first_of_emailee" : "cheap",
 
-
-
     taskObject_from_task = get_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
     particular_res = result2[0]
 
     val = particular_res['email_of_requester']
-    print(val)
+    # print(val)
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
 

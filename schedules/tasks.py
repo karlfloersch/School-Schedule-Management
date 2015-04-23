@@ -309,6 +309,24 @@ def add_school_to_database_two(self, data):
 @task(bind = True)
 def accept_friend_request_two(self, data):
     db = client.students
+    friend_requests = db.friend_requests
+    emailee = data['email_of_sendee']
+    emailer = data['email_of_requester']
+
+    friend_requests.find_one_and_delete({'email_of_emailee':emailee, 'email_of_requester':emailer})
+    
+
+    
+
+
+@task(bind = True)
+def deny_friend_request_two(self, data):
+    db = client.students
+    friend_requests = db.friend_requests
+    emailee = data['email_of_sendee']
+    emailer = data['email_of_requester']
+
+    friend_requests.find_one_and_delete({'email_of_emailee':emailee, 'email_of_requester':emailer})
 
 
 
