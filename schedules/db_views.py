@@ -281,7 +281,7 @@ def send_a_friend_request(request):
 
 
 
-# needs to be done
+
 def accept_friend_request(request):
     data = {}
 
@@ -297,7 +297,7 @@ def accept_friend_request(request):
     # data[]
 
 
-# needs to be done
+
 def deny_friend_request(request):
     data = {}
     data['email_of_sendee']="cheap@gmail.com"
@@ -328,6 +328,19 @@ def get_friend_requests(request):
     # print(val)
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
+
+def delete_friend_from_friends_list(request):
+    data = {}
+    data['email'] = "ray@gmail.com"
+    data['first_name'] = "cheap"
+    data['last_name'] = "will"
+    data['friend_email'] = "cheap@gmail.com"
+    taskObject_from_task = delete_friend_from_friends_list_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
+
+
 
 def get_friends_list(request):
     data = {}

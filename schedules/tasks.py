@@ -181,7 +181,25 @@ def get_friends_list_two(self,data):
     return list_of_stuff
 
 
+@task(bind=True)
+def delete_friend_from_friends_list_two(self,data):
+    db = client.students
+    email_stuff = data['email']
+    first_name = data['first_name']
+    last_name =data['last_name']
+    f_email= data['friend_email']
 
+    value = db.students.find_one({'email':email_stuff})
+    friends_loc = str(value['friendslist'])
+
+    friends_loc = friends_loc.split(",",1)
+    friends_loc = friends_loc[1]
+    friends_loc = friends_loc.split("'",2)
+    friends_loc = friends_loc[1]
+    value = {'first_name':first_name,'last_name':last_name,'email':f_email}
+    # {'$addToSet': {'year': year_obj}}
+    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$pull':  {'list': value} })
+    # return list_of_stuff
 
 #dont use this yet
 @task(bind=True)
