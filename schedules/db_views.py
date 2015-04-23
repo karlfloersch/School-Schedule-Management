@@ -332,9 +332,9 @@ def get_friend_requests(request):
 def delete_friend_from_friends_list(request):
     data = {}
     data['email'] = "ray@gmail.com"
-    data['first_name'] = "cheap"
-    data['last_name'] = "will"
-    data['friend_email'] = "cheap@gmail.com"
+    data['first_name'] = "bill"
+    data['last_name'] = "ray"
+    data['friend_email'] = "bill@gmail.com"
     taskObject_from_task = delete_friend_from_friends_list_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"success"+"</body></html>"

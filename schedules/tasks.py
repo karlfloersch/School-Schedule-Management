@@ -184,21 +184,42 @@ def get_friends_list_two(self,data):
 @task(bind=True)
 def delete_friend_from_friends_list_two(self,data):
     db = client.students
+    # self
     email_stuff = data['email']
     first_name = data['first_name']
     last_name =data['last_name']
     f_email= data['friend_email']
 
     value = db.students.find_one({'email':email_stuff})
+    # value_two = db.students.find_one({'email':f_stuff})
+
     friends_loc = str(value['friendslist'])
 
     friends_loc = friends_loc.split(",",1)
     friends_loc = friends_loc[1]
     friends_loc = friends_loc.split("'",2)
     friends_loc = friends_loc[1]
+
+
+    friend_ob = db.students.find_one({'email':f_email})
+
+    friends_loc_two = str(friend_ob['friendslist'])
+    # strip the info we dont need
+    friends_loc_two = friends_loc_two.split(",",1)
+    friends_loc_two = friends_loc_two[1]
+    friends_loc_two = friends_loc_two.split("'",2)
+    friends_loc_two = friends_loc_two[1]
+
+    first_name_two=friend_ob['first_name']
+    last_name_two=friend_ob['last_name']
+
+
     value = {'first_name':first_name,'last_name':last_name,'email':f_email}
+    value_two = {'first_name':first_name,'last_name':last_name,'email':email_stuff}
     # {'$addToSet': {'year': year_obj}}
     list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$pull':  {'list': value} })
+
+    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc_two)},{ '$pull':  {'list': value_two} })
     # return list_of_stuff
 
 #dont use this yet
