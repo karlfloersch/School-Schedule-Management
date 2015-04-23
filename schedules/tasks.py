@@ -141,15 +141,15 @@ def send_a_friend_request_two(self,data):
     first_name_of_requester = data['first_name_emailer']
     last_name_of_requester = data['last_name']
     email_of_emailee = data['email_of_sendee']
-    first_name_of_emailee = ['first_name_emailee']
-    last_name_of_emailee = ['last_name_emailee']
+    first_name_of_emailee = data['first_name_emailee']
+    last_name_of_emailee = data['last_name_emailee']
 
     friend_request_info = {"email_of_requester": email_of_requester,
                            "first_name_of_requester": first_name_of_requester,
                            "last_name_of_requester": last_name_of_requester,
                            "email_of_emailee": email_of_emailee,
-                           "first_of_emailee": first_of_emailee,
-                           'last_name_emailee':last_name_emailee}
+                           "first_of_emailee": first_name_of_emailee,
+                           'last_name_emailee':last_name_of_emailee}
     db.friend_requests.insert_one(friend_request_info)
 
 @task(bind=True)
@@ -303,6 +303,23 @@ def add_school_to_database_two(self, data):
     id_1 = school_collection.insert_one(data_input)
 
     return
+
+
+
+@task(bind = True)
+def accept_friend_request_two(self, data):
+    db = client.students
+
+
+
+
+@task(bind = True)
+def get_friend_request_two(self, data):
+    db = client.students
+    emailed_to_this_person = data['email']
+    friend_requests = db.friend_requests
+    friend_requests.find({})
+
 
 
 @task(bind=True)

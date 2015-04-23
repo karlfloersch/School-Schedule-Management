@@ -248,13 +248,30 @@ def add_student_entry(data):
 def send_a_friend_request(request):
 
     data = {}
+    # "first_name" : "ray",
+    # "last_name" : "bill",
+    # "friendslist" : DBRef("friends_list", ObjectId("5535f5b7cb99257cfaca4c25")),
+    # "school" : "rays school of choice",
+    # "address" : "ray ave",
+    # "email" : "ray@gmail.com"
 
-    data['email_of_sender']=''
-    data['first_name_emailer']=''
-    data['last_name']=''
-    data['email_of_sendee']=''
-    data['first_name_emailee']=''
-    data['last_name_emailee']=''
+    # "_id" : ObjectId("5535e3accb99256b2c1c4899"),
+    # "first_name" : "cheap",
+    # "last_name" : "will",
+    # "friendslist" : DBRef("friends_list", ObjectId("5535e3accb99256b2c1c4898")),
+    # "school" : "cheap school",
+    # "address" : "cheap ave",
+    # "email" : "cheap@gmail.com"
+    
+    #ray is sender
+    #cheap is sendee
+
+    data['email_of_sender']='ray@gmail.com'
+    data['first_name_emailer']='ray'
+    data['last_name']='bill'
+    data['email_of_sendee']='cheap@gmail.com'
+    data['first_name_emailee']='cheap'
+    data['last_name_emailee']='will'
 
 
     taskObject_from_task = send_a_friend_request_two.delay(data)
@@ -262,6 +279,19 @@ def send_a_friend_request(request):
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
 
+
+
+# needs to be done
+def accept_friend_request(request):
+    data = {}
+    # data[]
+
+
+def get_friend_request(request):
+    data = {}
+    # data[]
+    taskObject_from_task = get_friend_request_two.delay(data)
+    result = check_task_http(taskObject_from_task.task_id)
 
 def get_friends_list(request):
     data = {}
