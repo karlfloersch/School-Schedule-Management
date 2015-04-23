@@ -310,13 +310,46 @@ def add_school_to_database_two(self, data):
 def accept_friend_request_two(self, data):
     db = client.students
     friend_requests = db.friend_requests
+    student_collection = db.students
+    friends_collection = db.friends_list
     emailee = data['email_of_sendee']
     emailer = data['email_of_requester']
 
-    friend_requests.find_one_and_delete({'email_of_emailee':emailee, 'email_of_requester':emailer})
-    
+    value=friend_requests.find_one_and_delete({'email_of_emailee':emailee, 'email_of_requester':emailer})
+    sendee_first_name=value['first_of_emailee']
+    sendee_last_name=value['last_name_emailee']
+    sender_first_name=value['first_name_of_requester']
+    sender_last_name=value['last_name_of_requester']
 
+    sender_info = student_collection.find_one({'email':emailer})
+
+    friends_loc = str(sender_info['friendslist'])
+    # strip the info we dont need
+    friends_loc = friends_loc.split(",",1)
+    friends_loc = friends_loc[1]
+    friends_loc = friends_loc.split("'",2)
+    friends_loc = friends_loc[1]
+
+    sendee_info = student_collection.find_one({'email':emailee})
+
+    friends_loc_two = str(sendee_info['friendslist'])
+    # strip the info we dont need
+    friends_loc_two = friends_loc_two.split(",",1)
+    friends_loc_two = friends_loc_two[1]
+    friends_loc_two = friends_loc_two.split("'",2)
+    friends_loc_two = friends_loc_two[1]
+
+    send_to_sender_friends= {'first_name': sendee_first_name, 'last_name':sendee_last_name, 'email':emailee}
+    send_to_sendee_friends= {'first_name': sender_first_name, 'last_name':sender_last_name, 'email':emailer}
     
+    # sender
+    friends_collection.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$addToSet': { 'list': send_to_sender_friends} })
+    # sendee
+    friends_collection.find_one_and_update({'_id':ObjectId(friends_loc_two)},{ '$addToSet': { 'list': send_to_sendee_friends} })
+
+    # db.friends_list.find_one({'_id':ObjectId(friends_loc)})
+
+
 
 
 @task(bind = True)
