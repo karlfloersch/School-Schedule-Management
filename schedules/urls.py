@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     (r'^dashboard/get-friends$', views.friend_ajax), # Dash for user and admin
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
-    (r'^sample_db_test/$', db_views.send_a_friend_request), # Testing for DB
+    (r'^sample_db_test/$', db_views.get_friend_requests), # Testing for DB
     (r'^ta/$', db_views.test_cel),
     (r'^$', views.redirect_to_login), # Send user to login
 

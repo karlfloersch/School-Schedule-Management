@@ -287,11 +287,27 @@ def accept_friend_request(request):
     # data[]
 
 
-def get_friend_request(request):
+def get_friend_requests(request):
     data = {}
-    # data[]
+    data['email_of_sendee']="cheap@gmail.com"
+    data['first_name_emailee']='cheap'
+    data['last_name_emailee']='will'
+
+    # "email_of_emailee" : "cheap@gmail.com",
+    # "last_name_emailee" : "will",
+    # "first_of_emailee" : "cheap",
+
+
+
     taskObject_from_task = get_friend_request_two.delay(data)
-    result = check_task_http(taskObject_from_task.task_id)
+    result = check_task(taskObject_from_task.task_id)
+    result2 = json_util.loads(result)
+    particular_res = result2[0]
+
+    val = particular_res['email_of_requester']
+    print(val)
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
 
 def get_friends_list(request):
     data = {}

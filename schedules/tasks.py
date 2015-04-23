@@ -316,9 +316,27 @@ def accept_friend_request_two(self, data):
 @task(bind = True)
 def get_friend_request_two(self, data):
     db = client.students
-    emailed_to_this_person = data['email']
+    email = data['email_of_sendee']
+    first_name= data['first_name_emailee']
+    last_name = data['last_name_emailee']
+
+    # "email_of_emailee" : "cheap@gmail.com",
+    # "last_name_emailee" : "will",
+    # "first_of_emailee" : "cheap",
+
+
     friend_requests = db.friend_requests
-    friend_requests.find({})
+    result = friend_requests.find({'email_of_emailee':email})
+    # print(result['email_of_requester'])
+    allRequests= []
+
+    for req in result:
+        # print(result)
+        allRequests.append(req)
+
+        # print("returned")
+
+    return json_util.dumps(allRequests)
 
 
 
