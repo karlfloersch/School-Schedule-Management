@@ -47,23 +47,23 @@ def add_classes_to_database(request):
 
 
 
-@login_required(redirect_field_name='/login')
-def add_a_student_to_friendslist_view(request):
-    db = client.students
-    username = request.user.username
-    myself = db.students.find_one({"email": username})
-    original_id = myself["_id"]
-    first_name_to_be_inserted = "punk"
-    last_name_to_be_inserted = "bitch"
-    email_to_be_inserted = "punk@gmail.com"
-    db.friends_list.update(
-        {"_id": original_id},
-        {"$push":
-         {"list":
-          {"first_name": first_name_to_be_inserted, "last_name":
-           last_name_to_be_inserted, "email": email_to_be_inserted}}})
-    html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+# @login_required(redirect_field_name='/login')
+# def add_a_student_to_friendslist_view(request):
+#     db = client.students
+#     username = request.user.username
+#     myself = db.students.find_one({"email": username})
+#     original_id = myself["_id"]
+#     first_name_to_be_inserted = "punk"
+#     last_name_to_be_inserted = "bitch"
+#     email_to_be_inserted = "punk@gmail.com"
+#     db.friends_list.update(
+#         {"_id": original_id},
+#         {"$push":
+#          {"list":
+#           {"first_name": first_name_to_be_inserted, "last_name":
+#            last_name_to_be_inserted, "email": email_to_be_inserted}}})
+#     html = "<html><body> string: "+"success"+"</body></html>"
+#     return HttpResponse(html)
 
 
 def add_school_to_db(data):
@@ -269,9 +269,9 @@ def send_a_friend_request(request):
     data['email_of_sender']='ray@gmail.com'
     data['first_name_emailer']='ray'
     data['last_name']='bill'
-    data['email_of_sendee']='cheap@gmail.com'
-    data['first_name_emailee']='cheap'
-    data['last_name_emailee']='will'
+    data['email_of_sendee']='bill@gmail.com'
+    data['first_name_emailee']='bill'
+    data['last_name_emailee']='ray'
 
 
     taskObject_from_task = send_a_friend_request_two.delay(data)
@@ -287,7 +287,7 @@ def accept_friend_request(request):
 
     # "email_of_requester" : "ray@gmail.com"
 
-    data['email_of_sendee']="cheap@gmail.com"
+    data['email_of_sendee']="bill@gmail.com"
     data['email_of_requester']="ray@gmail.com"
 
     taskObject_from_task = accept_friend_request_two.delay(data)
@@ -331,8 +331,11 @@ def get_friend_requests(request):
 
 def get_friends_list(request):
     data = {}
-    data['email']='cheap@gmail.com'
+    data['email']='ray@gmail.com'
     taskObject_from_task = get_friends_list_two.delay(data)
-    result = check_task_http(taskObject_from_task.task_id)
+    result = check_task(taskObject_from_task.task_id)
+    print(result[0])
+    result = result[0]
+    print(result['first_name'])
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)

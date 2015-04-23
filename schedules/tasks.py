@@ -171,9 +171,9 @@ def get_friends_list_two(self,data):
     # friends_loc = friends_loc.split("'",1)
     # friends_loc = friends_loc[:-1]
     # friends_loc = friends_loc[1:]
-    print(friends_loc)
+    # print(friends_loc)
     list_of_stuff= db.friends_list.find_one({'_id':ObjectId(friends_loc)})
-    print(list_of_stuff)
+    # print(list_of_stuff)
     list_of_stuff= list_of_stuff['list']
     print(list_of_stuff)
     # html = "<html><body> string: "+""+"</body></html>"
