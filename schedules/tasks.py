@@ -56,6 +56,16 @@ def add_students_to_database_two(self, data):
 
     return str(student_dict)
 
+@task(bind = True)
+def get_normal_schedule_two(self,data):
+    db = client.students
+    assigned = db.assigned_schedule
+    email = data['email']
+    # print(email)
+    val =assigned.find_one({'email':email})
+    # print(val)
+
+    return val['classes']
 
 
 @task(bind=True)

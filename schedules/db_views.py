@@ -28,9 +28,9 @@ def add_classes_to_database(request):
     # Course ID     Course Name     Instructor  School  Days    Period Start    Period End
     data= {}
     data['username']=request.user.username
-    data['course_id'] = 'cse306'
-    data['course_name'] = 'operating systems'
-    data['instructor'] = 'stark'
+    data['course_id'] = 'cse308'
+    data['course_name'] = 'software engineering'
+    data['instructor'] = 'sun'
     # data['school'] = ''
     data['days'] = ['tues','thurs']
     data['start_period']='2'
@@ -65,7 +65,15 @@ def add_classes_to_database(request):
 #            last_name_to_be_inserted, "email": email_to_be_inserted}}})
 #     html = "<html><body> string: "+"success"+"</body></html>"
 #     return HttpResponse(html)
+def get_normal_schedule(reuqest):
+    data= {}
+    data['email']='chris@gmail.com'
 
+    taskObject_from_task = get_normal_schedule_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)    
+    print(result[0])
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
 
 def edit_school_to_database(request):
     address_of_edit = data['address_of_edit']
