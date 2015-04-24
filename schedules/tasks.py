@@ -63,8 +63,10 @@ def add_classes_to_database_two(self, data):
     db = client.students
     students_collection = db.students
     school_collection = db.school_list
+    course_list = db.course_list
+    course_offerings =db.semester_courses_ref
 
-    name= data['username']
+    username= data['username']
     course_id=data['course_id']
     course_name=data['course_name']
     instructor=data['instructor']
@@ -74,7 +76,7 @@ def add_classes_to_database_two(self, data):
     end_period=data['end_period']
     year=data['year']
     semester=data['semester']
-    myself = students_temp.find_one({'email': username})
+    myself = students_collection.find_one({'email': username})
     address_of_school = myself['address']
     school_name = myself['school']
     is_new_year=data['new_year_flag']
@@ -115,7 +117,7 @@ def add_classes_to_database_two(self, data):
     else:
         pass
 
-    temp_school = school_collection.find_one({{'name':school_name, 'address': address_of_school}})
+    temp_school = school_collection.find_one({'name':school_name, 'address': address_of_school})
     year_sem = None
     current_semester = None
 
@@ -128,7 +130,27 @@ def add_classes_to_database_two(self, data):
         if semester == s['semester_name']:
             current_semester = s
 
-    deference(s['semester_courses_ref'])
+    ref_number = current_semester['semester_courses_ref']
+    # print(ref_number)
+
+    
+    course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor}
+    # deference(s['semester_courses_ref'])course_id=data['course_id']
+    course_name=data['course_name']
+    instructor=data['instructor']
+    # update({}, course_data, {upsert:true})
+    # id_of_course = course_list.insert_one(course_data).inserted_id
+    course_list.update(course_data, course_data, True)
+    id_of_inserted_course = course_list.find_one(course_data)
+    # print(id_of_inserted_course)
+    id_of_inserted_course = id_of_inserted_course['_id']
+    # print(id_of_inserted_course)
+    id_to_insert= {'course_id':ObjectId(id_of_inserted_course)}
+    course_offerings.update({'_id':ObjectId(ref_number)},{ '$addToSet':  {'courses_held': id_to_insert} })
+
+
+
+    # .inserted_id
 
 
 

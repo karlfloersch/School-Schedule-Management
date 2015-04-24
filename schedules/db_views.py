@@ -28,20 +28,21 @@ def add_classes_to_database(request):
     # Course ID     Course Name     Instructor  School  Days    Period Start    Period End
     data= {}
     data['username']=request.user.username
-    data['course_id'] = ''
-    data['course_name'] = ''
-    data['instructor'] = ''
+    data['course_id'] = 'cse306'
+    data['course_name'] = 'operating systems'
+    data['instructor'] = 'stark'
     # data['school'] = ''
-    data['days'] = ['','']
-    data['start_period']=''
-    data['end_period']=''
-    data['year']=''
-    data['semester']=''
+    data['days'] = ['tues','thurs']
+    data['start_period']='2'
+    data['end_period']='3'
+    data['year']='2015'
+    data['semester']='fall'
     data['new_year_flag']=False
 
     taskObject_from_task = add_classes_to_database_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
-    return result
+    html = "<html><body> string: "+"good JOb"+"</body></html>"
+    return HttpResponse(html)
 
 
 
