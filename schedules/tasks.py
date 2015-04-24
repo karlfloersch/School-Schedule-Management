@@ -57,7 +57,7 @@ def add_students_to_database_two(self, data):
     return str(student_dict)
 
 
-# unfinshed
+
 @task(bind=True)
 def add_classes_to_database_two(self, data):
     db = client.students
@@ -65,6 +65,7 @@ def add_classes_to_database_two(self, data):
     school_collection = db.school_list
     course_list = db.course_list
     course_offerings =db.semester_courses_ref
+    assigned = db.assigned_schedule
 
     username= data['username']
     course_id=data['course_id']
@@ -146,9 +147,21 @@ def add_classes_to_database_two(self, data):
     id_of_inserted_course = id_of_inserted_course['_id']
     # print(id_of_inserted_course)
     id_to_insert= {'course_id':ObjectId(id_of_inserted_course)}
-    course_offerings.update({'_id':ObjectId(ref_number)},{ '$addToSet':  {'courses_held': id_to_insert} })
+    course_offerings.update({'_id':ObjectId(ref_number)},{ '$addToSet':  {'courses_held': id_to_insert} },True)
 
+    # add it the schedule now
+    # assigned
+    # insert_into_schedule
 
+    course_id=data['course_id']
+    course_name=data['course_name']
+    instructor=data['instructor']
+    # data['school'] = ''
+    days=data['days'] #= ['','']
+    start_period=data['start_period']
+    end_period=data['end_period']
+    set_add = {'course_id':course_id, 'course_name': course_name, 'instructor': instructor,'days':days, 'start_period':start_period,'end_period':end_period}
+    assigned.update({'email':username},{'$addToSet':{'classes':set_add}},True)
 
     # .inserted_id
 
@@ -309,7 +322,7 @@ def search_school_from_database_two(self, data):
 
 
 @task(bind=True)
-def add_school_to_database_two(self, data):
+def edit_school_to_database_two(self, data,address_of_edit):
     db = client.students
     school_collection = db.school_list
     semester_courses_ref = db.semester_courses_ref
@@ -319,13 +332,7 @@ def add_school_to_database_two(self, data):
     address = data['address']
     semesters_in_year= data['num_sem']
     num_days_in_a_schedule=data['num_days_in_schedule'] 
-    #num_periods_in_a_day=data['periodInADay']
-    #dictionary {nameofsemester}
     name_of_semesters=data['semester_names']
-    #must be bundled with year
-    #dictionary
-    # lunch_periods = data['luch_periods']
-    # legal_blocks = data['legal_blocks']
     year = data['year_obj']
     year_container = []
 
@@ -341,14 +348,53 @@ def add_school_to_database_two(self, data):
     for semester_temp in course_list:
         course_obj_ids.append(semester_courses_ref.insert_one(semester_temp).inserted_id)
 
-    # print (type(course_obj_ids[0]))
-    # print(str(course_obj_ids[0]))
-    
-    # return str(course_obj_ids)
 
-    #for index, g in enumerate(name_of_semesters):
-    # for i in range(len(name_of_semesters)):
-    #     semester+={'semester_name': i,'course_listing': DBRef('course_offerings',course_obj_ids[i])}
+    for index ,g in enumerate(name_of_semesters):
+        semester.append({'semester_name': g,'semester_courses_ref': str(course_obj_ids[index])})
+        #some_val = db.dereference(semester[index])
+
+    year['semesters'] = semester
+    year_container.append(year)
+
+    data_input = {'name':name_of_school, 'days_in_a_year': days_in_a_year,
+     'address':address, 'semesters_in_year':semesters_in_year,
+     'num_days_in_a_schedule':num_days_in_a_schedule,'name_of_semesters':name_of_semesters,
+     'year':year_container
+     }
+    school_collection.find_one_and_replace({'address':address_of_edit},data_input)
+
+    return
+
+
+
+@task(bind=True)
+def add_school_to_database_two(self, data):
+    db = client.students
+    school_collection = db.school_list
+    semester_courses_ref = db.semester_courses_ref
+    #data= {'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year}
+    name_of_school = data['name']
+    days_in_a_year = data['num_days']
+    address = data['address']
+    semesters_in_year= data['num_sem']
+    num_days_in_a_schedule=data['num_days_in_schedule'] 
+    name_of_semesters=data['semester_names']
+    year = data['year_obj']
+    year_container = []
+
+
+    semester = []
+    courses = []
+    course_list =[]
+    course_obj_ids=[]
+    course_name_id_tuple=[]
+    for current_sem_name in name_of_semesters:
+        course_list.append({'year':year['year_name'], 'sem_name':current_sem_name, 'courses_held':courses})
+
+    for semester_temp in course_list:
+        course_obj_ids.append(semester_courses_ref.insert_one(semester_temp).inserted_id)
+
+
     for index ,g in enumerate(name_of_semesters):
         semester.append({'semester_name': g,'semester_courses_ref': str(course_obj_ids[index])})
         #some_val = db.dereference(semester[index])

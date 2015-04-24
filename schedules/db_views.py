@@ -67,9 +67,31 @@ def add_classes_to_database(request):
 #     return HttpResponse(html)
 
 
+def edit_school_to_database(request):
+    address_of_edit = data['address_of_edit']
+    name_of_school = data['name']
+    days_in_a_year = data['daysInYear']
+    number_of_sem = data['semesterInYear']
+    address = data['address']
+    num_days_in_a_schedule = data['daysInASchedule']
+    num_periods_in_a_day = data['periodInDay']
+    #dictionary {nameofsemester}
+    name_of_semesters=data['semesters']
+    blocks =data['block_info']
+    year_name = data['academicYear']
+    course_listing_and_semster = []
+    lunches = data['lunches']
+    year = {'year_name':year_name,'num_periods_in_a_day':num_periods_in_a_day,'blocks':blocks,
+    'semesters':course_listing_and_semster}
+
+    data= {'semester_names':name_of_semesters,'name':name_of_school, 'num_days':days_in_a_year, 'num_sem':number_of_sem, 'address':address, 'num_days_in_schedule':num_days_in_a_schedule, 'year_obj':year, 'lunches': lunches}
+
+    taskObject_from_task = edit_school_to_database_two.delay(data,address_of_edit)
+    result = check_task_http(taskObject_from_task.task_id)
+
+    return result
+
 def add_school_to_db(data):
-    # def add_school_to_db(data):
-    # THIS IS DUMMY DATA
     name_of_school = data['name']
     days_in_a_year = data['daysInYear']
     number_of_sem = data['semesterInYear']
