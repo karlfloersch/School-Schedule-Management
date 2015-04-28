@@ -37,13 +37,11 @@ function populFriend(){
 
   table.append('<tr><td><b>Name</b></td>\
     <td><b>Email</b></td>\
-    <td><b>School</b></td>\
     <td><b>View Schedule</b></td>\
     <td><b>Delete</b></td></tr>');
 
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
-    <td>SBU</td>\
     <td><input type="button" class="btn" value = "View"></button></td>\
     <td><input type="button" class="btn" value = "Delete" \
       onClick="Javacsript:deleteListRow(this)"></td></tr>');
@@ -54,13 +52,11 @@ function populFriendReq(){
   
   table.append('<tr><td><b>Name</b></td>\
     <td><b>Email</b></td>\
-    <td><b>School</b></td>\
     <td><b>Accept</b></td>\
     <td><b>Delete</b></td></tr>');
 
   table.append('<tr><td>Joe Poodle</td>\
     <td>BBM@SBU.com</td>\
-    <td>SBU</td>\
     <td><input type="button" class="btn" value = "Accept"\
       onClick = "Javacsript:acceptFriendReq(this)"></td>\
     <td><input type="button" class="btn" value = "Delete" \

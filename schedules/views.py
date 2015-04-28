@@ -144,6 +144,30 @@ def create_school_data(request):
             data['lunches'].append(i+1)
     return data
 
+def create_friend_request(request):
+    data = {}
+    data['email_of_sender'] = request.user.username
+    data['first_name_emailer']= ""
+    data['last_name']= ""
+
+
+    requestInfo = request.POST.get('studentName', False)
+    requestInfo = requestInfo.split("-")
+    requestInfo = requestInfo.split(" ")
+
+    data['email_of_sendee'] = requestInfo[0]
+    data['first_name_emailee']= requestInfo[1]
+    data['last_name_emailee']= requestInfo[2]
+
+    db_views.send_a_friend_request(data)
+    return data
+
+def accept_friend_request(request):
+    data['email_of_sendee']= ""
+    data['email_of_requester']="" 
+
+    da_views.accept_friend_request(data)
+    return data
 
 def create_user_view(request):
     """ GET: render the create new user form

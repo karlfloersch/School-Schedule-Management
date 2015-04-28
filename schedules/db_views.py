@@ -276,13 +276,13 @@ def add_student_entry(data):
     return result
 
 
-def send_a_friend_request(request):
+def send_a_friend_request(data):
 
-    data = {}
+    # data = {}
     # "first_name" : "ray",
     # "last_name" : "bill",
     # "friendslist" : DBRef("friends_list", ObjectId("5535f5b7cb99257cfaca4c25")),
-    # "school" : "rays school of choice",
+    # "schdool" : "rays school of choice",
     # "address" : "ray ave",
     # "email" : "ray@gmail.com"
 
@@ -294,15 +294,15 @@ def send_a_friend_request(request):
     # "address" : "cheap ave",
     # "email" : "cheap@gmail.com"
     
-    #ray is sender
-    #cheap is sendee
+    # ray is sender
+    # cheap is sendee
 
-    data['email_of_sender']='ray@gmail.com'
-    data['first_name_emailer']='ray'
-    data['last_name']='bill'
-    data['email_of_sendee']='bill@gmail.com'
-    data['first_name_emailee']='bill'
-    data['last_name_emailee']='ray'
+    # data['email_of_sender']='ray@gmail.com'
+    # data['first_name_emailer']='ray'
+    # data['last_name']='bill'
+    # data['email_of_sendee']='bill@gmail.com'
+    # data['first_name_emailee']='bill'
+    # data['last_name_emailee']='ray'
 
 
     taskObject_from_task = send_a_friend_request_two.delay(data)
@@ -313,13 +313,13 @@ def send_a_friend_request(request):
 
 
 
-def accept_friend_request(request):
-    data = {}
+def accept_friend_request(data):
+    # data = {}
 
     # "email_of_requester" : "ray@gmail.com"
 
-    data['email_of_sendee']="bill@gmail.com"
-    data['email_of_requester']="ray@gmail.com"
+    # data['email_of_sendee']="bill@gmail.com"
+    # data['email_of_requester']="ray@gmail.com"
 
     taskObject_from_task = accept_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
