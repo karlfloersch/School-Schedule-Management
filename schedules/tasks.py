@@ -522,6 +522,7 @@ def possible_friends(self, username, first_name):
     #first_name = first_name
     #last_name = last_name
     # find out who i am
+    print(username)
     myself = students_temp.find_one({'email': username})
     print(myself)
     # cool i go to this cool
@@ -605,6 +606,14 @@ def possible_friends(self, username, first_name):
     return_dict = {'success': 'success'}
     print(people)
     return people
+
+@task
+def get_a_person_two(data):
+    email = data['email']
+    db = client.students
+    students_temp = db.students
+    value = students_temp.find_one({'email':email})
+    return json_util.dumps(value)
 
 
 @task
