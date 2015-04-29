@@ -352,25 +352,29 @@ def deny_friend_request(request):
     return HttpResponse(html)
 
 
-def get_friend_requests(request):
-    data = {}
-    data['email_of_sendee']="cheap@gmail.com"
-    data['first_name_emailee']='cheap'
-    data['last_name_emailee']='will'
+def get_friend_requests(data):
+    # data = {}
+    # data['email_of_sendee']="cheap@gmail.com"
+    # data['first_name_emailee']='cheap'
+    # data['last_name_emailee']='will'
 
     # "email_of_emailee" : "cheap@gmail.com",
     # "last_name_emailee" : "will",
     # "first_of_emailee" : "cheap",
-
+    print(data)
     taskObject_from_task = get_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
-    particular_res = result2[0]
-
-    val = particular_res['email_of_requester']
-    # print(val)
-    html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+    print(result2)
+    if result2:
+        particular_res = result2[0]
+        val = particular_res['email_of_requester']
+        # print(val)
+        html = "<html><body> string: "+"success"+"</body></html>"
+        print("hi")
+        print(result2)
+    return result2
+    
 
 def delete_friend_from_friends_list(request):
     data = {}

@@ -2,7 +2,27 @@ function deleteListRow(obj) {
     $(obj).closest('tr').remove();
 }
 function acceptFriendReq(obj){
-     $(obj).closest('tr').remove();
+  var info = $(obj).closest('tr').text();
+  var res= info.split(" ");
+  res = res.filter(Boolean);
+      var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/accept-friend-request";
+       var data ={
+          'email_of_requester' : res[2]
+       };
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+             $(obj).closest('tr').remove();
+          }
+     });
 }
 function createFriendList() {  
   populFriend();
@@ -91,12 +111,40 @@ function populFriendReq(){
     <td><b>Accept</b></td>\
     <td><b>Delete</b></td></tr>');
 
-  table.append('<tr><td>Joe Poodle</td>\
-    <td>BBM@SBU.com</td>\
-    <td><input type="button" class="btn" value = "Accept"\
-      onClick = "Javacsript:acceptFriendReq(this)"></td>\
-    <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
+  // table.append('<tr><td>Joe Poodle</td>\
+  //   <td>BBM@SBU.com</td>\
+  //   <td><input type="button" class="btn" value = "Accept"\
+  //     onClick = "Javacsript:acceptFriendReq(this)"></td>\
+  //   <td><input type="button" class="btn" value = "Delete" \
+  //     onClick="Javacsript:deleteListRow(this)"></td></tr>');
+
+var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-friends-request";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+      $('#studentName').val('');
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log(response);
+            var i;
+            for(i = 0; i < response.length; i++){
+              table.append('<tr><td>' + response[i].first_name_of_requester + " " + response[i].last_name_of_requester + '</td>\
+                <td>' + response[i].email_of_requester + '</td>\
+                <td><input type="button" class="btn" value = "Accept"\
+                  onClick = "Javacsript:acceptFriendReq(this)"></td>\
+                <td><input type="button" class="btn" value = "Delete" \
+                  onClick="Javacsript:deleteListRow(this)"></td></tr>');
+            }
+          }
+     });
 }
 function createCourseList() {
     createAssignSche();

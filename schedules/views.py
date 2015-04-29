@@ -154,8 +154,8 @@ def send_friend_request_ajax(request):
     info = db_views.get_a_person(request.user.username)
     # emailer = json_util.loads(name)
     name = json.loads(str(info))
-    print(name['first_name'])
-    print(name['last_name'])
+    # print(name['first_name'])
+    # print(name['last_name'])
 
     data['first_name_emailer'] = name['first_name']
     data['last_name'] = name['last_name']
@@ -175,12 +175,38 @@ def send_friend_request_ajax(request):
     db_views.send_a_friend_request(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
-def accept_friend_request(request):
-    data['email_of_sendee'] = ""
-    data['email_of_requester'] ="" 
+def get_friend_requests_ajax(request):
+    data = {}
+    data['email_of_sendee'] = request.user.username
 
-    da_views.accept_friend_request(data)
-    return data
+    info = db_views.get_a_person(request.user.username)
+    # emailer = json_util.loads(name)
+    name = json.loads(str(info))
+    print(name['first_name'])
+    print(name['last_name'])
+
+    data['first_name_emailee'] = name['first_name']
+    data['last_name_emailee'] = name['last_name']
+
+    info = db_views.get_friend_requests(data)
+    #requests = json.loads(str(info))
+    for person in info:
+        del person['_id']
+        del person['last_name_emailee']
+        del person['email_of_emailee']
+        del person['first_of_emailee']
+
+    print(info)
+    return HttpResponse(json.dumps(info), content_type="application/json")
+
+
+def accept_friend_request_ajax(request):
+    data = {}
+    data['email_of_sendee'] = request.user.username
+    data['email_of_requester'] = request.POST.get('email_of_requester', False)
+
+    db_views.accept_friend_request(data)
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def accept_friend_request(request):
