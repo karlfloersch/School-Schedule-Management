@@ -70,7 +70,7 @@ def get_normal_schedule(reuqest):
     data['email']='chris@gmail.com'
 
     taskObject_from_task = get_normal_schedule_two.delay(data)
-    result = check_task(taskObject_from_task.task_id)    
+    result = check_task(taskObject_from_task.task_id)
     print(result[0])
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
@@ -121,7 +121,7 @@ def add_school_to_db(data):
     lunches = data['lunches']
 
     #for x in range len(name_of_semesters)
-        #course_listing_and_semster += {None, name_of_semesters[x]} 
+        #course_listing_and_semster += {None, name_of_semesters[x]}
 
     year = {'year_name':year_name,'num_periods_in_a_day':num_periods_in_a_day,
     'blocks':blocks,
@@ -135,21 +135,20 @@ def add_school_to_db(data):
     return result
 
 
-@login_required(redirect_field_name='/login')
-def get_schools_view(request):
-    data= {}
-    data['school_name'] = 'larz school of balance'
-    taskObject_from_task = search_school_from_database_two.delay(data)
+def get_all_schools():
+    data = {}
+    taskObject_from_task = search_school_from_database_two.delay()
     result = check_task(taskObject_from_task.task_id)
     # results['name']
-    result2 = json_util.loads(result)
+    result2 = json_util.loads(str(result))
 
     # Front end modify to your hearts content
-    this_school = result2[0]
-    name_of_this_school = this_school['name']
-    html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
-    return HttpResponse(html)
-    # return str(result2[0])   
+    #this_school = result2[0]
+    #name_of_this_school = this_school['name']
+    #html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
+    return result2
+    # return str(result2[0])
+
 
 # not done
 @login_required(redirect_field_name='/login')
@@ -167,7 +166,7 @@ def get_schools_address_view(request):
     name_of_this_school = this_school['name']
     html = "<html><body> string: "+str(name_of_this_school)+"</body></html>"
     return HttpResponse(html)
-    # return str(result2[0])   
+    # return str(result2[0])
 
 
 
@@ -306,7 +305,7 @@ def send_a_friend_request(data):
     # "school" : "cheap school",
     # "address" : "cheap ave",
     # "email" : "cheap@gmail.com"
-    
+
     # ray is sender
     # cheap is sendee
 

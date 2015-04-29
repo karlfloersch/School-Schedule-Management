@@ -10,7 +10,7 @@ from pymongo import MongoClient
 from bson.dbref import DBRef
 from pymongo.mongo_replica_set_client import MongoReplicaSetClient
 from pymongo.read_preferences import ReadPreference
-# from pymongo.objectid import ObjectId  
+# from pymongo.objectid import ObjectId
 
 #client = MongoClient()
 client = MongoReplicaSetClient(
@@ -106,11 +106,11 @@ def add_classes_to_database_two(self, data):
 
 
     #for x in range len(name_of_semesters)
-        #course_listing_and_semster += {None, name_of_semesters[x]} 
+        #course_listing_and_semster += {None, name_of_semesters[x]}
 
         year_obj = {'year_name':year,'num_periods_in_a_day': 0,'blocks':[],'semesters':[]}
         #school_collection.update_one({'$addToSet': {'year': year_obj}})
-        
+
 
 
         course_list.append({'year':year, 'sem_name':semester, 'courses_held':courses})
@@ -144,7 +144,7 @@ def add_classes_to_database_two(self, data):
     ref_number = current_semester['semester_courses_ref']
     # print(ref_number)
 
-    
+
     course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor}
     # deference(s['semester_courses_ref'])course_id=data['course_id']
     course_name=data['course_name']
@@ -204,7 +204,7 @@ def get_friends_list_two(self,data):
     # first_name_var = data['first_name']
     # last_name_var = data['last_name']
     email_stuff = data['email']
-    
+
     # original_id_2=db.students.insert(info2)
     value = db.students.find_one({'email':email_stuff})
     friends_loc = str(value['friendslist'])
@@ -288,7 +288,7 @@ def get_schools_address_two(self):
     return json_util.dumps(array_of_schools)
 
 
-   
+
 
 
 
@@ -317,8 +317,12 @@ def search_all_students_two(self):
 def search_school_from_database_two(self, data):
     db = client.students
     school_collection = db.school_list
-    name_of_school = data['school_name']
-    schools = school_collection.find({'name':name_of_school})
+    schools = None
+    if data:
+        name_of_school = data['school_name']
+        schools = school_collection.find({'name':name_of_school})
+    else:
+        schools = school_collection.find()
     array_of_schools=[]
     for cus in schools:
         # my_values['name'] = cus['name']
@@ -341,7 +345,7 @@ def edit_school_to_database_two(self, data,address_of_edit):
     days_in_a_year = data['num_days']
     address = data['address']
     semesters_in_year= data['num_sem']
-    num_days_in_a_schedule=data['num_days_in_schedule'] 
+    num_days_in_a_schedule=data['num_days_in_schedule']
     name_of_semesters=data['semester_names']
     year = data['year_obj']
     year_container = []
@@ -387,7 +391,7 @@ def add_school_to_database_two(self, data):
     days_in_a_year = data['num_days']
     address = data['address']
     semesters_in_year= data['num_sem']
-    num_days_in_a_schedule=data['num_days_in_schedule'] 
+    num_days_in_a_schedule=data['num_days_in_schedule']
     name_of_semesters=data['semester_names']
     year = data['year_obj']
     year_container = []
@@ -458,7 +462,7 @@ def accept_friend_request_two(self, data):
 
     send_to_sender_friends= {'first_name': sendee_first_name, 'last_name':sendee_last_name, 'email':emailee}
     send_to_sendee_friends= {'first_name': sender_first_name, 'last_name':sender_last_name, 'email':emailer}
-    
+
     # sender
     friends_collection.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$addToSet': { 'list': send_to_sender_friends} })
     # sendee

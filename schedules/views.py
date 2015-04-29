@@ -47,9 +47,11 @@ def login_view(request):
 def dashboard_view(request):
     """ render the admin dash if the user is logged in """
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
-        return render(request, 'admin_dash.html')
+        data = {}
+        data['schools'] = db_views.get_all_schools()
+        print(data['schools'][0])
+        return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
-
 
 @login_required(redirect_field_name='/login')
 def create_school_view(request):
@@ -144,6 +146,7 @@ def create_school_data(request):
             data['lunches'].append(i+1)
     return data
 
+
 def create_friend_request(request):
     data = {}
     data['email_of_sender'] = request.user.username
@@ -162,12 +165,14 @@ def create_friend_request(request):
     db_views.send_a_friend_request(data)
     return data
 
+
 def accept_friend_request(request):
     data['email_of_sendee']= ""
-    data['email_of_requester']="" 
+    data['email_of_requester']=""
 
     da_views.accept_friend_request(data)
     return data
+
 
 def create_user_view(request):
     """ GET: render the create new user form
