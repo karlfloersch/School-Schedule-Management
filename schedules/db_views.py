@@ -14,6 +14,32 @@ from django.http import HttpResponse
 from . import tasks
 client = MongoClient()
 import time
+import smtplib
+
+
+def send_email_to_student(request,email):
+    fromaddr = 'djangoinflames@gmail.com'
+    # toaddrs  = 'maverickx5105@gmail.com'
+    toaddrs  = email
+    msg = 'Welcome to our website! Please wait until you have been approved'
+    sub = 'Welcome to SOCS'
+    message = 'Subject: %s\n\n%s' % (sub, msg)
+
+    # Credentials (if needed)
+    username = 'djangoinflames@gmail.com'
+    password = 'djangoinchains'
+
+    # The actual mail send
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username,password)
+    server.sendmail(fromaddr, toaddrs, message)
+    server.quit()
+
+    # html = "<html><body> string: "+"good JOb"+"</body></html>"
+    # return HttpResponse(html)
+
+
 
 
 def get_possible_friends(username, first_name):
