@@ -164,16 +164,20 @@ def send_friend_request_ajax(request):
     lastName = request.POST.get('last_name_emailee', False)
     email = request.POST.get('email_of_sendee', False)
 
-    print(firstName)
-    print(lastName)
-    print(email)
-
     data['email_of_sendee'] = email
     data['first_name_emailee'] = firstName
     data['last_name_emailee'] = lastName
 
     db_views.send_a_friend_request(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+def get_friend_ajax(request):
+    data = {}
+    data['email'] = request.user.username
+
+    info = db_views.get_friends_list(data)
+
+    return HttpResponse(json.dumps(info), content_type="application/json")
 
 def get_friend_requests_ajax(request):
     data = {}
@@ -182,13 +186,16 @@ def get_friend_requests_ajax(request):
     info = db_views.get_a_person(request.user.username)
     # emailer = json_util.loads(name)
     name = json.loads(str(info))
-    print(name['first_name'])
-    print(name['last_name'])
 
     data['first_name_emailee'] = name['first_name']
     data['last_name_emailee'] = name['last_name']
 
+    print("")
+    print(name['first_name'])
+    print(name['last_name'])
+    print("")
     info = db_views.get_friend_requests(data)
+    print(info)
     #requests = json.loads(str(info))
     for person in info:
         del person['_id']
@@ -196,7 +203,6 @@ def get_friend_requests_ajax(request):
         del person['email_of_emailee']
         del person['first_of_emailee']
 
-    print(info)
     return HttpResponse(json.dumps(info), content_type="application/json")
 
 
@@ -208,14 +214,23 @@ def accept_friend_request_ajax(request):
     db_views.accept_friend_request(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+def delete_friend_request_ajax(request):
+    data = {}
+    data['email_of_sendee'] = request.user.username
+    data['email_of_requester'] = request.POST.get('email_of_requester', False)
 
-def accept_friend_request(request):
-    data['email_of_sendee']= ""
-    data['email_of_requester']=""
+    db_views.deny_friend_request(data)
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
-    da_views.accept_friend_request(data)
-    return data
+def delete_friend_ajax(request):
+    data = {}
+    data['email'] = request.user.username
+    data['first_name'] = request.POST.get('first_name', False)
+    data['last_name'] = request.POST.get('last_name', False)
+    data['friend_email'] = request.POST.get('friend_email', False)
 
+    db_views.delete_friend_from_friends_list(data)
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 def create_user_view(request):
     """ GET: render the create new user form

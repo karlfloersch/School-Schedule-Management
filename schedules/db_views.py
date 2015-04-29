@@ -341,10 +341,10 @@ def accept_friend_request(data):
 
 
 
-def deny_friend_request(request):
-    data = {}
-    data['email_of_sendee']="cheap@gmail.com"
-    data['email_of_requester']="ray@gmail.com"
+def deny_friend_request(data):
+    # data = {}
+    # data['email_of_sendee']="cheap@gmail.com"
+    # data['email_of_requester']="ray@gmail.com"
 
     taskObject_from_task = deny_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
@@ -362,10 +362,12 @@ def get_friend_requests(data):
     # "last_name_emailee" : "will",
     # "first_of_emailee" : "cheap",
     print(data)
+    print("hi")
     taskObject_from_task = get_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
-    print(result2)
+    print("this")
+    print(result)
     if result2:
         particular_res = result2[0]
         val = particular_res['email_of_requester']
@@ -376,12 +378,13 @@ def get_friend_requests(data):
     return result2
     
 
-def delete_friend_from_friends_list(request):
-    data = {}
-    data['email'] = "ray@gmail.com"
-    data['first_name'] = "bill"
-    data['last_name'] = "ray"
-    data['friend_email'] = "bill@gmail.com"
+def delete_friend_from_friends_list(data):
+    # data = {}
+    # data['email'] = "ray@gmail.com"
+    # data['first_name'] = "bill"
+    # data['last_name'] = "ray"
+    # data['friend_email'] = "bill@gmail.com"
+
     taskObject_from_task = delete_friend_from_friends_list_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"success"+"</body></html>"
@@ -389,13 +392,10 @@ def delete_friend_from_friends_list(request):
 
 
 
-def get_friends_list(request):
-    data = {}
-    data['email']='ray@gmail.com'
+def get_friends_list(data):
+    # data = {}
+    # data['email']='ray@gmail.com'
     taskObject_from_task = get_friends_list_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
-    print(result[0])
-    result = result[0]
-    print(result['first_name'])
     html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+    return result

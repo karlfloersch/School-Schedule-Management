@@ -1,5 +1,50 @@
-function deleteListRow(obj) {
-    $(obj).closest('tr').remove();
+function deleteFriendRequest(obj) {
+  var info = $(obj).closest('tr').text();
+  var res= info.split(" ");
+  res = res.filter(Boolean);
+      var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/delete-friend-request";
+       var data ={
+          'email_of_requester' : res[2]
+       };
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+             $(obj).closest('tr').remove();
+          }
+     });
+}
+function deleteFriend(obj) {
+  var info = $(obj).closest('tr').text();
+  var res= info.split(" ");
+  res = res.filter(Boolean);
+      var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/delete-friend";
+       var data ={
+          'first_name' : res[0],
+          'last_name' : res[1],
+          'friend_email' : res[2]
+       };
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+             $(obj).closest('tr').remove();
+          }
+     });
 }
 function acceptFriendReq(obj){
   var info = $(obj).closest('tr').text();
@@ -21,6 +66,7 @@ function acceptFriendReq(obj){
              console.log("working?");
              console.log(response);
              $(obj).closest('tr').remove();
+             populFriend();
           }
      });
 }
@@ -51,6 +97,7 @@ function addFriend(){
 
   // $('#studentName').val('');
         $("#sendFriendRequest").click(function(){
+        $("sendFriendRequest").prop( "disabled", true );
         var textValue = $("#studentName").val();
         // if(textValue.slice(-1) != " "){
         //     return;
@@ -82,12 +129,14 @@ function addFriend(){
            // set the autocomplete
              console.log("working?");
              console.log(response);
+             populFriendReq();
           }
      });
   });
-
+  $("sendFriendRequest").prop( "disabled", false );
 }
 function populFriend(){
+  $('#friendList').empty();
   $('#friendList').append('<table></table>');
   var table = $('#friendList').children();
 
@@ -96,13 +145,40 @@ function populFriend(){
     <td><b>View Schedule</b></td>\
     <td><b>Delete</b></td></tr>');
 
-  table.append('<tr><td>Joe Poodle</td>\
-    <td>BBM@SBU.com</td>\
-    <td><input type="button" class="btn" value = "View"></button></td>\
-    <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
+  // table.append('<tr><td>Joe Poodle</td>\
+  //   <td>BBM@SBU.com</td>\
+  //   <td><input type="button" class="btn" value = "View"></button></td>\
+  //   <td><input type="button" class="btn" value = "Delete" \
+  //     onClick="Javacsript:deleteListRow(this)"></td></tr>');
+var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-friend-list";
+        
+        //need to check if information is missing
+       var data ={
+
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log(response);
+             var i;
+            for(i = 0; i < response.length; i++){
+              table.append('<tr><td>' + response[i].first_name + " " + response[i].last_name + '</td>\
+                <td>' + response[i].email + '</td>\
+                <td><input type="button" class="btn" value = "View"></button></td>\
+                <td><input type="button" class="btn" value = "Delete" \
+                  onClick="Javacsript:deleteFriend(this)"></td></tr>');
+            }
+          }
+     });
 }
 function populFriendReq(){
+  $('#friendReqList').empty();
   $('#friendReqList').append('<table></table>');
   var table = $('#friendReqList').children();
   
@@ -125,7 +201,6 @@ var getUrl = window.location;
         //need to check if information is missing
        var data ={
        }; 
-      $('#studentName').val('');
        $.ajax({  
            type: "POST",
            url: urlSubmit,
@@ -134,6 +209,7 @@ var getUrl = window.location;
            success: function(response){
            // set the autocomplete
              console.log(response);
+             console.log(response.length)
             var i;
             for(i = 0; i < response.length; i++){
               table.append('<tr><td>' + response[i].first_name_of_requester + " " + response[i].last_name_of_requester + '</td>\
@@ -141,7 +217,7 @@ var getUrl = window.location;
                 <td><input type="button" class="btn" value = "Accept"\
                   onClick = "Javacsript:acceptFriendReq(this)"></td>\
                 <td><input type="button" class="btn" value = "Delete" \
-                  onClick="Javacsript:deleteListRow(this)"></td></tr>');
+                  onClick="Javacsript:deleteFriendRequest(this)"></td></tr>');
             }
           }
      });

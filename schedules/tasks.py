@@ -244,7 +244,8 @@ def delete_friend_from_friends_list_two(self,data):
     friends_loc = friends_loc[1]
     friends_loc = friends_loc.split("'",2)
     friends_loc = friends_loc[1]
-
+    first_name_two=value['first_name']
+    last_name_two=value['last_name']
 
     friend_ob = db.students.find_one({'email':f_email})
 
@@ -255,16 +256,19 @@ def delete_friend_from_friends_list_two(self,data):
     friends_loc_two = friends_loc_two.split("'",2)
     friends_loc_two = friends_loc_two[1]
 
-    first_name_two=friend_ob['first_name']
-    last_name_two=friend_ob['last_name']
+    # first_name_two=friend_ob['first_name']
+    # last_name_two=friend_ob['last_name']
+    print(first_name_two)
+    print(last_name_two)
 
-
-    value = {'first_name':first_name,'last_name':last_name,'email':f_email}
-    value_two = {'first_name':first_name,'last_name':last_name,'email':email_stuff}
+    value_two = {'first_name':first_name,'last_name':last_name,'email':f_email}
+    print(value)
+    value = {'first_name':first_name_two,'last_name':last_name_two,'email':email_stuff}
+    print(value_two)
     # {'$addToSet': {'year': year_obj}}
-    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$pull':  {'list': value} })
+    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc_two)},{ '$pull':  {'list': value} })
 
-    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc_two)},{ '$pull':  {'list': value_two} })
+    list_of_stuff= db.friends_list.find_one_and_update({'_id':ObjectId(friends_loc)},{ '$pull':  {'list': value_two} })
     # return list_of_stuff
 
 #dont use this yet
@@ -479,6 +483,9 @@ def deny_friend_request_two(self, data):
     friend_requests = db.friend_requests
     emailee = data['email_of_sendee']
     emailer = data['email_of_requester']
+
+    print(emailee)
+    print(emailer)
 
     friend_requests.find_one_and_delete({'email_of_emailee':emailee, 'email_of_requester':emailer})
 
