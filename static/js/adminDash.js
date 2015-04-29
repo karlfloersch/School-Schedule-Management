@@ -1,5 +1,66 @@
+// Setup stuff for the CSRF Token/post requests
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+// End CSRF stuff
+
+
+
+
+
+
 function deleteListRow(list) {
-    $(list).closest('tr').remove();
+    // Add axjax thingy
+
+    var schoolName = $(list).closest('tr').find(".school-name").html();
+    var schoolAddress = $(list).closest('tr').find(".school-address").html();
+     var getUrl = window.location;
+     var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+     var urlSubmit = baseUrl + "/delete-school";
+     var data = {"school_name": schoolName, "school_address": schoolAddress};
+     // var data ={
+     //     "school_info": schoolJSON
+     // }; 
+     $.ajax({  
+         type: "POST",
+         url: urlSubmit,
+         dataType: "json",
+         data      : data,
+         success: function(response){
+             console.log("working?");
+             console.log(response);
+         }
+     });
+
+     $(list).closest('tr').remove();
+
+
+
 }
 function acceptAll(){
   var table = $('#manageAccountReq').children();

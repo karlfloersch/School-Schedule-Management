@@ -41,8 +41,8 @@
         {%for school in schools%}
         <tr>
 
-            <td><b>{{ school.name }}</b></td>
-            <td><b>{{ school.address }}</b></td>
+            <td class="school-name">{{ school.name }}</td>
+            <td class="school-address">{{ school.address }}</td>
             <td><button type="button" class="btn" onClick="">Edit</button></td>
         <td><button type="button" class="btn" onClick="Javacsript:deleteListRow(this)">Delete</button></td>
         </tr>
