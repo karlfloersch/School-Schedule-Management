@@ -220,14 +220,14 @@ def check_task(request):
 
 def get_a_person(request):
     data= {}
-    data['email']= 'chris@gmail.com'
+    data['email']= request
     taskObject_from_task = get_a_person_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
     print(result2['first_name'])
 
     html = "<html><body> string: "+"hello"+"</body></html>"
-    return HttpResponse(html)
+    return result
 
 
 

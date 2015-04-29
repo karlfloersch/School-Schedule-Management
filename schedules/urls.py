@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     (r'^logout/$', views.logout_view), # Logout, redirect to login
     (r'^dashboard/$', views.dashboard_view), # Dash for user and admin
     (r'^dashboard/get-friends$', views.friend_ajax), # Dash for user and admin
+    (r'^dashboard/send-friend-request$', views.send_friend_request_ajax), # Dash for user and admin
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
     (r'^sample_db_test/$', db_views.get_a_person), # Testing for DB

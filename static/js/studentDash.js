@@ -18,18 +18,54 @@ function displayFriendReq(){
   $("#friendList").hide();
 }
 function addFriend(){
-  var table = $('#friendList').children();
+  // var table = $('#friendList').children();
   
-  var studName = $('#studentName').val();
+  // var studName = $('#studentName').val();
   
-  table.append('<tr><td>'+ studName +'</td>\
-    <td>BBM@SBU.com</td>\
-    <td>SBU</td>\
-    <td><input type="button" class="btn" value = "View"></button></td>\
-    <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
+  // table.append('<tr><td>'+ studName +'</td>\
+  //   <td>BBM@SBU.com</td>\
+  //   <td>SBU</td>\
+  //   <td><input type="button" class="btn" value = "View"></button></td>\
+  //   <td><input type="button" class="btn" value = "Delete" \
+  //     onClick="Javacsript:deleteListRow(this)"></td></tr>');
 
-  $('#studentName').val('');
+  // $('#studentName').val('');
+        $("#sendFriendRequest").click(function(){
+        var textValue = $("#studentName").val();
+        // if(textValue.slice(-1) != " "){
+        //     return;
+        // }
+        // var firstName = textValue.trim();
+
+       var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/send-friend-request";
+        
+       var requestInfo = textValue.split(/ - | /);
+        var i;
+        for(i = 0; i < requestInfo.length; i++){
+          console.log(requestInfo[i]);
+        }
+        //need to check if information is missing
+       var data ={
+           'first_name_emailee': requestInfo[0],
+           'last_name_emailee' : requestInfo[1],
+           'email_of_sendee' : requestInfo[2]
+       }; 
+      $('#studentName').val('');
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+          }
+     });
+  });
+
 }
 function populFriend(){
   $('#friendList').append('<table></table>');
@@ -320,6 +356,7 @@ $( document ).ready(function() {
     // add auto complete to our text boxes
   addFriendAutoComplete();
   addAutoComplete($("#studentName"), []);
+  addFriend();
   createFriendList();
   createCourseList();
 });

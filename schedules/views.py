@@ -147,22 +147,39 @@ def create_school_data(request):
     return data
 
 
-def create_friend_request(request):
+def send_friend_request_ajax(request):
     data = {}
     data['email_of_sender'] = request.user.username
-    data['first_name_emailer']= ""
-    data['last_name']= ""
 
+    info = db_views.get_a_person(request.user.username)
+    # emailer = json_util.loads(name)
+    name = json.loads(str(info))
+    print(name['first_name'])
+    print(name['last_name'])
 
-    requestInfo = request.POST.get('studentName', False)
-    requestInfo = requestInfo.split("-")
-    requestInfo = requestInfo.split(" ")
+    data['first_name_emailer'] = name['first_name']
+    data['last_name'] = name['last_name']
 
-    data['email_of_sendee'] = requestInfo[0]
-    data['first_name_emailee']= requestInfo[1]
-    data['last_name_emailee']= requestInfo[2]
+    firstName = request.POST.get('first_name_emailee', False)
+    lastName = request.POST.get('last_name_emailee', False)
+    email = request.POST.get('email_of_sendee', False)
+
+    print(firstName)
+    print(lastName)
+    print(email)
+
+    data['email_of_sendee'] = email
+    data['first_name_emailee'] = firstName
+    data['last_name_emailee'] = lastName
 
     db_views.send_a_friend_request(data)
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+def accept_friend_request(request):
+    data['email_of_sendee'] = ""
+    data['email_of_requester'] ="" 
+
+    da_views.accept_friend_request(data)
     return data
 
 

@@ -575,7 +575,7 @@ def possible_friends(self, username, first_name):
             # we must people - all_my_requests
             for pe in people:
                 # print str(pe) + "\n"
-                for rq in all_my_friends:
+                for rq in all_my_requests:
                     # print str(rq)+"\n"
                     if (pe['email'] == rq['email_of_requester'] or pe['email'] == rq['email_of_emailee']):
                         people.remove(pe)
