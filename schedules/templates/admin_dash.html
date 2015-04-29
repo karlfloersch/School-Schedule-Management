@@ -31,6 +31,25 @@
 </table>
 
 <div id="manageSchool"></div>
+    <table>
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>School Address</b></td>
+            <td><b>View/Edit</b></td>
+            <td><b>Delete</b></td>
+        </tr>
+        {%for school in schools%}
+        <tr>
+
+            <td><b>{{ school.name }}</b></td>
+            <td><b>{{ school.address }}</b></td>
+            <td><button type="button" class="btn" onClick="">Edit</button></td>
+        <td><button type="button" class="btn" onClick="Javacsript:deleteListRow(this)">Delete</button></td>
+        </tr>
+            
+        {% endfor %}
+
+    </table>
 
 <br>
 <br>
@@ -42,7 +61,9 @@
   </tr>
 </table>
 <div id="scroll">
-<div id="manageStudents"></div>
+<div id="manageStudents">
+
+</div>
 </div>
 
 <br>
