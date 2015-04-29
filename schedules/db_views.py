@@ -136,10 +136,10 @@ def add_school_to_db(data):
 
 
 def get_all_schools():
-    data = {}
     taskObject_from_task = search_school_from_database_two.delay()
     result = check_task(taskObject_from_task.task_id)
     # results['name']
+    print(str(result))
     result2 = json_util.loads(str(result))
 
     # Front end modify to your hearts content

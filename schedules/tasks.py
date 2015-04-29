@@ -314,7 +314,7 @@ def search_all_students_two(self):
 
 
 @task(bind=True)
-def search_school_from_database_two(self, data):
+def search_school_from_database_two(self, data=None):
     db = client.students
     school_collection = db.school_list
     schools = None

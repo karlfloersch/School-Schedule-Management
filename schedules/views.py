@@ -49,7 +49,7 @@ def dashboard_view(request):
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
         data = {}
         data['schools'] = db_views.get_all_schools()
-        print(data['schools'][0])
+        print(data)
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 
