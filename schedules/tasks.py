@@ -56,6 +56,17 @@ def add_students_to_database_two(self, data):
 
     return str(student_dict)
 
+@task(bind=True)
+    def remove_school(self, data):
+    db = client.students
+    school_collection = db.school_list
+    name = data['school_name']
+    address = data['school_address']
+    target = school_collection.find_one_and_delete( { '$and': [ { 'name': name }, { 'address': address } ] })
+    #school_collection.remove(target.id)
+    return str(target)
+
+
 @task(bind = True)
 def get_normal_schedule_two(self,data):
     db = client.students

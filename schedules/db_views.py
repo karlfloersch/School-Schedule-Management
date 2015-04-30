@@ -40,6 +40,15 @@ import smtplib
     # return HttpResponse(html)
 
 
+
+
+
+def delete_school(data):
+    taskObject_from_task = remove_school.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    #result2 = json_util.loads(str(result))
+    return result
+
 def get_possible_friends(username, first_name):
     taskObject_from_task = possible_friends.delay(username,
                                                   first_name)

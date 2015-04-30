@@ -162,4 +162,6 @@ $( document ).ready(function() {
   //createAcctReqList();
   //createManageSchool();
   createManageStudent();
+  $(".edit-btn").click(function(){ 
+  });
 });

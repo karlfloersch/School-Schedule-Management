@@ -42,6 +42,23 @@ def login_view(request):
         return render(request, 'login.html', dictionary=data)
         # Return an 'invalid login' error message.
 
+
+
+@login_required(redirect_field_name='/login')
+    def delete_school_ajax(request):
+    if 'Administrator' not in request.user.groups.values_list('name', flat=True):
+        return None
+    if not request.method == 'POST':
+        return None
+    data = {'school_name': request.POST.get('school_name'), 'school_address': request.POST.get('school_address')}
+    result = db_views.delete_school(data)
+    print(result)
+    print("\n\n")
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+
+
 @login_required(redirect_field_name='/login')
 def dashboard_view(request):
     """ render the admin dash if the user is logged in """
