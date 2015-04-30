@@ -48,11 +48,15 @@ def dashboard_view(request):
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
         data = {}
         data['schools'] = db_views.get_all_schools()
-        print(User.objects.filter(is_active=False))
+        users = User.objects.filter(is_active=False)
+
+        userRequests = []
+        userRequests = db_views.get_people([user.username for user in users])
 
 
-
-        data['users'] = User.objects.filter(is_active=False)
+        data['users'] = userRequests
+        print("")
+        print(userRequests)
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 
@@ -357,3 +361,26 @@ def friend_ajax(request):
                                          request.POST["first_name"])
     print(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+@login_required(redirect_field_name='/login')
+def accept_student_request_ajax(request):
+    if 'Administrator' not in request.user.groups.values_list('name',
+                                                              flat=True):
+        return redirect("/dashboard")
+    # get username
+    username = request.POST.get('student_email', False)
+    user = User.objects.filter(username=username)[0]
+    user.is_active = True
+    user.save()
+    return HttpResponse(content_type="application/json")
+
+@login_required(redirect_field_name='/login')
+def deny_student_request_ajax(request):
+    if 'Administrator' not in request.user.groups.values_list('name',
+                                                              flat=True):
+        return redirect("/dashboard")
+    # get username
+    username = request.POST.get('student_email', False)
+    user = User.objects.filter(username=username)[0]
+    user.delete()
+    return HttpResponse(content_type="application/json")

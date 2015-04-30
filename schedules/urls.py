@@ -6,6 +6,8 @@ urlpatterns = patterns('',
 	(r'^login/$', views.login_view), # Login page
     (r'^logout/$', views.logout_view), # Logout, redirect to login
     (r'^dashboard/$', views.dashboard_view), # Dash for user and admin
+    (r'^dashboard/accept-student-account-request$', views.accept_student_request_ajax), # Accept a friend request   
+    (r'^dashboard/deny-student-account-request$', views.deny_student_request_ajax), # Delete a friend request  
     (r'^dashboard/get-friends$', views.friend_ajax), # Dash for user and admin
     (r'^dashboard/send-friend-request$', views.send_friend_request_ajax), # Send friend request
     (r'^dashboard/get-friends-request$', views.get_friend_requests_ajax), # Populate manage friend request

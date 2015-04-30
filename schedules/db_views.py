@@ -17,24 +17,24 @@ import time
 import smtplib
 
 
-def send_email_to_student(email):
-    fromaddr = 'djangoinflames@gmail.com'
-    # toaddrs  = 'maverickx5105@gmail.com'
-    toaddrs  = email
-    msg = 'Welcome to our website! Please wait until you have been approved'
-    sub = 'Welcome to SOCS'
-    message = 'Subject: %s\n\n%s' % (sub, msg)
+# def send_email_to_student(email):
+#     fromaddr = 'djangoinflames@gmail.com'
+#     # toaddrs  = 'maverickx5105@gmail.com'
+#     toaddrs  = email
+#     msg = 'Welcome to our website! Please wait until you have been approved'
+#     sub = 'Welcome to SOCS'
+#     message = 'Subject: %s\n\n%s' % (sub, msg)
 
-    # Credentials (if needed)
-    username = 'djangoinflames@gmail.com'
-    password = 'djangoinchains'
+#     # Credentials (if needed)
+#     username = 'djangoinflames@gmail.com'
+#     password = 'djangoinchains'
 
-    # The actual mail send
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.starttls()
-    server.login(username,password)
-    server.sendmail(fromaddr, toaddrs, message)
-    server.quit()
+#     # The actual mail send
+#     server = smtplib.SMTP('smtp.gmail.com:587')
+#     server.starttls()
+#     server.login(username,password)
+#     server.sendmail(fromaddr, toaddrs, message)
+#     server.quit()
 
     # html = "<html><body> string: "+"good JOb"+"</body></html>"
     # return HttpResponse(html)
@@ -242,9 +242,9 @@ def check_task(request):
         return result
 
 
-def get_a_person(request):
+def get_a_person(email):
     data= {}
-    data['email']= request
+    data['email']= email
     taskObject_from_task = get_a_person_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
@@ -252,6 +252,13 @@ def get_a_person(request):
     return result
 
 
+def get_people(emails):
+    pass # fill out for loop
+    people = []
+    for email in emails:
+        people.append(json_util.loads(get_a_person(email)))
+
+    return people
 
 def test_cel(request):
     print ("Supa Duba")

@@ -16,17 +16,28 @@
   </tr>
 </table>
 <div id="manageAccountReq"></div>
+    <table id = "studentAccountRequest">
+        <tr>
+          <td><b>Name</b></td>
+          <td><b>Email</b></td>
+          <td><b>School</b></td>
+          <td><b>Accept</b></td>
+          <td><b>Deny</b></td>
+        </tr>
         {%for user in users%}
         <tr>
-
-          <!--   <td class="school-name">{{ user.username }}</td>
-            <td class="school-address">{{ school.address }}</td>
-            <td><button type="button" class="btn" onClick="">Edit</button></td>
-        <td><button type="button" class="btn" onClick="Javacsript:deleteListRow(this)">Delete</button></td> -->
+              <td class="student-name">{{ user.first_name }} {{ user.last_name }}</td>
+              <td class="student-email">{{ user.email }}</td>
+              <td class="student-school">{{ user.school }}</td>
+              <td><input type="button" class="btn accept-req" value = "Accept" \
+                onClick="Javacsript:acceptStudentRequest(this)"></button></td>
+              <td><input type="button" class="btn deny-req" value = "Deny" \
+                onClick="Javacsript:denyStudentRequest(this)"></td>
         </tr>
             
         {% endfor %}
 
+    </table>
 <br>
 <br>
 
