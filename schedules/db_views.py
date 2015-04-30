@@ -17,31 +17,27 @@ import time
 import smtplib
 
 
-# def send_email_to_student(email):
-#     fromaddr = 'djangoinflames@gmail.com'
-#     # toaddrs  = 'maverickx5105@gmail.com'
-#     toaddrs  = email
-#     msg = 'Welcome to our website! Please wait until you have been approved'
-#     sub = 'Welcome to SOCS'
-#     message = 'Subject: %s\n\n%s' % (sub, msg)
+def send_email_to_student(email):
+    fromaddr = 'djangoinflames@gmail.com'
+    # toaddrs  = 'maverickx5105@gmail.com'
+    toaddrs  = email
+    msg = 'Welcome to our website! Please wait until you have been approved'
+    sub = 'Welcome to SOCS'
+    message = 'Subject: %s\n\n%s' % (sub, msg)
 
-#     # Credentials (if needed)
-#     username = 'djangoinflames@gmail.com'
-#     password = 'djangoinchains'
+    # Credentials (if needed)
+    username = 'djangoinflames@gmail.com'
+    password = 'djangoinchains'
 
-#     # The actual mail send
-#     server = smtplib.SMTP('smtp.gmail.com:587')
-#     server.starttls()
-#     server.login(username,password)
-#     server.sendmail(fromaddr, toaddrs, message)
-#     server.quit()
+    # The actual mail send
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username,password)
+    server.sendmail(fromaddr, toaddrs, message)
+    server.quit()
 
-    # html = "<html><body> string: "+"good JOb"+"</body></html>"
-    # return HttpResponse(html)
-
-
-
-
+    html = "<html><body> string: "+"good JOb"+"</body></html>"
+    return HttpResponse(html)
 
 def delete_school(data):
     taskObject_from_task = remove_school.delay(data)
@@ -70,16 +66,10 @@ def add_classes_to_database(data):
     # data['year']='2015'
     # data['semester']='fall'
     # data['new_year_flag']=False
-    print("hit 1")
-    print(data['year'])
     taskObject_from_task = add_classes_to_database_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"good JOb"+"</body></html>"
     return HttpResponse(html)
-
-
-
-
 
 # @login_required(redirect_field_name='/login')
 # def add_a_student_to_friendslist_view(request):
@@ -98,15 +88,16 @@ def add_classes_to_database(data):
 #            last_name_to_be_inserted, "email": email_to_be_inserted}}})
 #     html = "<html><body> string: "+"success"+"</body></html>"
 #     return HttpResponse(html)
-def get_normal_schedule(reuqest):
-    data= {}
-    data['email']='chris@gmail.com'
+def get_assigned_schedule(data):
+    # data= {}
+    # data['email']='chris@gmail.com'
 
     taskObject_from_task = get_normal_schedule_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
-    print(result[0])
+    # print(result)
+    # print(" ")
     html = "<html><body> string: "+"success"+"</body></html>"
-    return HttpResponse(html)
+    return result
 
 def edit_school_to_database(request):
     address_of_edit = data['address_of_edit']
@@ -172,7 +163,7 @@ def get_all_schools():
     taskObject_from_task = search_school_from_database_two.delay()
     result = check_task(taskObject_from_task.task_id)
     # results['name']
-    print(str(result))
+    # print(str(result))
     result2 = json_util.loads(str(result))
 
     # Front end modify to your hearts content
@@ -399,20 +390,20 @@ def get_friend_requests(data):
     # "email_of_emailee" : "cheap@gmail.com",
     # "last_name_emailee" : "will",
     # "first_of_emailee" : "cheap",
-    print(data)
-    print("hi")
+    # print(data)
+    # print("hi")
     taskObject_from_task = get_friend_request_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
-    print("this")
-    print(result)
+    # print("this")
+    # print(result)
     if result2:
         particular_res = result2[0]
         val = particular_res['email_of_requester']
         # print(val)
         html = "<html><body> string: "+"success"+"</body></html>"
-        print("hi")
-        print(result2)
+        # print("hi")
+        # print(result2)
     return result2
     
 

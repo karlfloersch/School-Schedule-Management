@@ -231,6 +231,7 @@ function createCourseList() {
     $("#genButtons").hide();
 }
 function createAssignSche(){
+  $('#assignSch').empty();
   $('#assignSch').append('<table></table>');
   var table = $('#assignSch').children();
   
@@ -243,16 +244,47 @@ function createAssignSche(){
     <td><b>Add</b></td>\
     <td><b>Remove</b></td></tr>');
 
-  table.append('<tr>\
-    <td><input type="text" id="courseID"></td>\
-    <td><input type="text" id="courseName"></td>\
-    <td><input type="text" id="instructor"></td>\
-    <td><input type="text" id="days"></td>\
-    <td><input type="text" id="periodStart"></td>\
-    <td><input type="text" id="periodEnd"></td>\
-    <td><input type="button" class="btn" value = "Add"\
-      onClick="Javacsript:addAssignCourse()"></td>\
-    <td></td></tr>');
+  var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-assigned-schedule";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log(response);
+             if(response != "null"){
+                var i;
+                for(i = 0; i < response.length; i++){
+                  table.append('<tr><td>' + response[i].course_id + '</td>\
+                    <td>' + response[i].course_name + '</td>\
+                    <td>' + response[i].instructor + '</td>\
+                    <td>' + response[i].days + '</td>\
+                    <td>' + response[i].start_period + '</td>\
+                    <td>' + response[i].end_period + '</td>\
+                    <td></td>\
+                    <td><input type="button" class="btn" value = "Remove" \
+                      onClick=" "></td></tr>');
+                }
+              }
+              table.append('<tr>\
+                <td><input type="text" id="courseID"></td>\
+                <td><input type="text" id="courseName"></td>\
+                <td><input type="text" id="instructor"></td>\
+                <td><input type="text" id="days"></td>\
+                <td><input type="text" id="periodStart"></td>\
+                <td><input type="text" id="periodEnd"></td>\
+                <td><input type="button" class="btn" value = "Add"\
+                  onClick="Javacsript:addAssignCourse()"></td>\
+                <td></td></tr>');
+          }
+     });
 }
 function addAssignCourse(){
   var table = $('#assignSch').children();
@@ -283,22 +315,34 @@ function addAssignCourse(){
            // set the autocomplete
              console.log("working?");
              console.log(response);
-             $("#assignSch tr:last").remove();
-             
-             table.append('<tr>\
-              <td><input type="text" id="courseID"></td>\
-              <td><input type="text" id="courseName"></td>\
-              <td><input type="text" id="instructor"></td>\
-              <td><input type="text" id="days"></td>\
-              <td><input type="text" id="periodStart"></td>\
-              <td><input type="text" id="periodEnd"></td>\
-              <td><input type="button" class="btn" value = "Add"\
-                onClick="Javacsript:addAssignCourse()"></td>\
-              <td></td></tr>');
+             createAssignSche();
            }
      });
   }
 }
+// function deleteAssignedCourse(obj) {
+//   var info = $(obj).closest('tr').text();
+//   var res= info.split(" ");
+//   res = res.filter(Boolean);
+//       var getUrl = window.location;
+//        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+//        var urlSubmit = baseUrl + "/delete-friend-request";
+//        var data ={
+//           'email_of_requester' : res[2]
+//        };
+//        $.ajax({  
+//            type: "POST",
+//            url: urlSubmit,
+//            dataType: "json",
+//            data      : data,
+//            success: function(response){
+//            // set the autocomplete
+//              console.log("working?");
+//              console.log(response);
+//              $(obj).closest('tr').remove();
+//           }
+//      });
+// }
 function createGenSche(){
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();

@@ -16,7 +16,8 @@ urlpatterns = patterns('',
     (r'^dashboard/accept-friend-request$', views.accept_friend_request_ajax), # Accept a friend request   
     (r'^dashboard/delete-friend-request$', views.delete_friend_request_ajax), # Delete a friend request  
     (r'^dashboard/delete-friend$', views.delete_friend_ajax), # Delete a friend    
-    (r'^dashboard/add-assigned-class$', views.add_class_to_database_ajax), # Send friend request
+    (r'^dashboard/add-assigned-class$', views.add_class_to_database_ajax), # add a class to the database
+    (r'^dashboard/get-assigned-schedule$', views.get_assigned_schedule_ajax), # get the student's assigned schedule
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
     (r'^sample_db_test/$', db_views.get_a_person), # Testing for DB

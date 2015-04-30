@@ -25,7 +25,7 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def add_students_to_database_two(self, data):
     db = client.students
     students_temp = db.students
@@ -56,8 +56,8 @@ def add_students_to_database_two(self, data):
 
     return str(student_dict)
 
-@task(bind=True)
-    def remove_school(self, data):
+@task(bind=True, queue='write_tasks')
+def remove_school(self, data):
     db = client.students
     school_collection = db.school_list
     name = data['school_name']
@@ -67,7 +67,7 @@ def add_students_to_database_two(self, data):
     return str(target)
 
 
-@task(bind = True)
+@task(bind = True, queue='write_tasks')
 def get_normal_schedule_two(self,data):
     db = client.students
     assigned = db.assigned_schedule
@@ -75,11 +75,13 @@ def get_normal_schedule_two(self,data):
     # print(email)
     val =assigned.find_one({'email':email})
     # print(val)
+    if val is None:
+        return "null"
+    else:
+        return val['classes']
 
-    return val['classes']
 
-
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def add_classes_to_database_two(self, data):
     db = client.students
     students_collection = db.students
@@ -195,7 +197,7 @@ def add_classes_to_database_two(self, data):
 
     return
 
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def send_a_friend_request_two(self,data):
     db = client.students
     email_of_requester = data['email_of_sender']
@@ -213,7 +215,7 @@ def send_a_friend_request_two(self,data):
                            'last_name_emailee':last_name_of_emailee}
     db.friend_requests.insert_one(friend_request_info)
 
-@task(bind=True)
+@task(bind=True, queue='read_tasks')
 def get_friends_list_two(self,data):
     db = client.students
     # dat_base_var = "students"
@@ -242,7 +244,7 @@ def get_friends_list_two(self,data):
     return list_of_stuff
 
 
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def delete_friend_from_friends_list_two(self,data):
     db = client.students
     # self
@@ -288,7 +290,7 @@ def delete_friend_from_friends_list_two(self,data):
     # return list_of_stuff
 
 #dont use this yet
-@task(bind=True)
+@task(bind=True, queue='read_tasks')
 def get_schools_address_two(self):
 
     db = client.students
@@ -313,7 +315,7 @@ def get_schools_address_two(self):
 
 
 #unfinished
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def delete_school_from_database_two(self, data):
     # not done
     db = client.students
@@ -321,7 +323,7 @@ def delete_school_from_database_two(self, data):
     return str(student_dict)
 
 
-@task(bind=True)
+@task(bind=True, queue='read_tasks')
 def search_all_students_two(self):
     db = client.students
     student_collection = db.students
@@ -333,7 +335,7 @@ def search_all_students_two(self):
     return json_util.dumps(array_of_students)
 
 
-@task(bind=True)
+@task(bind=True, queue='read_tasks')
 def search_school_from_database_two(self, data=None):
     db = client.students
     school_collection = db.school_list
@@ -355,7 +357,7 @@ def search_school_from_database_two(self, data=None):
     # return array_of_schools
 
 
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def edit_school_to_database_two(self, data,address_of_edit):
     db = client.students
     school_collection = db.school_list
@@ -401,7 +403,7 @@ def edit_school_to_database_two(self, data,address_of_edit):
 
 
 
-@task(bind=True)
+@task(bind=True, queue='write_tasks')
 def add_school_to_database_two(self, data):
     db = client.students
     school_collection = db.school_list
@@ -447,7 +449,7 @@ def add_school_to_database_two(self, data):
 
 
 
-@task(bind = True)
+@task(bind = True, queue='write_tasks')
 def accept_friend_request_two(self, data):
     db = client.students
     friend_requests = db.friend_requests
@@ -493,7 +495,7 @@ def accept_friend_request_two(self, data):
 
 
 
-@task(bind = True)
+@task(bind = True, queue='write_tasks')
 def deny_friend_request_two(self, data):
     db = client.students
     friend_requests = db.friend_requests
@@ -508,7 +510,7 @@ def deny_friend_request_two(self, data):
 
 
 
-@task(bind = True)
+@task(bind = True, queue='read_tasks')
 def get_friend_request_two(self, data):
     db = client.students
     email = data['email_of_sendee']
@@ -535,7 +537,7 @@ def get_friend_request_two(self, data):
 
 
 
-@task(bind=True)
+@task(bind=True, queue='read_tasks')
 def possible_friends(self, username, first_name):
     # """ render the create school view. """
     # Display the create school view if the admin is logged in
@@ -634,8 +636,8 @@ def possible_friends(self, username, first_name):
     print(people)
     return people
 
-@task
-def get_a_person_two(data):
+@task(bind=True, queue='read_tasks')
+def get_a_person_two(self, data):
     email = data['email']
     db = client.students
     students_temp = db.students

@@ -20,6 +20,11 @@ def login_view(request):
     data = {}
     data['username'] = request.POST.get('email', False)
     data['password'] = request.POST.get('password', False)
+    # See if user exists and is not active
+    # user = User.objects.filter(username=data['username'])[0]
+    # if not user.is_active:
+    #     data['errors'] = "User " + + " is not active yet"
+    #     return render(request, 'login.html', dictionary=data)
     # Try to login
     user = authenticate(username=data['username'], password=data['password'])
     if user is not None:
@@ -31,29 +36,27 @@ def login_view(request):
             # Redirect to a success page.
         else:
             # If the user has not been approved
-            data['errors'] = "IM HEREJRIEWO"
+            data['errors'] = "The requested account has not been approved a socs admin"
             return render(request, 'login.html', dictionary=data)
             # Return a 'disabled account' error message
     else:
         # Failed login attempt
         # If they entered a username then print error
         if data['username'] != '':
-            data['errors'] = "IM HEREJ"
+            data['errors'] = "Username and password combination does not exist"
         return render(request, 'login.html', dictionary=data)
         # Return an 'invalid login' error message.
 
 
 
 @login_required(redirect_field_name='/login')
-    def delete_school_ajax(request):
+def delete_school_ajax(request):
     if 'Administrator' not in request.user.groups.values_list('name', flat=True):
         return None
     if not request.method == 'POST':
         return None
     data = {'school_name': request.POST.get('school_name'), 'school_address': request.POST.get('school_address')}
     result = db_views.delete_school(data)
-    print(result)
-    print("\n\n")
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 
@@ -70,10 +73,7 @@ def dashboard_view(request):
         userRequests = []
         userRequests = db_views.get_people([user.username for user in users])
 
-
         data['users'] = userRequests
-        print("")
-        print(userRequests)
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 
@@ -90,9 +90,9 @@ def create_school_view(request):
     elif request.method == 'POST':
         # TODO: Actually implement this-This is a copy of create user
         if request.POST.get("save"):
-            print(request.POST)
+            # print(request.POST)
             is_valid, data = validate_new_school(request)
-            print(data)
+            # print(data)
             if is_valid:
                 # Data is valid and let's store it in the db
                 db_views.add_school_to_db(data)
@@ -196,7 +196,7 @@ def send_friend_request_ajax(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def add_class_to_database_ajax(request):
-    print("test")
+    # print("test")
     data= {}
     data['username']=request.user.username
     data['course_id'] = request.POST.get('course_id', False)
@@ -204,21 +204,21 @@ def add_class_to_database_ajax(request):
     data['instructor'] = request.POST.get('instructor', False)
     # data['school'] = ''
     day = request.POST.get('days',False)
-    print(day)
     day = day.split(" ")
-    print(day)
     data['days'] = request.POST.get('days', False)
     data['start_period']= request.POST.get('start_period', False)
     data['end_period']= request.POST.get('end_period', False)
     data['year'] = request.POST.get('year', False)
     data['semester'] = request.POST.get('semester', False)
     data['new_year_flag']=False
-
-    print(data)
-
     db_views.add_classes_to_database(data)
-    print("hit")
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+def get_assigned_schedule_ajax(request):
+    data = {}
+    data['email'] = request.user.username
+    schedule = db_views.get_assigned_schedule(data)
+    return HttpResponse(json.dumps(schedule), content_type="application/json")
 
 def get_friend_ajax(request):
     data = {}
@@ -240,7 +240,6 @@ def get_friend_requests_ajax(request):
     data['last_name_emailee'] = name['last_name']
 
     info = db_views.get_friend_requests(data)
-    print(info)
     #requests = json.loads(str(info))
     for person in info:
         del person['_id']
@@ -372,11 +371,9 @@ def redirect_to_login(request):
 @login_required(redirect_field_name='/login')
 def friend_ajax(request):
     data = {'first_name': request.POST["first_name"]}
-    print(data)
-    print("\n\n")
     data = db_views.get_possible_friends(request.user.username,
                                          request.POST["first_name"])
-    print(data)
+
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required(redirect_field_name='/login')

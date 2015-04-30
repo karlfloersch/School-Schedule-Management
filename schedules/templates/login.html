@@ -16,7 +16,7 @@
 <div id="section">
     <h2 class="test">Login In</h2>
 {% if errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>{{ errors }}</p>
 {% endif %}
     <p>
         <form method="post">
