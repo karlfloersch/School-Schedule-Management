@@ -1,0 +1,68 @@
+--------------------------------------------------------------------------------------------
+--                                       MONGODB                                          --
+--------------------------------------------------------------------------------------------
+//Follow for installation
+http://docs.mongodb.org/manual/installation/
+
+//To fix permissions and/or missing /data/db
+$ sudo mkdir -p /data/db/
+$ sudo chown -R username /data/db
+
+//It allows you access to the database
+mongo
+
+//Allows you to start up the database
+mongod
+
+//To run locally
+Open web browser to 127.0.0.1:8000
+--------------------------------------------------------------------------------------------
+--                                        MONGOD                                          --
+--------------------------------------------------------------------------------------------
+/*
+	Things to run to set up the database for mongod
+	Each line have to run on a different terminal
+	Sets up each replicate set
+	You need at least the first one to activate the database
+*/
+mongod --port 27017 --logpath Documents/MongoDBStorage/log/set0.log --logappend    --replSet socsDBset --smallfiles --oplogSize 128
+
+mongod --port 27018 --dbpath Documents/MongoDBStorage/socsDBrepset1 --logpath Documents/MongoDBStorage/log/set1.log --logappend --replSet socsDBset --smallfiles --oplogSize 128
+
+mongod --port 27019 --dbpath Documents/MongoDBStorage/socsDBrepset2 --logpath Documents/MongoDBStorage/log/set2.log --logappend --replSet socsDBset --smallfiles --oplogSize 128
+
+//Import replica set
+rs.status()
+rs.initiate()
+socsDBset:PRIMARY> rs.initiate()
+socsDBset:PRIMARY> rs.add("local-host:27018")
+socsDBset:PRIMARY> rs.add("local-host:27019")
+socsDBset:PRIMARY> rs.status()
+
+//If " Address already in use for socket: 0.0.0.0:27017" error appears use
+sudo service mongod stop
+--------------------------------------------------------------------------------------------
+--                                       RABBITMQ                                         --
+--------------------------------------------------------------------------------------------
+//Run rabbitmq
+/etc/rabbitmq$ sudo rabbitmq-server start
+
+//Stop rabbitmq
+/etc/rabbitmq$ sudo rabbitmqctl stop
+--------------------------------------------------------------------------------------------
+--                                       CELERY FLOWER                                    --
+--------------------------------------------------------------------------------------------
+//Running celery flower
+python manage.py celery -A socs flower
+-- Open web browser and go to 127.0.0.1:5555 to run locally
+--------------------------------------------------------------------------------------------
+--                                       CELERY WORKER                                    --
+--------------------------------------------------------------------------------------------
+//Starts celery worker
+
+//Need both of these to run the website
+//run write_worker celery worker
+python manage.py celery worker -A socs -Q write_tasks -n write_worker -l INFO
+//run read_worker celery worker
+python manage.py celery worker -A socs -Q read_tasks -n read_worker -l INFO
+
