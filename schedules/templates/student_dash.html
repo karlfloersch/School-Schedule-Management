@@ -27,14 +27,13 @@
   <tr>
     <th><input type="button" value = "Assigned Schedule" onclick="Javascript:displayAssign()"></button></th>
     <th><input type="button" value = "Generate Schedule" onclick="Javascript:displayGen()"></button></th>    
-    <th><input type="text" class="academicYears" placeholder="Academic Year"></th>       
+    <th><input type="text" id = "academicYears" class="academicYears" placeholder="Academic Year"></th>       
     <th>
-         <select>
-            <option value="year">Semester</option>
-            <option value="spring">Spring</option>
-            <option value="summer">Summer</option>
-            <option value="fall">fall</option>
-            <option value="winter">winter</option>
+         <select id = "semester">
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="Fall">Fall</option>
+            <option value="Winter">Winter</option>
          </select>
     </th>
   </tr>

@@ -243,16 +243,6 @@ function createAssignSche(){
     <td><b>Add</b></td>\
     <td><b>Remove</b></td></tr>');
 
-  table.append('<tr><td>Technical Writing</td>\
-    <td>CSE300</td>\
-    <td>Liu</td>\
-    <td>M W</td>\
-    <td>1</td>\
-    <td>3</td>\
-    <td></td>\
-    <td><input type="button" class="btn" value = "Remove" \
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
-
   table.append('<tr>\
     <td><input type="text" id="courseID"></td>\
     <td><input type="text" id="courseName"></td>\
@@ -265,38 +255,48 @@ function createAssignSche(){
     <td></td></tr>');
 }
 function addAssignCourse(){
-  var courseName = $('#courseID').val();
-  var sectEx = $('#courseName').val();
-  var instr = $('#instructor').val();
-  var days = $('#days').val();
-  var periodStart = $('#periodStart').val();
-  var periodEnd = $('#periodEnd').val();
-
   var table = $('#assignSch').children();
+  var select = $('#semester').val();
+        //need to check if information is missing
+       
+      if($('#courseID').val() != ""){
 
-  if(courseName != ""){
-    $("#assignSch tr:last").remove();
-    table.append('<tr>\
-    <td>'+ courseName +'</td>\
-    <td>'+ sectEx +'</td>\
-    <td>'+ instr +'</td>\
-    <td>'+ days +'</td>\
-    <td>'+ periodStart +'</td>\
-    <td>'+ periodEnd +'</td>\
-    <td></td>\
-    <td><input type="button" class="btn" value = "Remove"\
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
-
-    table.append('<tr>\
-      <td><input type="text" id="courseID"></td>\
-      <td><input type="text" id="courseName"></td>\
-      <td><input type="text" id="instructor"></td>\
-      <td><input type="text" id="days"></td>\
-      <td><input type="text" id="periodStart"></td>\
-      <td><input type="text" id="periodEnd"></td>\
-      <td><input type="button" class="btn" value = "Add"\
-        onClick="Javacsript:addAssignCourse()"></td>\
-      <td></td></tr>');
+       var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/add-assigned-class";
+       var data ={
+           'course_id': $('#courseID').val(),
+           'course_name' : $('#courseName').val(),
+           'instructor' : $('#instructor').val(),
+           'days': $('#days').val(),
+           'start_period' : $('#periodStart').val(),
+           'end_period' : $('#periodEnd').val(),
+           'year': $('#academicYears').val(),
+           'semester' : select
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+             $("#assignSch tr:last").remove();
+             
+             table.append('<tr>\
+              <td><input type="text" id="courseID"></td>\
+              <td><input type="text" id="courseName"></td>\
+              <td><input type="text" id="instructor"></td>\
+              <td><input type="text" id="days"></td>\
+              <td><input type="text" id="periodStart"></td>\
+              <td><input type="text" id="periodEnd"></td>\
+              <td><input type="button" class="btn" value = "Add"\
+                onClick="Javacsript:addAssignCourse()"></td>\
+              <td></td></tr>');
+           }
+     });
   }
 }
 function createGenSche(){

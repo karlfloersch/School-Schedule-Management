@@ -42,14 +42,17 @@ def login_view(request):
         return render(request, 'login.html', dictionary=data)
         # Return an 'invalid login' error message.
 
-
 @login_required(redirect_field_name='/login')
 def dashboard_view(request):
     """ render the admin dash if the user is logged in """
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
         data = {}
         data['schools'] = db_views.get_all_schools()
-        print(data)
+        print(User.objects.filter(is_active=False))
+
+
+
+        data['users'] = User.objects.filter(is_active=False)
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 
@@ -171,6 +174,31 @@ def send_friend_request_ajax(request):
     db_views.send_a_friend_request(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
+def add_class_to_database_ajax(request):
+    print("test")
+    data= {}
+    data['username']=request.user.username
+    data['course_id'] = request.POST.get('course_id', False)
+    data['course_name'] = request.POST.get('course_name', False)
+    data['instructor'] = request.POST.get('instructor', False)
+    # data['school'] = ''
+    day = request.POST.get('days',False)
+    print(day)
+    day = day.split(" ")
+    print(day)
+    data['days'] = request.POST.get('days', False)
+    data['start_period']= request.POST.get('start_period', False)
+    data['end_period']= request.POST.get('end_period', False)
+    data['year'] = request.POST.get('year', False)
+    data['semester'] = request.POST.get('semester', False)
+    data['new_year_flag']=False
+
+    print(data)
+
+    db_views.add_classes_to_database(data)
+    print("hit")
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
 def get_friend_ajax(request):
     data = {}
     data['email'] = request.user.username
@@ -190,10 +218,6 @@ def get_friend_requests_ajax(request):
     data['first_name_emailee'] = name['first_name']
     data['last_name_emailee'] = name['last_name']
 
-    print("")
-    print(name['first_name'])
-    print(name['last_name'])
-    print("")
     info = db_views.get_friend_requests(data)
     print(info)
     #requests = json.loads(str(info))
@@ -246,8 +270,10 @@ def create_user_view(request):
                 # Data is valid and let's store it in the db
                 user = User.objects.create_user(username=data['email'],
                                                 password=data['pw'])
+                user.is_active = False
                 user.save()
                 db_views.add_student_entry(data)
+                db_views.send_email_to_student(data['email'])
                 # db_views.add_students_to_database(data)
                 return redirect("/login")
             else:

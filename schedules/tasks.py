@@ -132,12 +132,17 @@ def add_classes_to_database_two(self, data):
     year_sem = None
     current_semester = None
 
+    # print(temp_school['year'])
     for y in temp_school['year']:
         if year == y['year_name']:
             year_sem = y
             break
+    # print("*******************")
+    # print(year_sem)
 
     for s in year_sem['semesters']:
+        print("*******************")
+        print(semester +"=="+ s['semester_name'])
         if semester == s['semester_name']:
             current_semester = s
 

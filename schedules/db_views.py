@@ -14,6 +14,30 @@ from django.http import HttpResponse
 from . import tasks
 client = MongoClient()
 import time
+import smtplib
+
+
+def send_email_to_student(email):
+    fromaddr = 'djangoinflames@gmail.com'
+    # toaddrs  = 'maverickx5105@gmail.com'
+    toaddrs  = email
+    msg = 'Welcome to our website! Please wait until you have been approved'
+    sub = 'Welcome to SOCS'
+    message = 'Subject: %s\n\n%s' % (sub, msg)
+
+    # Credentials (if needed)
+    username = 'djangoinflames@gmail.com'
+    password = 'djangoinchains'
+
+    # The actual mail send
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username,password)
+    server.sendmail(fromaddr, toaddrs, message)
+    server.quit()
+
+    # html = "<html><body> string: "+"good JOb"+"</body></html>"
+    # return HttpResponse(html)
 
 
 def get_possible_friends(username, first_name):
@@ -23,22 +47,22 @@ def get_possible_friends(username, first_name):
     return result
 
 # Unfinished
-@login_required(redirect_field_name='/login')
-def add_classes_to_database(request):
+def add_classes_to_database(data):
     # Course ID     Course Name     Instructor  School  Days    Period Start    Period End
-    data= {}
-    data['username']=request.user.username
-    data['course_id'] = 'cse308'
-    data['course_name'] = 'software engineering'
-    data['instructor'] = 'sun'
-    # data['school'] = ''
-    data['days'] = ['tues','thurs']
-    data['start_period']='2'
-    data['end_period']='3'
-    data['year']='2015'
-    data['semester']='fall'
-    data['new_year_flag']=False
-
+    # data= {}
+    # data['username']=request.user.username
+    # data['course_id'] = 'cse308'
+    # data['course_name'] = 'software engineering'
+    # data['instructor'] = 'sun'
+    # # data['school'] = ''
+    # data['days'] = ['tues','thurs']
+    # data['start_period']='2'
+    # data['end_period']='3'
+    # data['year']='2015'
+    # data['semester']='fall'
+    # data['new_year_flag']=False
+    print("hit 1")
+    print(data['year'])
     taskObject_from_task = add_classes_to_database_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"good JOb"+"</body></html>"
@@ -224,8 +248,6 @@ def get_a_person(request):
     taskObject_from_task = get_a_person_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
-    print(result2['first_name'])
-
     html = "<html><body> string: "+"hello"+"</body></html>"
     return result
 
