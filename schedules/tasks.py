@@ -67,6 +67,50 @@ def remove_school(self, data):
     return str(target)
 
 
+@task(bind = True,queue='read_tasks')
+def get_course_offerings_two(self,email,year):
+    db = client.students
+    student_collection = db.students
+    school_collection = db.school_list
+    course_offerings =db.semester_courses_ref
+    course_list = db.course_list
+    # print(email)
+    who_i_am =student_collection.find_one({'email':email})
+    school_i_go_to = who_i_am['school']
+    school_address = who_i_am['address']
+ 
+    my_school =school_collection.find_one({'$and': [{'address': school_address}, {'school': school_i_go_to}]})
+
+    # year is missing
+    output = []
+    for yr in my_school['year']:
+        if yr['year_name']== year:
+            all_semesters = yr['semesters']
+            for als in all_semesters:
+                semester_ref = als['semester_courses_ref']
+                semester_name = als['semester_name']
+                course_ref_list = course_offerings.find_one({'_id':ObjectId(semester_ref)})
+                courses_held = course_ref_list['courses_held']
+                for cor in courses_held
+                    # prepare to trim the stuff we dont need
+                    setup_course = {}
+                    id_of_this_course = str(cor['course_id'])
+                    id_of_this_course = id_of_this_course.split(",",1)
+                    id_of_this_course = id_of_this_course[1]
+                    id_of_this_course = id_of_this_course.split("'",2)
+                    id_of_this_course = id_of_this_course[1]
+                    found_course = course_list.find_one({'_id':ObjectId(id_of_this_course)})
+                    setup_course['course_id'] = found_course['course_id']
+                    setup_course['instructor'] = found_course['instructor']
+                    setup_course['course_name']= found_course['course_name']
+                    setup_course['semester_name']=course_name
+                    output.append(setup_course)
+
+    return output
+
+
+
+
 @task(bind = True, queue='write_tasks')
 def get_normal_schedule_two(self,data):
     db = client.students

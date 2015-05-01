@@ -99,6 +99,21 @@ def get_assigned_schedule(data):
     html = "<html><body> string: "+"success"+"</body></html>"
     return result
 
+def get_course_offerings(request, data):
+    # data= {}
+    # email = data['email']
+    # year = data['year']
+
+    taskObject_from_task = get_course_offerings_two.delay(email,year)
+    result = check_task(taskObject_from_task.task_id)
+
+    # result['course_id']
+    # result['instructor']
+    # result['course_name']
+    # result['semester_name']
+    return result
+
+
 def edit_school_to_database(request):
     address_of_edit = data['address_of_edit']
     name_of_school = data['name']
