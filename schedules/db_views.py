@@ -99,6 +99,23 @@ def get_assigned_schedule(data):
     html = "<html><body> string: "+"success"+"</body></html>"
     return result
 
+
+def remove_a_class_from_assigned_two(request,data, days_array):
+    # Days_array must be the same way it was put in
+    # data['email']
+    # data['course_name']
+    # data['start_period']
+    # data['end_period']
+    # data['course_id']
+    # data['instructor']
+    taskObject_from_task = remove_a_class_from_assigned.delay(data,days_array)
+    result = check_task(taskObject_from_task.task_id)
+    # print(result)
+    # print(" ")
+    # html = "<html><body> string: "+"success"+"</body></html>"
+    # return result
+
+
 def get_course_offerings(request, data):
     # data= {}
     # email = data['email']
