@@ -100,7 +100,7 @@ def get_assigned_schedule(data):
     return result
 
 
-def remove_a_class_from_assigned_two(request,data, days_array):
+def remove_a_class_from_assigned(request,data, days_array):
     # Days_array must be the same way it was put in
     # data['email']
     # data['course_name']
@@ -108,7 +108,7 @@ def remove_a_class_from_assigned_two(request,data, days_array):
     # data['end_period']
     # data['course_id']
     # data['instructor']
-    taskObject_from_task = remove_a_class_from_assigned.delay(data,days_array)
+    taskObject_from_task = remove_a_class_from_assigned_two.delay(data,days_array)
     result = check_task(taskObject_from_task.task_id)
     # print(result)
     # print(" ")
