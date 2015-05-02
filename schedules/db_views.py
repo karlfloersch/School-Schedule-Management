@@ -119,6 +119,24 @@ def remove_a_class_from_assigned(request):
     # html = "<html><body> string: "+"success"+"</body></html>"
     # return result
 
+def delete_a_student_from_database(request):
+  
+    data = {}
+    data['email']='chris@gmail.com'
+    list_of_friends =get_friends_list(data)
+    data_two = {}
+    for fri in list_of_friends:
+        data_two['email'] = data['email']
+        data_two['first_name'] = fri['first_name']
+        data_two['last_name'] = fri['last_name']
+        data_two['friend_email'] = fri['email']
+        delete_friend_from_friends_list(data_two)
+
+    taskObject_from_task = delete_a_student_from_database_two.delay(data['email'])
+
+    html = "<html><body> string: "+"success"+"</body></html>"
+    return HttpResponse(html)
+
 
 def get_course_offerings(request):
     # data= {}

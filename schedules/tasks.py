@@ -311,6 +311,13 @@ def get_friends_list_two(self,data):
     # print(list_of_stuff)
     return list_of_stuff
 
+@task(bind=True, queue='write_tasks')
+def delete_a_student_from_database_two(self,email):
+    db = client.students
+    student_collection = db.students
+    db.students.find_one_and_delete({'email':email})
+
+
 
 @task(bind=True, queue='write_tasks')
 def delete_friend_from_friends_list_two(self,data):
