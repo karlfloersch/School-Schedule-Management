@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     (r'^dashboard/get-assigned-schedule$', views.get_assigned_schedule_ajax), # get the student's assigned schedule
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
-    (r'^sample_db_test/$', db_views.get_a_person), # Testing for DB
+    (r'^sample_db_test/$', db_views.remove_a_class_from_assigned), # Testing for DB
     (r'^ta/$', db_views.test_cel),
     (r'^$', views.redirect_to_login), # Send user to login
 

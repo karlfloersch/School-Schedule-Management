@@ -77,9 +77,10 @@ def remove_a_class_from_assigned_two(self, data,days_array):
     course_id = data['course_id']
     instructor = data['instructor']
 
-    assigned_schedule.find_one_and_update( { 'email': email }, 
+    val =assigned_schedule.find_one_and_update( { 'email': email }, 
         { '$pull': { 'classes': { 'course_name':name,'start_period':start_period,
         'days':days_array,'end_period':end_period,'course_id':course_id,'instructor':instructor } } } )
+    return json_util.dumps(val)
         # "course_name" : "operating systems",
         #     "start_period" : "2",
         #     "days" : [
@@ -118,7 +119,7 @@ def get_course_offerings_two(self,email,year):
                 semester_name = als['semester_name']
                 course_ref_list = course_offerings.find_one({'_id':ObjectId(semester_ref)})
                 courses_held = course_ref_list['courses_held']
-                for cor in courses_held
+                for cor in courses_held:
                     # prepare to trim the stuff we dont need
                     setup_course = {}
                     id_of_this_course = str(cor['course_id'])
@@ -518,6 +519,9 @@ def add_school_to_database_two(self, data):
 
     return
 
+@task(bind = True, queue='write_tasks')
+def copy_and_modify_school_two(self, data):
+    pass
 
 
 @task(bind = True, queue='write_tasks')
