@@ -217,7 +217,7 @@ def add_classes_to_database_two(self, data):
     for s in year_sem['semesters']:
         print("*******************")
         print(semester +"=="+ s['semester_name'])
-        if semester == s['semester_name']:
+        if semester.lower() == s['semester_name'].lower():
             current_semester = s
 
     ref_number = current_semester['semester_courses_ref']
