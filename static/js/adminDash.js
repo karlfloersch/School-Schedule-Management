@@ -54,31 +54,32 @@ function deleteSchool(list) {
 
      $(list).closest('tr').remove();
 }
-// function deleteStudent(list) {
-//     // Add axjax thingy
+function deleteStudent(list) {
+    // Add axjax thingy
 
-//     var schoolName = $(list).closest('tr').find(".school-name").html();
-//     var schoolAddress = $(list).closest('tr').find(".school-address").html();
-//      var getUrl = window.location;
-//      var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-//      var urlSubmit = baseUrl + "/delete-school";
-//      var data = {"school_name": schoolName, "school_address": schoolAddress};
-//      // var data ={
-//      //     "school_info": schoolJSON
-//      // }; 
-//      $.ajax({  
-//          type: "POST",
-//          url: urlSubmit,
-//          dataType: "json",
-//          data      : data,
-//          success: function(response){
-//              console.log("working?");
-//              console.log(response);
-//          }
-//      });
+    var studentName = $(list).closest('tr').find(".student-name").html();
+    var emailAddress = $(list).closest('tr').find(".email-address").html();
+    var studentSchool = $(list).closest('tr').find(".student-school").html();
+     var getUrl = window.location;
+     var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+     var urlSubmit = baseUrl + "/delete-student";
+     var data = {'email': emailAddress};
+     // var data ={
+     //     "school_info": schoolJSON
+     // }; 
+     $.ajax({  
+         type: "POST",
+         url: urlSubmit,
+         dataType: "json",
+         data      : data,
+         success: function(response){
+             console.log("working?");
+             console.log(response);
+         }
+     });
 
-//      $(list).closest('tr').remove();
-// }
+     $(list).closest('tr').remove();
+}
 function acceptStudentRequest(list) {
     // Add axjax thingy
 

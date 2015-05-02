@@ -60,6 +60,16 @@ def delete_school_ajax(request):
     result = db_views.delete_school(data)
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+@login_required(redirect_field_name='/login')
+def delete_student_ajax(request):
+    if 'Administrator' not in request.user.groups.values_list('name', flat=True):
+        return None
+    if not request.method == 'POST':
+        return None
+    data = {"email": request.POST.get('email')}
+    db_views.delete_a_student_from_database(data)
+    username = request.POST.get('student_email', False)
+    return HttpResponse(content_type="application/json")
 
 
 
@@ -76,9 +86,14 @@ def dashboard_view(request):
         data['users'] = userRequests
        
         active_accounts = User.objects.filter(is_active=True)
+        print(active_accounts)
+        print(" ")
         active_users = []
         active_users = db_views.get_people([active_acct.username for active_acct in active_accounts])
+        print(active_users)
+        active_users = filter(None, active_users)
         data['active_users'] = active_users
+        print(active_users)
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 

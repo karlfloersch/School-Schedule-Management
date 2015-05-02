@@ -77,7 +77,7 @@ def remove_a_class_from_assigned_two(self, data,days_array):
     course_id = data['course_id']
     instructor = data['instructor']
     print(data)
-    val =assigned_schedule.find_one_and_update( { 'email': email }, 
+    val = assigned_schedule.find_one_and_update( { 'email': email }, 
         { '$pull': { 'classes': { 'course_name':name,'start_period':start_period,
         'days':days_array,'end_period':end_period,'course_id':course_id,'instructor':instructor } } } )
 

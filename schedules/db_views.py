@@ -109,6 +109,7 @@ def remove_a_class_from_assigned(data):
     # data['end_period']= '3'
     # data['course_id']='cse306'
     # data['instructor']='stark'
+    print(data)
     days_array = data['days_array']
     taskObject_from_task = remove_a_class_from_assigned_two.delay(data,days_array)
     result = check_task(taskObject_from_task.task_id)
@@ -119,19 +120,17 @@ def remove_a_class_from_assigned(data):
     # html = "<html><body> string: "+"success"+"</body></html>"
     # return result
 
-def delete_a_student_from_database(request):
-  
-    data = {}
-    data['email']='chris@gmail.com'
+def delete_a_student_from_database(data):
     list_of_friends =get_friends_list(data)
     data_two = {}
     for fri in list_of_friends:
+        print(fri)
         data_two['email'] = data['email']
         data_two['first_name'] = fri['first_name']
         data_two['last_name'] = fri['last_name']
         data_two['friend_email'] = fri['email']
         delete_friend_from_friends_list(data_two)
-
+    
     taskObject_from_task = delete_a_student_from_database_two.delay(data['email'])
 
     html = "<html><body> string: "+"success"+"</body></html>"

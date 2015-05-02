@@ -50,6 +50,7 @@ function removeAssignedCourse(obj) {
   var info = $(obj).closest('tr').children();
   console.log(info);
   var days = info[3].textContent.split(" ");
+  console.log(days);
       var getUrl = window.location;
        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
        var urlSubmit = baseUrl + "/remove-assigned-course";
@@ -59,7 +60,7 @@ function removeAssignedCourse(obj) {
           'end_period' : info[5].textContent,
           'course_id' : info[0].textContent,
           'instructor' : info[2].textContent,
-          'days_array' : days
+          'days_array' : info[3].textContent
        };
        $.ajax({  
            type: "POST",

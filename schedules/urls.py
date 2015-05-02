@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     (r'^dashboard/get-friends$', views.friend_ajax), # Dash for user and admin
     (r'^dashboard/send-friend-request$', views.send_friend_request_ajax), # Send friend request
     (r'^dashboard/delete-school$', views.delete_school_ajax), #delete school
+    (r'^dashboard/delete-student$', views.delete_student_ajax), #delete a student from database
     (r'^dashboard/get-friends-request$', views.get_friend_requests_ajax), # Populate manage friend request
     (r'^dashboard/get-friend-list$', views.get_friend_ajax), # Populate manage friend
     (r'^dashboard/accept-friend-request$', views.accept_friend_request_ajax), # Accept a friend request   
