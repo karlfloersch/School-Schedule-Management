@@ -46,6 +46,34 @@ function deleteFriend(obj) {
           }
      });
 }
+function removeAssignedCourse(obj) {
+  var info = $(obj).closest('tr').children();
+  console.log(info);
+  var days = info[3].textContent.split(" ");
+      var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/remove-assigned-course";
+       var data ={
+          'course_name' : info[1].textContent,
+          'start_period' : info[4].textContent,
+          'end_period' : info[5].textContent,
+          'course_id' : info[0].textContent,
+          'instructor' : info[2].textContent,
+          'days_array' : days
+       };
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log("working?");
+             console.log(response);
+             $(obj).closest('tr').remove();
+          }
+     });
+}
 function acceptFriendReq(obj){
   var info = $(obj).closest('tr').text();
   var res= info.split(" ");
@@ -317,7 +345,7 @@ function createAssignSche(){
                     <td>' + response[i].end_period + '</td>\
                     <td></td>\
                     <td><input type="button" class="btn" value = "Remove" \
-                      onClick=" "></td></tr>');
+                      onClick="Javacsript:removeAssignedCourse(this)"></td></tr>');
                 }
               }
               table.append('<tr>\

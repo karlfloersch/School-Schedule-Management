@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     (r'^dashboard/add-assigned-class$', views.add_class_to_database_ajax), # add a class to the database
     (r'^dashboard/get-assigned-schedule$', views.get_assigned_schedule_ajax), # get the student's assigned schedule
     (r'^dashboard/get-course-offerings$', views.get_course_offerings_ajax), # get the course offerings of this year
+    (r'^dashboard/remove-assigned-course$', views.remove_assigned_course_ajax), # remove a course from assigned schedule
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
     (r'^sample_db_test/$', db_views.get_course_offerings), # Testing for DB

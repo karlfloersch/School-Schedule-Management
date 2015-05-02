@@ -210,7 +210,7 @@ def add_class_to_database_ajax(request):
     # data['school'] = ''
     day = request.POST.get('days',False)
     day = day.split(" ")
-    data['days'] = request.POST.get('days', False)
+    data['days'] = day
     data['start_period']= request.POST.get('start_period', False)
     data['end_period']= request.POST.get('end_period', False)
     data['year'] = request.POST.get('year', False)
@@ -447,3 +447,18 @@ def get_course_offerings_ajax(request):
     courses = db_views.get_course_offerings(data)
     print(courses)
     return HttpResponse(json.dumps(courses), content_type="application/json")
+
+def remove_assigned_course_ajax(request):
+
+    data = {}
+    data['email']= request.user.username
+    data['course_name']=request.POST.get('course_name', False)
+    data['start_period']= request.POST.get('start_period', False)
+    data['end_period']= request.POST.get('end_period', False)
+    data['course_id']= request.POST.get('course_id', False)
+    data['instructor']= request.POST.get('instructor', False)
+    data['days_array'] = request.POST.get('days_array', False)
+    print(data)
+    db_views.remove_a_class_from_assigned(data)
+    print("it works")
+    return HttpResponse(content_type="application/json")
