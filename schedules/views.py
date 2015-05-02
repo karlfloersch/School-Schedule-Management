@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from . import db_views
 import json
+import time
 
 
 def login_view(request):
@@ -437,3 +438,12 @@ def deny_student_request_ajax(request):
     user = User.objects.filter(username=username)[0]
     user.delete()
     return HttpResponse(content_type="application/json")
+
+def get_course_offerings_ajax(request):
+    data = {}
+    data['email'] = request.user.username
+    data['year'] = time.strftime("%Y")
+    print(data['year'])
+    courses = db_views.get_course_offerings(data)
+    print(courses)
+    return HttpResponse(json.dumps(courses), content_type="application/json")

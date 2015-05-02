@@ -123,7 +123,9 @@ def get_course_offerings_two(self,email,year):
                     # prepare to trim the stuff we dont need
                     setup_course = {}
                     id_of_this_course = str(cor['course_id'])
+                    print(id_of_this_course)
                     found_course = course_list.find_one({'_id':ObjectId(id_of_this_course)})
+                    print(found_course)
                     setup_course['course_id'] = found_course['course_id']
                     setup_course['instructor'] = found_course['instructor']
                     setup_course['course_name']= found_course['course_name']

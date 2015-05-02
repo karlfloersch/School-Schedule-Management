@@ -83,10 +83,52 @@ function displayFriendReq(){
   $("#friendReqList").show();
   $("#friendList").hide();
 }
+function displayCourseOffering(){
+  $("#course_offerings").show();
+  $("#offeringShow").hide();
+  $("#offeringHide").show(); 
+}
+function hideCourseOffering(){
+  $("#course_offerings").hide();
+  $("#offeringShow").show();
+  $("#offeringHide").hide(); 
+}
 function createCourseOfferingList(){
   $("#course_offerings").hide();
+  $("#offeringHide").hide(); 
   $('#course_offerings').append('<table></table>');
   var table = $('#course_offerings').children();
+
+  table.append('<tr><td><b>Course ID</b></td>\
+    <td><b>Course Name</b></td>\
+    <td><b>Instructor</b></td>\
+    <td><b>Semester</b></td></tr>');
+
+  var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-course-offerings";
+        
+        //need to check if information is missing
+       var data ={
+
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log(response);
+             var i;
+            for(i = 0; i < response.length; i++){
+              table.append('<tr><td>' + response[i].course_id +'</td>\
+                <td>' + response[i].course_name + '</td>\
+                <td>' + response[i].instructor + '</td>\
+                <td>' + response[i].semester_name + '</td></tr>');
+            }
+          }
+     });
 }
 function addFriend(){
   // var table = $('#friendList').children();
@@ -532,4 +574,5 @@ $( document ).ready(function() {
   addFriend();
   createFriendList();
   createCourseList();
+  createCourseOfferingList();
 });

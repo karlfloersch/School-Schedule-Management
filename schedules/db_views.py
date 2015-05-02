@@ -138,29 +138,28 @@ def delete_a_student_from_database(request):
     return HttpResponse(html)
 
 
-def get_course_offerings(request):
+def get_course_offerings(data):
     # data= {}
     # email = data['email']
     # year = data['year']
 
 
-    email = "chris@gmail.com"
-    year = "2015"
+    email = data['email']
+    year = data['year']
 
     taskObject_from_task = get_course_offerings_two.delay(email,year)
     result = check_task(taskObject_from_task.task_id)
-    print (result)
-    str_out = ""
-    for a in result:
-        str_out= str_out+"<br />"+a['course_id']+" "+ a['instructor'] +" "+a['course_name']+" "+a['semester_name']
+    # print (result)
+    # str_out = ""
+    # for a in result:
+    #     str_out= str_out+"<br />"+a['course_id']+" "+ a['instructor'] +" "+a['course_name']+" "+a['semester_name']
 
     # result['course_id']
     # result['instructor']
     # result['course_name']
     # result['semester_name']
-    html = "<html><body> string: "+str_out+"</body></html>"
-    return HttpResponse(html)
-
+    # html = "<html><body> string: "+str_out+"</body></html>"
+    return result
 
 def edit_school_to_database(request):
     address_of_edit = data['address_of_edit']
