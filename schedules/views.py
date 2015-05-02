@@ -68,12 +68,16 @@ def dashboard_view(request):
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
         data = {}
         data['schools'] = db_views.get_all_schools()
+        
         users = User.objects.filter(is_active=False)
-
         userRequests = []
         userRequests = db_views.get_people([user.username for user in users])
-
         data['users'] = userRequests
+       
+        active_accounts = User.objects.filter(is_active=True)
+        active_users = []
+        active_users = db_views.get_people([active_acct.username for active_acct in active_accounts])
+        data['active_users'] = active_users
         return render(request, 'admin_dash.html', dictionary=data)
     return render(request, 'student_dash.html')
 
@@ -213,6 +217,34 @@ def add_class_to_database_ajax(request):
     data['new_year_flag']=False
     db_views.add_classes_to_database(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+# def get_course_offering_ajax(request):
+#     # print("test")
+#     data= {}
+#     data['username']=request.user.username
+#     data['course_id'] = request.POST.get('course_id', False)
+#     data['course_name'] = request.POST.get('course_name', False)
+#     data['instructor'] = request.POST.get('instructor', False)
+#     # data['school'] = ''
+#     day = request.POST.get('days',False)
+#     day = day.split(" ")
+#     data['days'] = request.POST.get('days', False)
+#     data['start_period']= request.POST.get('start_period', False)
+#     data['end_period']= request.POST.get('end_period', False)
+#     data['year'] = request.POST.get('year', False)
+#     data['semester'] = request.POST.get('semester', False)
+#     data['new_year_flag']=False
+
+#     # data= {}
+#     # email = data['email']
+#     # year = data['year']
+
+#     data = {}
+#     data['email'] = request.user.username
+    
+
+#     db_views.add_classes_to_database(data)
+#     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def get_assigned_schedule_ajax(request):
     data = {}

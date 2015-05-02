@@ -65,7 +65,7 @@
             <td class="school-name">{{ school.name }}</td>
             <td class="school-address">{{ school.address }}</td>
             <td><button type="button" class="btn edit-btn">Edit</button></td>
-        <td><button type="button" class="btn" onClick="Javacsript:deleteListRow(this)">Delete</button></td>
+        <td><button type="button" class="btn" onClick="Javacsript:deleteSchool(this)">Delete</button></td>
         </tr>
             
         {% endfor %}
@@ -83,6 +83,24 @@
 </table>
 <div id="scroll">
 <div id="manageStudents">
+
+<table>
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Email</b></td>
+            <td><b>School</b></td>
+            <td><b>Delete</b></td>
+        </tr>
+        {%for active_user in active_users%}
+        <tr>
+            <td class="student-name">{{ active_user.first_name }} {{ active_user.last_name }}</td>
+            <td class="email-address">{{ active_user.email }}</td>
+            <td class="student-school">{{ active_user.school }}</td>
+        <td><button type="button" class="btn" onClick="">Delete</button></td>
+        </tr>
+            
+        {% endfor %}
+</table>
 
 </div>
 </div>

@@ -29,12 +29,7 @@ $.ajaxSetup({
 });
 // End CSRF stuff
 
-
-
-
-
-
-function deleteListRow(list) {
+function deleteSchool(list) {
     // Add axjax thingy
 
     var schoolName = $(list).closest('tr').find(".school-name").html();
@@ -59,6 +54,31 @@ function deleteListRow(list) {
 
      $(list).closest('tr').remove();
 }
+// function deleteStudent(list) {
+//     // Add axjax thingy
+
+//     var schoolName = $(list).closest('tr').find(".school-name").html();
+//     var schoolAddress = $(list).closest('tr').find(".school-address").html();
+//      var getUrl = window.location;
+//      var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+//      var urlSubmit = baseUrl + "/delete-school";
+//      var data = {"school_name": schoolName, "school_address": schoolAddress};
+//      // var data ={
+//      //     "school_info": schoolJSON
+//      // }; 
+//      $.ajax({  
+//          type: "POST",
+//          url: urlSubmit,
+//          dataType: "json",
+//          data      : data,
+//          success: function(response){
+//              console.log("working?");
+//              console.log(response);
+//          }
+//      });
+
+//      $(list).closest('tr').remove();
+// }
 function acceptStudentRequest(list) {
     // Add axjax thingy
 
@@ -144,24 +164,24 @@ function createManageSchool() {
 //  }
 }
 function createManageStudent() {  
-  $('#manageStudents').append('<table></table>');
-  var table = $('#manageStudents').children();
+  // $('#manageStudents').append('<table></table>');
+  // var table = $('#manageStudents').children();
   
-  table.append('<tr><td><b>Name</b></td>\
-    <td><b>Email</b></td>\
-    <td><b>School</b></td>\
-    <td><b>Delete</b></td></tr>');
+  // table.append('<tr><td><b>Name</b></td>\
+  //   <td><b>Email</b></td>\
+  //   <td><b>School</b></td>\
+  //   <td><b>Delete</b></td></tr>');
 
-  table.append('<tr><td>Joe Poodle</td>\
-    <td>poodle@gmail.com</td>\
-    <td>MSC</td>\
-    <td><input type="button" class="btn" value = "Delete" \
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
+  // table.append('<tr><td>Joe Poodle</td>\
+  //   <td>poodle@gmail.com</td>\
+  //   <td>MSC</td>\
+  //   <td><input type="button" class="btn" value = "Delete" \
+  //     onClick="Javacsript:deleteListRow(this)"></td></tr>');
 }
 $( document ).ready(function() {
   //createAcctReqList();
   //createManageSchool();
-  createManageStudent();
+  //createManageStudent();
   $(".edit-btn").click(function(){ 
   });
 });
