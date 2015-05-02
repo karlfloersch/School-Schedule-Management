@@ -109,16 +109,13 @@ def remove_a_class_from_assigned(data):
     # data['end_period']= '3'
     # data['course_id']='cse306'
     # data['instructor']='stark'
-    print(data)
+
     days_array = data['days_array']
+    print(days_array)
     taskObject_from_task = remove_a_class_from_assigned_two.delay(data,days_array)
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"success"+"</body></html>"
     return HttpResponse(html)
-    # print(result)
-    # print(" ")
-    # html = "<html><body> string: "+"success"+"</body></html>"
-    # return result
 
 def delete_a_student_from_database(data):
     list_of_friends =get_friends_list(data)

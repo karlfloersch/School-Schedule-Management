@@ -66,6 +66,7 @@ def remove_school(self, data):
     #school_collection.remove(target.id)
     return str(target)
 
+
 @task(bind=True, queue='write_tasks')
 def remove_a_class_from_assigned_two(self, data,days_array):
     db = client.students
@@ -76,24 +77,13 @@ def remove_a_class_from_assigned_two(self, data,days_array):
     end_period = data['end_period']
     course_id = data['course_id']
     instructor = data['instructor']
-    print(data)
-    val = assigned_schedule.find_one_and_update( { 'email': email }, 
-        { '$pull': { 'classes': { 'course_name':name,'start_period':start_period,
-        'days':days_array,'end_period':end_period,'course_id':course_id,'instructor':instructor } } } )
+    val =assigned_schedule.find_one_and_update( {'email': email, 'classes.course_name': name, 'classes.start_period': start_period,
 
+                                                'classes.end_period':end_period,'classes.course_id':course_id,'classes.instructor':instructor},
+                                                {'$pull': { 'classes': { 'course_name': name, 'start_period': start_period,
+
+                                                'end_period':end_period,'course_id':course_id,'instructor':instructor}}})
     return json_util.dumps(val)
-        # "course_name" : "operating systems",
-        #     "start_period" : "2",
-        #     "days" : [
-        #         "tues",
-        #         "thurs"
-        #     ],
-        #     "end_period" : "3",
-        #     "course_id" : "cse306",
-        #     "instructor" : "stark"
-
-
-
 
 
 @task(bind = True,queue='read_tasks')
