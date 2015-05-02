@@ -325,7 +325,9 @@ def create_user_view(request):
                 user.is_active = False
                 user.save()
                 db_views.add_student_entry(data)
-                db_views.send_email_to_student(data['email'])
+                data["message"] = 'Welcome to our website! Please wait until you have been approved'
+                data["message_sub"] = 'Welcome to SOCS'
+                db_views.send_email_to_student(data)
                 # db_views.add_students_to_database(data)
                 return redirect("/login")
             else:
@@ -417,6 +419,11 @@ def accept_student_request_ajax(request):
     username = request.POST.get('student_email', False)
     user = User.objects.filter(username=username)[0]
     user.is_active = True
+    data = {}
+    data["email"] = username
+    data["message"] = 'Your account has been approved'
+    data["message_sub"] = 'Welcome to SOCS'
+    db_views.send_email_to_student(data)
     user.save()
     return HttpResponse(content_type="application/json")
 

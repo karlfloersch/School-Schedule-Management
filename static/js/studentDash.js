@@ -83,6 +83,11 @@ function displayFriendReq(){
   $("#friendReqList").show();
   $("#friendList").hide();
 }
+function createCourseOfferingList(){
+  $("#course_offerings").hide();
+  $('#course_offerings').append('<table></table>');
+  var table = $('#course_offerings').children();
+}
 function addFriend(){
   // var table = $('#friendList').children();
   

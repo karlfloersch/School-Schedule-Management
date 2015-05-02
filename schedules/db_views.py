@@ -17,12 +17,12 @@ import time
 import smtplib
 
 
-def send_email_to_student(email):
+def send_email_to_student(data):
     fromaddr = 'djangoinflames@gmail.com'
     # toaddrs  = 'maverickx5105@gmail.com'
-    toaddrs  = email
-    msg = 'Welcome to our website! Please wait until you have been approved'
-    sub = 'Welcome to SOCS'
+    toaddrs  = data['email']
+    msg = data["message"]
+    sub = data["message_sub"]
     message = 'Subject: %s\n\n%s' % (sub, msg)
 
     # Credentials (if needed)
