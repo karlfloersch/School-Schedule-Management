@@ -120,19 +120,28 @@ def remove_a_class_from_assigned(request):
     # return result
 
 
-def get_course_offerings(request, data):
+def get_course_offerings(request):
     # data= {}
     # email = data['email']
     # year = data['year']
 
+
+    email = "chris@gmail.com"
+    year = "2015"
+
     taskObject_from_task = get_course_offerings_two.delay(email,year)
     result = check_task(taskObject_from_task.task_id)
+    print (result)
+    str_out = ""
+    for a in result:
+        str_out= str_out+"<br />"+a['course_id']+" "+ a['instructor'] +" "+a['course_name']+" "+a['semester_name']
 
     # result['course_id']
     # result['instructor']
     # result['course_name']
     # result['semester_name']
-    return result
+    html = "<html><body> string: "+str_out+"</body></html>"
+    return HttpResponse(html)
 
 
 def edit_school_to_database(request):

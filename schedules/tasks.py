@@ -106,9 +106,9 @@ def get_course_offerings_two(self,email,year):
     who_i_am =student_collection.find_one({'email':email})
     school_i_go_to = who_i_am['school']
     school_address = who_i_am['address']
- 
-    my_school =school_collection.find_one({'$and': [{'address': school_address}, {'school': school_i_go_to}]})
-
+    # print(school_i_go_to)
+    my_school =school_collection.find_one({'$and': [{'address': school_address}, {'name': school_i_go_to}]})
+    
     # year is missing
     output = []
     for yr in my_school['year']:
@@ -123,15 +123,11 @@ def get_course_offerings_two(self,email,year):
                     # prepare to trim the stuff we dont need
                     setup_course = {}
                     id_of_this_course = str(cor['course_id'])
-                    id_of_this_course = id_of_this_course.split(",",1)
-                    id_of_this_course = id_of_this_course[1]
-                    id_of_this_course = id_of_this_course.split("'",2)
-                    id_of_this_course = id_of_this_course[1]
                     found_course = course_list.find_one({'_id':ObjectId(id_of_this_course)})
                     setup_course['course_id'] = found_course['course_id']
                     setup_course['instructor'] = found_course['instructor']
                     setup_course['course_name']= found_course['course_name']
-                    setup_course['semester_name']=course_name
+                    setup_course['semester_name']=semester_name
                     output.append(setup_course)
 
     return output
