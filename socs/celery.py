@@ -69,6 +69,7 @@ CELERY_ROUTES = {
 	'schedules.tasks.get_a_person': {'queue': 'read_tasks'},
 	'schedules.tasks.get_friends_list_two': {'queue': 'read_tasks'},
 	'schedules.tasks.find_school_two': {'queue': 'read_tasks'},
+	'schedules.tasks.get_overlapping_friends_by_specific_course_two': {'queue': 'read_tasks'},
 	}
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
