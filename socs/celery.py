@@ -60,7 +60,7 @@ CELERY_ROUTES = {
 	'schedules.tasks.search_all_students_two': {'queue': 'read_tasks'},
 	'schedules.tasks.search_school_from_database_two': {'queue': 'read_tasks'},
 	'schedules.tasks.edit_school_to_database_two': {'queue': 'write_tasks'},
-	'schedules.tasks.add_school_to_database_two': {'queue': 'write_tasks'},
+	'schedules.tasks.add_school_to_database_two': {'queu:e': 'write_tasks'},
 	'schedules.tasks.accept_friend_request_two': {'queue': 'write_tasks'},
 	'schedules.tasks.deny_friend_request_two': {'queue': 'write_tasks'},
 	'schedules.tasks.get_friend_request_two': {'queue': 'read_tasks'},
@@ -68,6 +68,8 @@ CELERY_ROUTES = {
 	'schedules.tasks.possible_friends': {'queue': 'read_tasks'},
 	'schedules.tasks.get_a_person': {'queue': 'read_tasks'},
 	'schedules.tasks.get_friends_list_two': {'queue': 'read_tasks'},
+	'schedules.tasks.find_school_two': {'queue': 'read_tasks'},
+	'schedules.tasks.get_overlapping_friends_by_specific_course_two': {'queue': 'read_tasks'},
 	}
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

@@ -356,6 +356,25 @@ def find_school(data):
     return result2
 
 
+def get_overlapping_friends_by_specific_course(request):
+    data = {}
+    data['email']='christian@fish.com'
+    data['target']='mutumbo@fish.com'
+    # data['course_name']='operating systems'
+    # data['start_period']= '2'
+    # data['end_period']= '3'
+    # data['course_id']='cse306'
+    # data['instructor']='stark'
+    # days_array = ['tues','thurs']
+    taskObject_from_task = get_overlapping_friends_by_specific_course_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    print(result)
+    html = "<html><body> string: "+str(result)+"</body></html>"
+    return HttpResponse(html)
+
+
+
+
 def add_student_entry(data):
     #html = add_students_to_database.apply_sync
     # html = tasks.mul.apply_async((2,2))

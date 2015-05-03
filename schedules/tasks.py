@@ -44,6 +44,42 @@ def find_school_two(self, data):
     return json_util.dumps(target)
 
 
+@task(bind=True, queue='read_tasks')
+def get_overlapping_friends_by_specific_course_two(self, data):
+    db = client.students
+    assigned_schedule = db.assigned_schedule
+    email = data['email']
+    target = data['target']
+    # name = data['course_name']
+    # start_period = data['start_period']
+    # end_period = data['end_period']
+    # course_id = data['course_id']
+    # instructor = data['instructor']
+    # print(email)
+    assigned_schedule_return =assigned_schedule.find_one({'email':email})
+    assigned_schedule_friends =assigned_schedule.find_one({'email':target})
+        # "classes" : [
+        # {
+        #     "course_name" : "wongs time",
+        #     "start_period" : "1",
+        #     "days" : [
+        #         "tu"
+        #     ],
+        #     "end_period" : "2",
+        #     "course_id" : "cse220",
+        #     "instructor" : "wong"
+        # },
+    return_list=[]
+    class_array = assigned_schedule_return['classes']
+    friends_class_array = assigned_schedule_friends['classes']
+    for classes in class_array:
+        for fclasses in friends_class_array:
+            if  fclasses['course_name']==classes['course_name'] and fclasses['instructor']== classes['instructor'] and fclasses['course_id']==classes['course_id']:
+                return_list.append(fclasses['course_id'])
+
+    return return_list
+
+
 @task(bind=True, queue='write_tasks')
 def add_students_to_database_two(self, data):
     db = client.students
