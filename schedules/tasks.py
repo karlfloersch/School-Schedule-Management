@@ -37,6 +37,7 @@ def find_school_two(self, data):
     student_school = student['school']
     student_school_address = student['address']
     target = school_collection.find_one( { '$and': [ { 'name': student_school }, { 'address': student_school_address } ] })
+    del target['_id']
     return target
 
 
