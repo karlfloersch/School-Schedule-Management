@@ -25,6 +25,21 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
+
+
+
+@task(bind=True, queue='read_tasks')
+def find_school_two(self, data):
+    db = client.students
+    school_collection = db.school_list
+    student_collection = db.students
+    student =student_collection.find_one({'email':data['email']})
+    student_school = student['school']
+    student_school_address = student['address']
+    target = school_collection.find_one( { '$and': [ { 'name': student_school }, { 'address': student_school_address } ] })
+    return target
+
+
 @task(bind=True, queue='write_tasks')
 def add_students_to_database_two(self, data):
     db = client.students

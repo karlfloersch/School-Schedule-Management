@@ -347,6 +347,13 @@ def test_cel(request):
     return result
 
 
+def find_school(data):
+    taskObject_from_task = find_school_two.delay(data)
+    result = check_task_http(taskObject_from_task.task_id)
+    # print(result)
+    return result
+
+
 def add_student_entry(data):
     #html = add_students_to_database.apply_sync
     # html = tasks.mul.apply_async((2,2))

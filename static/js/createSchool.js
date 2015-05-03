@@ -67,7 +67,6 @@ function periodLunchListCheck() {
 function legalBlocksList() {  
   $('#legalBlocks').append('<table></table>');
   var table = $('#legalBlocks').children();
-  
 
   table.append('<tr><td><b>Period Start</b></td>\
     <td><b>Period End</b></td>\
@@ -146,12 +145,14 @@ function validateUserInput() {
   }
   //check for school name
   var schoolName = $('#name').val();
-  if(schoolName = ''){
+  schoolName = schoolName.split(" ")
+  if(schoolName == ''){
     isValid = false;
   }
   //check for school name
   var schoolAddress = $('#address').val();
-  if(schoolAddress = ''){
+  schoolAddress = schoolAddress.split(" ")
+  if(schoolAddress == ''){
     isValid = false;
   }
   //check for Academic Year
@@ -181,6 +182,7 @@ function validateUserInput() {
 };
 $( document ).ready(function() {
   //legalBlocksList();
+  validateUserInput();
   $('#numberOfSem').keyup(function(){
     semesterTable();
     validateUserInput();

@@ -71,9 +71,9 @@ function removeAssignedCourse(obj) {
            // set the autocomplete
              console.log("working?");
              console.log(response);
-             $(obj).closest('tr').remove();
           }
      });
+       $(obj).closest('tr').remove();
 }
 function acceptFriendReq(obj){
   var info = $(obj).closest('tr').text();
@@ -419,6 +419,35 @@ function addAssignCourse(){
 //           }
 //      });
 // }
+function addSemester(){
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/get-school-info";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "JSON",
+           data      : data,
+           success: function(response){
+           // set the autocomplete
+             console.log(response);
+             console.log("this");
+              if(response != null){
+                var numSemester = $(response).find('result');
+                var i;
+                console.log("help");
+                console.log(numSemester);
+                for(i = 0; i < numSemester; i++){
+                  console.log(response['name_of_semeseters'][i]);
+                }
+              }
+            }
+      });
+}
 function createGenSche(){
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
@@ -601,6 +630,7 @@ $( document ).ready(function() {
   addFriendAutoComplete();
   addAutoComplete($("#studentName"), []);
   addFriend();
+  addSemester();
   createFriendList();
   createCourseList();
   createCourseOfferingList();

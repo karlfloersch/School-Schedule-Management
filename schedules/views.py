@@ -48,7 +48,11 @@ def login_view(request):
         return render(request, 'login.html', dictionary=data)
         # Return an 'invalid login' error message.
 
-
+def find_school_ajax(request):
+    data = {}
+    data['email'] = request.user.username
+    result = db_views.find_school(data)
+    return result
 
 @login_required(redirect_field_name='/login')
 def delete_school_ajax(request):
@@ -472,8 +476,8 @@ def remove_assigned_course_ajax(request):
     data['end_period']= request.POST.get('end_period', False)
     data['course_id']= request.POST.get('course_id', False)
     data['instructor']= request.POST.get('instructor', False)
-    data['days_array'] = request.POST.get('days_array', False)
-    print(data)
+    days = request.POST.get('days_array', False)  
+    data['days_array'] = days
     db_views.remove_a_class_from_assigned(data)
     print("it works")
     return HttpResponse(content_type="application/json")
