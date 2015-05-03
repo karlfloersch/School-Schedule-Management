@@ -127,7 +127,7 @@ def delete_a_student_from_database(data):
         data_two['last_name'] = fri['last_name']
         data_two['friend_email'] = fri['email']
         delete_friend_from_friends_list(data_two)
-    
+
     taskObject_from_task = delete_a_student_from_database_two.delay(data['email'])
 
     html = "<html><body> string: "+"success"+"</body></html>"
@@ -221,7 +221,7 @@ def get_all_schools():
     taskObject_from_task = search_school_from_database_two.delay()
     result = check_task(taskObject_from_task.task_id)
     # results['name']
-    # print(str(result))
+    print(str(result))
     result2 = json_util.loads(str(result))
 
     # Front end modify to your hearts content
@@ -348,10 +348,12 @@ def test_cel(request):
 
 
 def find_school(data):
+    print("POODLE")
+    print(data)
     taskObject_from_task = find_school_two.delay(data)
-    result = check_task_http(taskObject_from_task.task_id)
-    # print(result)
-    return result
+    result = check_task(taskObject_from_task.task_id)
+    result2 = json_util.loads(result)
+    return result2
 
 
 def add_student_entry(data):
@@ -470,7 +472,7 @@ def get_friend_requests(data):
         # print("hi")
         # print(result2)
     return result2
-    
+
 
 def delete_friend_from_friends_list(data):
     # data = {}
