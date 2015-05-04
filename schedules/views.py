@@ -228,12 +228,11 @@ def add_class_to_database_ajax(request):
     data['course_id'] = request.POST.get('course_id', False)
     data['course_name'] = request.POST.get('course_name', False)
     data['instructor'] = request.POST.get('instructor', False)
+
     # data['school'] = ''
-    day = request.POST.get('days',False)
-    day = day.split(" ")
-    data['days'] = day
-    data['start_period']= request.POST.get('start_period', False)
-    data['end_period']= request.POST.get('end_period', False)
+    block = request.POST.get('block', False)
+    # TODO: unpack the block to get period start, end, and days
+    print(block)
     data['year'] = request.POST.get('year', False)
     data['semester'] = request.POST.get('semester', False)
     data['new_year_flag']=False

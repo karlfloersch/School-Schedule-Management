@@ -49,18 +49,14 @@ function deleteFriend(obj) {
 function removeAssignedCourse(obj) {
   var info = $(obj).closest('tr').children();
   console.log(info);
-  var days = info[3].textContent.split(" ");
-  console.log(days);
       var getUrl = window.location;
        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
        var urlSubmit = baseUrl + "/remove-assigned-course";
+       // TODO: Add the course start and end times
        var data ={
           'course_name' : info[1].textContent,
-          'start_period' : info[4].textContent,
-          'end_period' : info[5].textContent,
           'course_id' : info[0].textContent,
           'instructor' : info[2].textContent,
-          'days_array' : info[3].textContent
        };
        $.ajax({  
            type: "POST",
@@ -314,9 +310,7 @@ function createAssignSche(){
   table.append('<tr><td><b>Course ID</b></td>\
     <td><b>Course Name</b></td>\
     <td><b>Instructor</b></td>\
-    <td><b>Days</b></td>\
-    <td><b>Period Start</b></td>\
-    <td><b>Period End</b></td>\
+    <td><b>Block</b></td>\
     <td><b>Add</b></td>\
     <td><b>Remove</b></td></tr>');
 
@@ -333,7 +327,7 @@ function createAssignSche(){
            dataType: "json",
            data      : data,
            success: function(response){
-           // set the autocomplete
+           // TODO: Add the block in human readable format
              console.log(response);
              if(response != "null"){
                 var i;
@@ -341,9 +335,7 @@ function createAssignSche(){
                   table.append('<tr><td>' + response[i].course_id + '</td>\
                     <td>' + response[i].course_name + '</td>\
                     <td>' + response[i].instructor + '</td>\
-                    <td>' + response[i].days + '</td>\
-                    <td>' + response[i].start_period + '</td>\
-                    <td>' + response[i].end_period + '</td>\
+                    <td>' + response[i].block + '</td>\
                     <td></td>\
                     <td><input type="button" class="btn" value = "Remove" \
                       onClick="Javacsript:removeAssignedCourse(this)"></td></tr>');
@@ -353,12 +345,11 @@ function createAssignSche(){
                 <td><input type="text" id="courseID"></td>\
                 <td><input type="text" id="courseName"></td>\
                 <td><input type="text" id="instructor"></td>\
-                <td><input type="text" id="days"></td>\
-                <td><input type="text" id="periodStart"></td>\
-                <td><input type="text" id="periodEnd"></td>\
+                <td><select type="text" id="block"></select></td>\
                 <td><input type="button" class="btn" value = "Add"\
                   onClick="Javacsript:addAssignCourse()"></td>\
                 <td></td></tr>');
+              getBlocks('2015');
           }
      });
 }
@@ -376,9 +367,7 @@ function addAssignCourse(){
            'course_id': $('#courseID').val(),
            'course_name' : $('#courseName').val(),
            'instructor' : $('#instructor').val(),
-           'days': $('#days').val(),
-           'start_period' : $('#periodStart').val(),
-           'end_period' : $('#periodEnd').val(),
+           'block': $('#block').val(),
            'year': $('#academicYears').val(),
            'semester' : select
        }; 
@@ -391,6 +380,7 @@ function addAssignCourse(){
            // set the autocomplete
              console.log("working?");
              console.log(response);
+
              createAssignSche();
            }
      });
@@ -419,6 +409,7 @@ function addAssignCourse(){
 //           }
 //      });
 // }
+
 function addSemester(){
   var getUrl = window.location;
   var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
@@ -435,12 +426,51 @@ function addSemester(){
            success: function(response){
              console.log(response);
              selectValues = response.name_of_semesters;
-             $.each(selectValues, function(key, value) {   
+             $.each(selectValues, function(key, value) {
                 $('#semester')
                     .append($("<option></option>")
                     .attr("value",key)
                     .text(value)); 
              });
+            }
+      });
+}
+function getBlocks(year){
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/get-school-info";
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "JSON",
+           data      : data,
+           success: function(response){
+             console.log(response);
+             var years = response.year;
+             var i;
+             for(i = 0; i < years.length; i++){
+                 if(String(year) == years[i].year_name){
+                    $('block').html('');
+                    var blocks = years[i].blocks;
+                    var ii;
+                    for(ii = 0; ii < years[i].blocks.length; ii++){
+                        var block = years[i].blocks[ii];
+                        var block_text = block.start + '-' + block.end + ':'; 
+                        var days = block.days_active;
+                        var iii;
+                        for(iii = 0; iii < block.days_active.length; iii++){
+                            block_text += block.days_active[iii] + ',';
+                        }
+                        block_text = block_text.substring(0, block_text.length - 1);
+                        $('#block').append($("<option></option>")
+                            .attr("value",String(ii))
+                            .text(block_text));
+                    }
+                 }
+             }
             }
       });
 }
