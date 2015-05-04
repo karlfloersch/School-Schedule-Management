@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     (r'^dashboard/remove-assigned-course$', views.remove_assigned_course_ajax), # remove a course from assigned schedule
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
-    (r'^sample_db_test/$', db_views.export_generated), # Testing for DB
+    (r'^sample_db_test/$', db_views.create_desired_sched), # Testing for DB
     (r'^ta/$', db_views.test_cel),
     (r'^$', views.redirect_to_login), # Send user to login
 

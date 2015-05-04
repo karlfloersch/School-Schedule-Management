@@ -400,7 +400,12 @@ def get_overlapping_friends_by_specific_course(request):
     html = "<html><body> string: "+str(result)+"</body></html>"
     return HttpResponse(html)
 
-
+def create_desired_sched(request):
+    data={}
+    taskObject_from_task = create_desired_schedule.delay(data)
+    result = check_task_http(taskObject_from_task.task_id)
+    html = "<html><body> string: "+str(result)+"</body></html>"
+    return HttpResponse(html)
 
 
 def add_student_entry(data):
