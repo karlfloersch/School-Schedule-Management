@@ -52,8 +52,6 @@ def find_school_ajax(request):
     data = {}
     data['email'] = request.user.username
     result = db_views.find_school(data)
-    print("WE ARE THE CHAMPIONS MY FRIENDS")
-    print(result)
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 @login_required(redirect_field_name='/login')
@@ -222,7 +220,6 @@ def send_friend_request_ajax(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 def add_class_to_database_ajax(request):
-    # print("test")
     data= {}
     data['username']=request.user.username
     data['course_id'] = request.POST.get('course_id', False)
@@ -230,12 +227,23 @@ def add_class_to_database_ajax(request):
     data['instructor'] = request.POST.get('instructor', False)
 
     # data['school'] = ''
-    block = request.POST.get('block', False)
-    # TODO: unpack the block to get period start, end, and days
-    print(block)
+    # block = {'days_active': ['M','Tu'], 'end': 3, 'start': 0}
+    # '0-3:M,Tu,W'
+    block_text = request.POST.get('block', False).split(':')
+    periods = block_text[0]
+    days = block_text[1].split(',')
+    start_period = periods.split('-')[0]
+    end_period = periods.split('-')[1]
+    # block = {'days_active': days, 'start': start_period,
+    #          'end': end_period)
+    data['days'] = days
+    data['start_period'] = start_period
+    data['end_period'] = end_period
+
     data['year'] = request.POST.get('year', False)
     data['semester'] = request.POST.get('semester', False)
-    data['new_year_flag']=False
+    data['new_year_flag'] = False
+    print(data)
     db_views.add_classes_to_database(data)
     return HttpResponse(json.dumps(data), content_type="application/json")
 

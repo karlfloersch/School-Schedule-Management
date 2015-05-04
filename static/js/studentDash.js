@@ -349,7 +349,11 @@ function createAssignSche(){
                 <td><input type="button" class="btn" value = "Add"\
                   onClick="Javacsript:addAssignCourse()"></td>\
                 <td></td></tr>');
-              getBlocks('2015');
+                addYear();
+                $('#academicYears').on('click', function() {
+                    getBlocks($('#academicYears').val());
+                });
+
           }
      });
 }
@@ -410,6 +414,32 @@ function addAssignCourse(){
 //      });
 // }
 
+function addYear(){
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/get-school-info";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "JSON",
+           data      : data,
+           success: function(response){
+             console.log(response);
+             selectValues = response.year;
+             $.each(selectValues, function(key, value) {
+                $('#academicYears')
+                    .append($("<option></option>")
+                    .attr("value",value.year_name)
+                    .text(value.year_name)); 
+             });
+            getBlocks($('#academicYears').val());
+            }
+      });
+}
 function addSemester(){
   var getUrl = window.location;
   var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
@@ -429,7 +459,7 @@ function addSemester(){
              $.each(selectValues, function(key, value) {
                 $('#semester')
                     .append($("<option></option>")
-                    .attr("value",key)
+                    .attr("value",value)
                     .text(value)); 
              });
             }
@@ -466,7 +496,7 @@ function getBlocks(year){
                         }
                         block_text = block_text.substring(0, block_text.length - 1);
                         $('#block').append($("<option></option>")
-                            .attr("value",String(ii))
+                            .attr("value",block_text)
                             .text(block_text));
                     }
                  }

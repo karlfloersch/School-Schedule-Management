@@ -376,8 +376,6 @@ def test_cel(request):
 
 
 def find_school(data):
-    print("POODLE")
-    print(data)
     taskObject_from_task = find_school_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     result2 = json_util.loads(result)
