@@ -15,6 +15,8 @@ from . import tasks
 client = MongoClient()
 import time
 import smtplib
+from io import BytesIO
+from reportlab.pdfgen import canvas
 
 
 def send_email_to_student(data):
@@ -540,3 +542,62 @@ def get_friends_list(data):
     result = check_task(taskObject_from_task.task_id)
     html = "<html><body> string: "+"success"+"</body></html>"
     return result
+
+
+def export_generated(request):
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
+
+    buffer = BytesIO()
+
+    # Create the PDF object, using the BytesIO object as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(200, 800, "This is your Ideal schedule")
+    p.drawString(174, 788, "Courtesy of the S.O.C.S. system.")
+
+    data= {}
+    data['email'] = 'chris@gmail.com'
+
+    taskObject_from_task = get_normal_schedule_two.delay(data)
+    result = check_task(taskObject_from_task.task_id)
+    str_out = ""
+    x_coord = 25
+    y_coord = 500
+    blocks = {}
+    for res in result:
+        blocks = res['blocks']
+        # "start_period" : "1",
+        #         "days" : [
+        #             "M",
+        #             "W"
+        #         ],
+        #         "end_period" : "2"
+        start_period = blocks['start_period']
+        end_period = blocks['end_period']
+        days_array = blocks['days']
+        days_out= ""
+        for da in days_array:
+            days_out = days_out +str(da)+ " "
+
+        str_out= "Course Name: " +str(res['course_name'])+" "+"Days Active: " + days_out+" "+ "Course ID: " +str(res['course_id']) 
+        p.drawString(x_coord, y_coord, str_out)
+        y_coord = y_coord - 12
+        str_out = "Instructor: " + str(res['instructor']+" "+"Start Period: "+start_period + " "+ "End Period: "+end_period)
+        p.drawString(x_coord, y_coord, str_out)
+        y_coord = y_coord - 24
+
+
+
+    # Close the PDF object cleanly.
+    p.showPage()
+    p.save()
+
+    # Get the value of the BytesIO buffer and write it to the response.
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response

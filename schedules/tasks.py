@@ -244,14 +244,25 @@ def add_classes_to_database_two(self, data):
     course_offerings =db.semester_courses_ref
     assigned = db.assigned_schedule
 
+    # {'username': 't1@t1.com', 
+    # 'year': '2015', 'course_id': 'CSE 201', 
+    # 'days': ['M', 'Tu', 'W'], 'course_name': 'Comp Sci', 
+    # 'semester': 'Fall', 'new_year_flag': False, 
+    # 'instructor': 'Poodle', 'start_period': '0', 'end_period': '3'}
+
     username= data['username']
     course_id=data['course_id']
     course_name=data['course_name']
     instructor=data['instructor']
     # data['school'] = ''
-    days=data['days'] #= ['','']
-    start_period=data['start_period']
-    end_period=data['end_period']
+    blocks={}
+    blocks['days']=data['days']
+    blocks['start_period']= data['start_period']
+    blocks['end_period']= data['end_period']
+    # days=data['days'] #= ['','']
+    #start_period=data['start_period']
+    #end_period=data['end_period']
+
     year=data['year']
     semester=data['semester']
     myself = students_collection.find_one({'email': username})
@@ -340,9 +351,10 @@ def add_classes_to_database_two(self, data):
     instructor=data['instructor']
     # data['school'] = ''
     days=data['days'] #= ['','']
-    start_period=data['start_period']
-    end_period=data['end_period']
-    set_add = {'course_id':course_id, 'course_name': course_name, 'instructor': instructor,'days':days, 'start_period':start_period,'end_period':end_period}
+    #start_period=data['start_period']
+    #end_period=data['end_period']
+    ##PUT BLOCK INFORMATION HERE
+    set_add = {'course_id':course_id, 'course_name': course_name, 'instructor': instructor,'blocks':blocks}
     assigned.update({'email':username},{'$addToSet':{'classes':set_add}},True)
 
     # .inserted_id
