@@ -481,6 +481,7 @@ function getBlocks(year){
              console.log(response);
              var years = response.year;
              var i;
+             $('#block').empty()
              for(i = 0; i < years.length; i++){
                  if(String(year) == years[i].year_name){
                     $('block').html('');
