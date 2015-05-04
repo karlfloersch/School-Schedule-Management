@@ -157,6 +157,34 @@ def get_course_offerings(data):
     # html = "<html><body> string: "+str_out+"</body></html>"
     return result
 
+
+def get_course_offerings_by_semester(data):
+    # data= {}
+    # email = data['email']
+    # year = data['year']
+
+
+    # email = data['email']
+    # year = data['year']
+    # semester = data['semester']
+    email= 'christian@fish.com'
+    year = '2015'
+    semester = 'fall'
+
+    taskObject_from_task = get_course_offerings_by_semester_two.delay(email,year,semester)
+    result = check_task_http(taskObject_from_task.task_id)
+    # print (result)
+    # str_out = ""
+    # for a in result:
+    #     str_out= str_out+"<br />"+a['course_id']+" "+ a['instructor'] +" "+a['course_name']+" "+a['semester_name']
+
+    # result['course_id']
+    # result['instructor']
+    # result['course_name']
+    # result['semester_name']
+    html = "<html><body> string: "+str(result)+"</body></html>"
+    return HttpResponse(html)
+
 def edit_school_to_database(request):
     address_of_edit = data['address_of_edit']
     name_of_school = data['name']

@@ -65,7 +65,6 @@ CELERY_ROUTES = {
 	'schedules.tasks.deny_friend_request_two': {'queue': 'write_tasks'},
 	'schedules.tasks.get_friend_request_two': {'queue': 'read_tasks'},
 	'schedules.tasks.possible_friends': {'queue': 'read_tasks'},
-	'schedules.tasks.possible_friends': {'queue': 'read_tasks'},
 	'schedules.tasks.get_a_person': {'queue': 'read_tasks'},
 	'schedules.tasks.get_friends_list_two': {'queue': 'read_tasks'},
 	'schedules.tasks.find_school_two': {'queue': 'read_tasks'},
