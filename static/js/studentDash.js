@@ -433,18 +433,14 @@ function addSemester(){
            dataType: "JSON",
            data      : data,
            success: function(response){
-           // set the autocomplete
              console.log(response);
-             console.log("this");
-              if(response != null){
-                var numSemester = $(response).find('result');
-                var i;
-                console.log("help");
-                console.log(numSemester);
-                for(i = 0; i < numSemester; i++){
-                  console.log(response['name_of_semeseters'][i]);
-                }
-              }
+             selectValues = response.name_of_semesters;
+             $.each(selectValues, function(key, value) {   
+                $('#semester')
+                    .append($("<option></option>")
+                    .attr("value",key)
+                    .text(value)); 
+             });
             }
       });
 }

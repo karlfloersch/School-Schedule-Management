@@ -36,9 +36,12 @@ def find_school_two(self, data):
     student =student_collection.find_one({'email':data['email']})
     student_school = student['school']
     student_school_address = student['address']
+    print("PPOOOOOOOOOOOOOOOOOOOOOODLE")
+    print(student_school)
+    print(student_school_address)
     target = school_collection.find_one( { '$and': [ { 'name': student_school }, { 'address': student_school_address } ] })
     del target['_id']
-    return target
+    return json_util.dumps(target)
 
 
 @task(bind=True, queue='read_tasks')
@@ -151,7 +154,7 @@ def get_course_offerings_two(self,email,year):
     school_address = who_i_am['address']
     # print(school_i_go_to)
     my_school =school_collection.find_one({'$and': [{'address': school_address}, {'name': school_i_go_to}]})
-    
+
     # year is missing
     output = []
     for yr in my_school['year']:

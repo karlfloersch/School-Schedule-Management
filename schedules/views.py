@@ -52,7 +52,9 @@ def find_school_ajax(request):
     data = {}
     data['email'] = request.user.username
     result = db_views.find_school(data)
-    return result
+    print("WE ARE THE CHAMPIONS MY FRIENDS")
+    print(result)
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 @login_required(redirect_field_name='/login')
 def delete_school_ajax(request):
@@ -83,12 +85,12 @@ def dashboard_view(request):
     if 'Administrator' in request.user.groups.values_list('name', flat=True):
         data = {}
         data['schools'] = db_views.get_all_schools()
-        
+
         users = User.objects.filter(is_active=False)
         userRequests = []
         userRequests = db_views.get_people([user.username for user in users])
         data['users'] = userRequests
-       
+
         active_accounts = User.objects.filter(is_active=True)
         print(active_accounts)
         print(" ")
@@ -261,7 +263,7 @@ def add_class_to_database_ajax(request):
 
 #     data = {}
 #     data['email'] = request.user.username
-    
+
 
 #     db_views.add_classes_to_database(data)
 #     return HttpResponse(json.dumps(data), content_type="application/json")
@@ -476,7 +478,7 @@ def remove_assigned_course_ajax(request):
     data['end_period']= request.POST.get('end_period', False)
     data['course_id']= request.POST.get('course_id', False)
     data['instructor']= request.POST.get('instructor', False)
-    days = request.POST.get('days_array', False)  
+    days = request.POST.get('days_array', False)
     data['days_array'] = days
     db_views.remove_a_class_from_assigned(data)
     print("it works")
