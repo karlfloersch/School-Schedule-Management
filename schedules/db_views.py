@@ -223,7 +223,8 @@ def add_school_to_db(data):
     days_in_a_year = data['daysInYear']
     number_of_sem = data['semesterInYear']
     address = data['address']
-    num_days_in_a_schedule = data['daysInASchedule']
+    num_days_in_a_schedule = (data['daysInASchedule'])
+    print(num_days_in_a_schedule)
     num_periods_in_a_day = data['periodInDay']
     #dictionary {nameofsemester}
     name_of_semesters=data['semesters']

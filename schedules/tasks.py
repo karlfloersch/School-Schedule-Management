@@ -466,6 +466,7 @@ def get_course_offerings_two(self,email,year):
                     setup_course['course_id'] = found_course['course_id']
                     setup_course['instructor'] = found_course['instructor']
                     setup_course['course_name']= found_course['course_name']
+                    setup_course['blocks'] = found_course['blocks']
                     setup_course['semester_name']=semester_name
                     output.append(setup_course)
 
@@ -621,7 +622,7 @@ def add_classes_to_database_two(self, data):
     # print(ref_number)
 
 
-    course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor}
+    course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor,'blocks':blocks}
     # deference(s['semester_courses_ref'])course_id=data['course_id']
     course_name=data['course_name']
     instructor=data['instructor']
