@@ -389,11 +389,13 @@ function addAssignCourse(){
            data      : data,
            success: function(response){
            // set the autocomplete
-              createGenSche();
+
+             createGenSche();
              createAssignSche();
              createCourseOfferingList();
            }
      });
+     
   }
 }
 // function deleteAssignedCourse(obj) {
@@ -507,8 +509,8 @@ function getBlocks(year){
       });
 }
 function createGenSche(){
-  $('#course_offerings').empty();
-  $('#course_offerings').append('<table></table>');
+    $('#course_offerings').empty();
+    $('#course_offerings').append('<table></table>');
   var table = $('#genSch').children();
 
   table.append('<tr><td><b>Course ID</b></td>\
@@ -530,7 +532,6 @@ function createGenSche(){
            dataType: "json",
            data      : data,
            success: function(response){
-               console.log(response);
            // set the autocomplete
              var i;
             for(i = 0; i < response.length; i++){
@@ -542,7 +543,7 @@ function createGenSche(){
             }
           }
      });
-  $('#genSch').empty();
+    $('#genSch').empty();
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
   
@@ -720,18 +721,180 @@ $( document ).ready(function() {
   createCourseList();
   hideCourseOffering();
   createCourseOfferingList();
-  setupViewSchedule();
+  setupViewSchedule0();
 });
 
-function setupViewSchedule() {
+
+function setupViewSchedule0() {
     $('#view-assigned-schedule').click(function (){
-        $('#schedule-popup').remove();
-        $('#close-schedule-popup').remove();
-        $('body').prepend('<div id="close-schedule-popup"></div> <div id="schedule-popup"> <table style="width:100%"> <tr> <td>Periods</td> <td>M</td> <td>Tu</td> <td>W</td> <td>Th</td> </tr> <tr> <td>Period 1</td> <td>Jackson</td> <td>ijfeiow</td> <td>94</td> <td>iofwejoi</td> </tr> <tr> <td>Period 2</td> <td>Jackson</td> <td>ijfeiow</td> <td>94</td> <td>iofwejoi</td> </tr> <tr> <td>Period 3</td> <td>Jackson</td> <td>ijfeiow</td> <td>iofwejoi</td> <td>94</td> </tr> </table> </div>');
-        $('#close-schedule-popup').click(function(){
-            $('#schedule-popup').remove();
-            $('#close-schedule-popup').remove();
-        });
+        setupViewSchedule1();
     });
+}
+
+function setupViewSchedule1() {
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/get-school-info";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "JSON",
+           data      : data,
+           success: function(response){
+               var years = response.year;
+               var i;
+               for(i = 0; i < years.length; i++){
+                   if($('#academicYears').val().localeCompare(years[i].year_name) == 0){
+                       setupViewSchedule2(years[i].num_periods_in_a_day);
+                   }
+               }
+            }
+      });
+}
+
+function setupViewSchedule2(periods) {
+  var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-assigned-schedule";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+
+$('#schedule-popup').remove();
+$('#close-schedule-popup').remove();
+$('body').prepend('<div id="close-schedule-popup"></div> <div id="schedule-popup"> <table id="schedule" style="width:100%"></table> </div>');
+$('#close-schedule-popup').click(function() {
+    $('#schedule-popup').remove();
+    $('#close-schedule-popup').remove();
+});
+
+// add periods to table
+$('#schedule').append('<tr id="period-days"> <td>Periods</td> </tr>');
+var i = 0;
+for (i = 0; i < periods; i++) {
+    $('#schedule').append('<tr id="period-' + i + '"><td>Periods ' + String(i + 1) + '</td></tr>');
+}
+$('#period-days').append('<td>M</td>');
+$('#period-days').append('<td>Tu</td>');
+$('#period-days').append('<td>W</td>');
+$('#period-days').append('<td>Th</td>');
+$('#period-days').append('<td>F</td>');
+var ii;
+var iii;
+for (ii = 0; ii < 5; ii++) {
+    for (iii = 0; iii < periods; iii++) {
+        console.log('poodle');
+        $('#period-' + iii).append('<td id="' + ii + '-' + iii + '"></td>');
+    }
+}
+
+
+
+console.log(response);
+
+
+
+// TODO: Add the block in human readable format
+if (response != "null") {
+    var t;
+    var j;
+    var block_start;
+    var block_end;
+    var block_days = "";
+    var block;
+    var schedule = {
+        'M': [],
+        'Tu': [],
+        'W': [],
+        'Th': [],
+        'F': []
+    };
+    var table = $('#schedule');
+    for (t = 0; t < response.length; t++) {
+        block_start = response[t].blocks.start_period;
+        block_end = response[t].blocks.end_period;
+        var p = []
+        for (j = block_start; j <= block_end; j++) {
+            p.push(j);
+        }
+        for (j = 0; j < response[t].blocks.days.length; j++) {
+            schedule[response[t].blocks.days[j]].push({
+                'periods': p,
+                'class': response[t].course_name
+            });
+        }
+
+        console.log(schedule);
+        if (schedule['M'].length > 0) {
+            var i;
+            for (i = 0; i < schedule.M.length; i++) {
+                for (j = 0; j < schedule.M[i].periods.length; j++) {
+                    console.log(schedule['M'][i].periods[j]);
+                    $('#0-' + schedule['M'][i].periods[j]).append(schedule['M'][i].class);
+                }
+            }
+        }
+        if (schedule['Tu'].length > 0) {
+            var i;
+            for (i = 0; i < schedule.Tu.length; i++) {
+                for (j = 0; j < schedule.Tu[i].periods.length; j++) {
+                    $('#1-' + schedule['Tu'][i].periods[j]).append(schedule['Tu'][i].class);
+                }
+            }
+        }
+        if (schedule['W'].length > 0) {
+            var i;
+            for (i = 0; i < schedule.W.length; i++) {
+                for (j = 0; j < schedule.W[i].periods.length; j++) {
+                    $('#2-' + schedule['W'][i].periods[j]).append(schedule['W'][i].class);
+                }
+            }
+        }
+        if (schedule['Th'].length > 0) {
+            var i;
+            for (i = 0; i < schedule.Th.length; i++) {
+                for (j = 0; j < schedule.Th[i].periods.length; j++) {
+                    $('#3-' + schedule['Th'][i].periods[j]).append(schedule['Th'][i].class);
+                }
+            }
+        }
+        if (schedule['F'].length > 0) {
+            var i;
+            for (i = 0; i < schedule.F.length; i++) {
+                for (j = 0; j < schedule.F[i].periods.length; j++) {
+                    $('#4-' + schedule['F'][i].periods[j]).append(schedule['F'][i].class);
+                }
+            }
+        }
+
+    }
+}
+//      table.append('<tr>\
+//        <td><input type="text" id="courseID"></td>\
+//        <td><input type="text" id="courseName"></td>\
+//        <td><input type="text" id="instructor"></td>\
+//        <td><select type="text" id="block"></select></td>\
+//        <td><input type="button" class="btn" value = "Add"\
+//          onClick="Javacsript:addAssignCourse()"></td>\
+//        <td></td></tr>');
+//        addYear();
+//        $('#academicYears').on('click', function() {
+//            getBlocks($('#academicYears').val());
+//        });
+
+}
+
+     });
 
 }
