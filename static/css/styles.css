@@ -12,7 +12,7 @@
 #schedule-popup td {
     width:90px;
 }
-#close-schedule-popup {
+#toggle-schedule-popup {
     height: 50px;
     width: 50px;
     background-color: #999;
@@ -20,7 +20,19 @@
     margin: auto;
     width: 50px;
     position: fixed;
+    cursor: pointer;
     left: 950px;
+}
+#close-schedule-popup {
+    height: 50px;
+    width: 50px;
+    background-color: #666;
+    z-index: 6;
+    margin: auto;
+    width: 50px;
+    cursor: pointer;
+    position: fixed;
+    left: 1000px;
 }
 
 .floatRight {

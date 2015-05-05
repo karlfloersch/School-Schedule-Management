@@ -226,14 +226,17 @@ def get_overlapping_friends_by_specific_course_two(self, data):
         #     "course_id" : "cse220",
         #     "instructor" : "wong"
         # },
-    return_list=[]
+    return_list={}
+    course_list=[]
     class_array = assigned_schedule_return['classes']
     friends_class_array = assigned_schedule_friends['classes']
+    return_list['friend']=target
+
     for classes in class_array:
         for fclasses in friends_class_array:
             if  fclasses['course_name']==classes['course_name'] and fclasses['instructor']== classes['instructor'] and fclasses['course_id']==classes['course_id']:
-                return_list.append(fclasses['course_id'])
-
+                course_list.append(fclasses['course_id'])
+    return_list['courses']=course_list
     return return_list
 
 
@@ -486,7 +489,7 @@ def get_course_offerings_by_semester_two(self,email,year,semester):
     school_address = who_i_am['address']
     # print(school_i_go_to)
     my_school =school_collection.find_one({'$and': [{'address': school_address}, {'name': school_i_go_to}]})
-    
+
     # year is missing
     output = []
     for yr in my_school['year']:
@@ -538,10 +541,10 @@ def add_classes_to_database_two(self, data):
     course_offerings =db.semester_courses_ref
     assigned = db.assigned_schedule
 
-    # {'username': 't1@t1.com', 
-    # 'year': '2015', 'course_id': 'CSE 201', 
-    # 'days': ['M', 'Tu', 'W'], 'course_name': 'Comp Sci', 
-    # 'semester': 'Fall', 'new_year_flag': False, 
+    # {'username': 't1@t1.com',
+    # 'year': '2015', 'course_id': 'CSE 201',
+    # 'days': ['M', 'Tu', 'W'], 'course_name': 'Comp Sci',
+    # 'semester': 'Fall', 'new_year_flag': False,
     # 'instructor': 'Poodle', 'start_period': '0', 'end_period': '3'}
 
     username= data['username']

@@ -773,10 +773,15 @@ function setupViewSchedule2(periods) {
 
 $('#schedule-popup').remove();
 $('#close-schedule-popup').remove();
-$('body').prepend('<div id="close-schedule-popup"></div> <div id="schedule-popup"> <table id="schedule" style="width:100%"></table> </div>');
+$('#toggle-schedule-popup').remove();
+$('body').prepend('<div id="close-schedule-popup"></div><div id="toggle-schedule-popup"></div> <div id="schedule-popup"> <table id="schedule" style="width:100%"></table> </div>');
 $('#close-schedule-popup').click(function() {
     $('#schedule-popup').remove();
     $('#close-schedule-popup').remove();
+    $('#toggle-schedule-popup').remove();
+});
+$('#toggle-schedule-popup').click(function() {
+    $('.friends-courses').toggle();
 });
 
 // add periods to table
@@ -812,6 +817,8 @@ if (response != "null") {
     var block_end;
     var block_days = "";
     var block;
+    var table = $('#schedule');
+    for (t = 0; t < response.length; t++) {
     var schedule = {
         'M': [],
         'Tu': [],
@@ -819,26 +826,26 @@ if (response != "null") {
         'Th': [],
         'F': []
     };
-    var table = $('#schedule');
-    for (t = 0; t < response.length; t++) {
         block_start = response[t].blocks.start_period;
         block_end = response[t].blocks.end_period;
         var p = []
         for (j = block_start; j <= block_end; j++) {
-            p.push(j);
+            p.push(j-1);
         }
         for (j = 0; j < response[t].blocks.days.length; j++) {
             schedule[response[t].blocks.days[j]].push({
                 'periods': p,
-                'class': response[t].course_name
+                'class': response[t].course_id
             });
         }
+        console.log(response[t]);
 
         if (schedule['M'].length > 0) {
             var i;
             for (i = 0; i < schedule.M.length; i++) {
                 for (j = 0; j < schedule.M[i].periods.length; j++) {
                     $('#0-' + schedule['M'][i].periods[j]).append(schedule['M'][i].class);
+                    $('#0-' + schedule['M'][i].periods[j]).addClass(schedule['M'][i].class);
                 }
             }
         }
@@ -847,6 +854,7 @@ if (response != "null") {
             for (i = 0; i < schedule.Tu.length; i++) {
                 for (j = 0; j < schedule.Tu[i].periods.length; j++) {
                     $('#1-' + schedule['Tu'][i].periods[j]).append(schedule['Tu'][i].class);
+                    $('#1-' + schedule['Tu'][i].periods[j]).addClass(schedule['Tu'][i].class);
                 }
             }
         }
@@ -855,6 +863,7 @@ if (response != "null") {
             for (i = 0; i < schedule.W.length; i++) {
                 for (j = 0; j < schedule.W[i].periods.length; j++) {
                     $('#2-' + schedule['W'][i].periods[j]).append(schedule['W'][i].class);
+                    $('#2-' + schedule['W'][i].periods[j]).addClass(schedule['W'][i].class);
                 }
             }
         }
@@ -863,6 +872,7 @@ if (response != "null") {
             for (i = 0; i < schedule.Th.length; i++) {
                 for (j = 0; j < schedule.Th[i].periods.length; j++) {
                     $('#3-' + schedule['Th'][i].periods[j]).append(schedule['Th'][i].class);
+                    $('#3-' + schedule['Th'][i].periods[j]).addClass(schedule['Th'][i].class);
                 }
             }
         }
@@ -871,6 +881,7 @@ if (response != "null") {
             for (i = 0; i < schedule.F.length; i++) {
                 for (j = 0; j < schedule.F[i].periods.length; j++) {
                     $('#4-' + schedule['F'][i].periods[j]).append(schedule['F'][i].class);
+                    $('#4-' + schedule['F'][i].periods[j]).addClass(schedule['F'][i].class);
                 }
             }
         }
@@ -903,7 +914,10 @@ function addFriendOverlay(){
                var friends = response.courses;
                var i;
                for(i = 0; i < friends.length; i++){
-                   console.log(friends[i]);
+                   var j;
+                   for(j = 0; j < friends[i].courses.length; j++){
+                       $('.' + friends[i].courses[j]).append('<br><span class="friends-courses">'+friends[i].friend + '</span>');
+                   }
                }
             }
       });
