@@ -53,9 +53,13 @@
 <div id="lunSch"></div>
 
 <p class="floatRight">
+<form id ="exportButton" method="post" action="../sample_db_test/">
+    {% csrf_token %}
+
+<button type="submit" id="export" class="btn">Export</button>
+</form>
 <span id="genButtons">
-<button type="export" class="btn">Export</button>
-<button type="generate" class="btn">Generate</button>
+<button type="button" id="generate" class="btn">Generate</button>
 </span>
 <span id="assignButtons">
 <button id="view-assigned-schedule" type="view_assigned" class="btn">View Assigned Schedule</button>

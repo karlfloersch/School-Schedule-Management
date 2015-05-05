@@ -2,9 +2,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.http import JsonResponse
 from celery.result import AsyncResult
 import pymongo
 import json
+import json as simplejson
 from bson import json_util,ObjectId
 from schedules.tasks import *
 from celery import Celery
@@ -18,12 +20,12 @@ import smtplib
 from io import BytesIO
 from reportlab.pdfgen import canvas
 
-def create_desired_sched(request):
-    data={}
-    taskObject_from_task = create_desired_schedule.delay(data)
-    result = check_task_http(taskObject_from_task.task_id)
-    html = "<html><body> string: "+str(result)+"</body></html>"
-    return HttpResponse(html)
+# def create_desired_sched(request):
+#     data={}
+#     taskObject_from_task = create_desired_schedule.delay(data)
+#     result = check_task_http(taskObject_from_task.task_id)
+#     html = "<html><body> string: "+str(result)+"</body></html>"
+#     return HttpResponse(html)
 
 
 def send_email_to_student(data):
@@ -407,12 +409,12 @@ def get_overlapping_friends_by_specific_course(email, friend_email):
     print(result)
     return result
 
-def create_desired_sched(request):
-    data={}
-    taskObject_from_task = create_desired_schedule.delay(data)
+def create_desired_sched(email, request):
+    data = json.loads(data)
+    taskObject_from_task = create_desired_schedule.delay(email, data)
     result = check_task_http(taskObject_from_task.task_id)
     html = "<html><body> string: "+str(result)+"</body></html>"
-    return HttpResponse(html)
+    return result
 
 
 def add_student_entry(data):
@@ -572,14 +574,14 @@ def export_generated(request):
     p.drawString(174, 788, "Courtesy of the S.O.C.S. system.")
 
     data= {}
-    data['email'] = 'chris@gmail.com'
-
+    data['email'] = request.user.username
     taskObject_from_task = get_normal_schedule_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     str_out = ""
     x_coord = 25
     y_coord = 500
     blocks = {}
+    print(result)
     for res in result:
         blocks = res['blocks']
         # "start_period" : "1",
@@ -595,7 +597,7 @@ def export_generated(request):
         for da in days_array:
             days_out = days_out +str(da)+ " "
 
-        str_out= "Course Name: " +str(res['course_name'])+" "+"Days Active: " + days_out+" "+ "Course ID: " +str(res['course_id'])
+        str_out= "Course Name: " +str(res['course_name'])+" "+"Days Active: " + days_out+" "+ "Course ID: " +str(res['course_id']) 
         p.drawString(x_coord, y_coord, str_out)
         y_coord = y_coord - 12
         str_out = "Instructor: " + str(res['instructor']+" "+"Start Period: "+start_period + " "+ "End Period: "+end_period)

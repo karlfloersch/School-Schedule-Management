@@ -23,9 +23,11 @@ urlpatterns = patterns('',
     (r'^dashboard/get-assigned-schedule$', views.get_assigned_schedule_ajax), # get the student's assigned schedule
     (r'^dashboard/get-course-offerings$', views.get_course_offerings_ajax), # get the course offerings of this year
     (r'^dashboard/remove-assigned-course$', views.remove_assigned_course_ajax), # remove a course from assigned schedule
+    (r'^dashboard/export-course-schedule$', views.export_generated_ajax), # export course schedule to student
+    (r'^dashboard/generate-course-schedule$', views.create_desired_schedule_ajax), # generate the course schedule
     (r'^create_school/$', views.create_school_view), # Create school for admin
     (r'^create_user/$', views.create_user_view), # New user request page
-    (r'^sample_db_test/$', db_views.create_desired_sched), # Testing for DB
+    (r'^sample_db_test/$', db_views.export_generated), # Testing for DB
     (r'^ta/$', db_views.test_cel),
     (r'^$', views.redirect_to_login), # Send user to login
 

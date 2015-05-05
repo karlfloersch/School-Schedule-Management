@@ -16,6 +16,9 @@ mongod
 
 //To run locally
 Open web browser to 127.0.0.1:8000
+
+//To run on a django server ssl version using the 9000 port
+python manage.py runsslserver --addrport 127.0.0.1:9000
 --------------------------------------------------------------------------------------------
 --                                        MONGOD                                          --
 --------------------------------------------------------------------------------------------

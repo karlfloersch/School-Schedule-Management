@@ -17,4 +17,3 @@ six==1.9.0
 tornado==4.1
 zope.interface==4.1.2
 reportlab
-django-sslserver

@@ -1,3 +1,21 @@
+   function exportGeneratedSchedule(){
+  // var getUrl = window.location;
+  // var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  // var urlSubmit = baseUrl + "/export-course-schedule";
+  // var data ={
+
+  // };
+  // $.ajax({  
+  //   type: "POST",
+  //   url: urlSubmit,
+  //   dataType: "json",
+  //   data      : data,
+  //   success: function(response){
+
+  //     }
+  // });
+  
+}
 function deleteFriendRequest(obj) {
   var info = $(obj).closest('tr').text();
   var res= info.split(" ");
@@ -296,6 +314,7 @@ function createCourseList() {
     $("#genSch").hide();
     $("#lunSch").hide();
     $("#genButtons").hide();
+    $("#exportButton").hide();
 }
 function createAssignSche(){
   $('#assignSch').empty();
@@ -509,14 +528,14 @@ function getBlocks(year){
       });
 }
 function createGenSche(){
-    $('#course_offerings').empty();
-    $('#course_offerings').append('<table></table>');
+  $('#course_offerings').empty();
+  $('#course_offerings').append('<table></table>');
   var table = $('#genSch').children();
 
-  table.append('<tr><td><b>Course ID</b></td>\
-    <td><b>Course Name</b></td>\
-    <td><b>Instructor</b></td>\
-    <td><b>Semester</b></td></tr>');
+  // table.append('<tr><td><b>Course ID</b></td>\
+  //   <td><b>Course Name</b></td>\
+  //   <td><b>Instructor</b></td>\
+  //   <td><b>Semester</b></td></tr>');
 
   var getUrl = window.location;
        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
@@ -532,24 +551,40 @@ function createGenSche(){
            dataType: "json",
            data      : data,
            success: function(response){
+               console.log(response);
            // set the autocomplete
              var i;
+                var j;
+                var block_start;
+                var block_end;
+                var block_days = "";
+                var block;
             for(i = 0; i < response.length; i++){
+               block_days = "";
+                  block_start = response[i].blocks.start_period;
+                  block_end = response[i].blocks.end_period;
+                  for(j = 0; j < response[i].blocks.days.length; j++){
+                    block_days += response[i].blocks.days[j];
+                    block_days += ","
+                  }
+                  block_days = block_days.slice(0, -1);
               table.append('<tr><td>' + response[i].course_id +'</td>\
                 <td>' + response[i].course_name + '</td>\
-                <td>' + response[i].instructor + '</td>\
+                <td>' + response[i].instructor + '<input type="checkbox" class="preferred"/>' + '</td>\
+                <td>' + block_start + "-" + block_end + ":" + block_days + '</td>\
                 <td>' + response[i].semester_name + '</td>\
-                <td><input type="checkbox" name="include" value="' + '"></td></tr>');
+                <td><input type="checkbox" class="include"' + '"></td></tr>');
             }
           }
      });
-    $('#genSch').empty();
+  $('#genSch').empty();
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
   
   table.append('<tr><td><b>Course</b></td>\
-    <td><b>Section To Exclude(optional)</b></td>\
+    <td><b>Course Name</b></td>\
     <td><b>Instructor(optional)</b></td>\
+    <td><b>Block Schedule</b></td>\
     <td><b>Semester</b></td>\
     <td><b>Include</b></td></tr>');
 }
@@ -635,6 +670,7 @@ function displayGen(){
   $("#assignButtons").hide();
   $("#genSch").show();
   $("#genButtons").show();
+  $("#exportButton").show();
   $("#lunSch").show();
   
   // Add autocomplete for generated schedule
@@ -671,6 +707,7 @@ function displayAssign(){
   $("#assignButtons").show();
   $("#genSch").hide();
   $("#genButtons").hide();
+  $("#exportButton").hide();
   $("#lunSch").hide();
 }
 function addAutoComplete(element, values) {  
@@ -713,7 +750,7 @@ function addFriendAutoComplete() {
 }
 $( document ).ready(function() {
     // add auto complete to our text boxes
-  addFriendAutoComplete();
+   addFriendAutoComplete();
   addAutoComplete($("#studentName"), []);
   addFriend();
   addSemester();
@@ -722,7 +759,14 @@ $( document ).ready(function() {
   hideCourseOffering();
   createCourseOfferingList();
   setupViewSchedule0();
+  $("#export").click(function(){ 
+    exportGeneratedSchedule();
+  });
+  $("#generate").click(function(){ 
+    generateDesiredSchedule();
+  });
 });
+
 
 
 function setupViewSchedule0() {
@@ -922,3 +966,81 @@ function addFriendOverlay(){
             }
       });
 }
+function generateDesiredSchedule() {
+   // 'course_id' : "cse220",
+   //          'blocks' : {
+   //              'start_period' : "1",
+   //              'days' : [
+   //                  "M",
+   //                  "W"
+   //              ],
+   //              'end_period' : "2"
+   //          },
+   //          'instructor' : "wong",
+   //          'course_name' : "systems",
+   //          'preferred': False
+     data = [];
+     var course_id;
+     var course_name;
+     var instructor;
+     var preferred;
+     var block;
+
+     var periods;
+     var days;
+     var start_period;
+     var end_period;
+     var include;
+      var table = $('#genSch').children().children();
+      table.find('tr').each(function (i, row) {
+        if(i!=0){
+            var $tds = $(this).find('td'),
+            course_id = $tds.eq(0).text(),
+            course_name = $tds.eq(1).text(),
+            instructor = $tds.eq(2).text(),
+
+            block = $tds.eq(3).text();
+            
+            block = block.split(":");
+            periods = block[0];
+            days = block[1].split(',');
+            start_period = periods.split('-')[0];
+            end_period = periods.split('-')[1];
+
+            if($(row).find('input.preferred[type="checkbox"]').is(':checked')){
+              preferred = true;
+            }
+            else{
+              preferred = false;
+            }
+            
+            if($(row).find('input.include[type="checkbox"]').is(':checked')){
+              include = true;
+            }
+            else{
+              include = false;
+            }
+            if(include){
+              data.push({'course_id':course_id, 'blocks':{'start_period':start_period,
+              'end_period': end_period, 'days': days}, 'instructor': instructor,
+              'course_name': course_name, 'preferred': preferred});
+            }
+          }
+        });
+      console.log(data)
+      var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/generate-course-schedule";
+       var data ={
+          'data[]' : JSON.stringify(data)
+       };
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+            console.log(response);
+          }
+     });
+     }

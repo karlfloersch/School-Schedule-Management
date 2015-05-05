@@ -502,3 +502,17 @@ def remove_assigned_course_ajax(request):
     db_views.remove_a_class_from_assigned(data)
     print("it works")
     return HttpResponse(content_type="application/json")
+    
+def export_generated_ajax(request):
+    db_views.export_generated(request)
+    return HttpResponse(content_type="application/json")
+
+def create_desired_schedule_ajax(request):
+    data = []
+    data = request.POST.get('data[]',False)
+    print(data)
+    email = request.user.username
+    schedule = db_views.create_desired_sched(email, data)
+    print(schedule)
+    return schedule
+    # return HttpResponse(json.dumps(schedule), content_type="application/json")
