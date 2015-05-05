@@ -15,8 +15,6 @@ function deleteFriendRequest(obj) {
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
              $(obj).closest('tr').remove();
           }
      });
@@ -40,15 +38,12 @@ function deleteFriend(obj) {
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
              $(obj).closest('tr').remove();
           }
      });
 }
 function removeAssignedCourse(obj) {
   var info = $(obj).closest('tr').children();
-  console.log(info);
       var getUrl = window.location;
        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
        var urlSubmit = baseUrl + "/remove-assigned-course";
@@ -65,8 +60,6 @@ function removeAssignedCourse(obj) {
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
           }
      });
        $(obj).closest('tr').remove();
@@ -88,8 +81,6 @@ function acceptFriendReq(obj){
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
              $(obj).closest('tr').remove();
              populFriend();
           }
@@ -144,7 +135,6 @@ function createCourseOfferingList(){
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log(response);
              var i;
             for(i = 0; i < response.length; i++){
               table.append('<tr><td>' + response[i].course_id +'</td>\
@@ -183,7 +173,6 @@ function addFriend(){
        var requestInfo = textValue.split(/ - | /);
         var i;
         for(i = 0; i < requestInfo.length; i++){
-          console.log(requestInfo[i]);
         }
         //need to check if information is missing
        var data ={
@@ -199,8 +188,6 @@ function addFriend(){
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
              populFriendReq();
           }
      });
@@ -237,7 +224,6 @@ var getUrl = window.location;
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log(response);
              var i;
             for(i = 0; i < response.length; i++){
               table.append('<tr><td>' + response[i].first_name + " " + response[i].last_name + '</td>\
@@ -280,8 +266,6 @@ var getUrl = window.location;
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log(response);
-             console.log(response.length)
             var i;
             for(i = 0; i < response.length; i++){
               table.append('<tr><td>' + response[i].first_name_of_requester + " " + response[i].last_name_of_requester + '</td>\
@@ -328,7 +312,6 @@ function createAssignSche(){
            data      : data,
            success: function(response){
            // TODO: Add the block in human readable format
-             console.log(response);
              if(response != "null"){
                 var i;
                 for(i = 0; i < response.length; i++){
@@ -382,8 +365,6 @@ function addAssignCourse(){
            data      : data,
            success: function(response){
            // set the autocomplete
-             console.log("working?");
-             console.log(response);
 
              createAssignSche();
            }
@@ -407,8 +388,6 @@ function addAssignCourse(){
 //            data      : data,
 //            success: function(response){
 //            // set the autocomplete
-//              console.log("working?");
-//              console.log(response);
 //              $(obj).closest('tr').remove();
 //           }
 //      });
@@ -428,7 +407,6 @@ function addYear(){
            dataType: "JSON",
            data      : data,
            success: function(response){
-             console.log(response);
              selectValues = response.year;
              $.each(selectValues, function(key, value) {
                 $('#academicYears')
@@ -454,7 +432,6 @@ function addSemester(){
            dataType: "JSON",
            data      : data,
            success: function(response){
-             console.log(response);
              selectValues = response.name_of_semesters;
              $.each(selectValues, function(key, value) {
                 $('#semester')
@@ -478,7 +455,6 @@ function getBlocks(year){
            dataType: "JSON",
            data      : data,
            success: function(response){
-             console.log(response);
              var years = response.year;
              var i;
              $('#block').empty()
@@ -506,47 +482,76 @@ function getBlocks(year){
       });
 }
 function createGenSche(){
+  $('#course_offerings').append('<table></table>');
+  var table = $('#genSch').children();
+
+  table.append('<tr><td><b>Course ID</b></td>\
+    <td><b>Course Name</b></td>\
+    <td><b>Instructor</b></td>\
+    <td><b>Semester</b></td></tr>');
+
+  var getUrl = window.location;
+       var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+       var urlSubmit = baseUrl + "/get-course-offerings";
+        
+        //need to check if information is missing
+       var data ={
+
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "json",
+           data      : data,
+           success: function(response){
+               console.log(response);
+           // set the autocomplete
+             var i;
+            for(i = 0; i < response.length; i++){
+              table.append('<tr><td>' + response[i].course_id +'</td>\
+                <td>' + response[i].course_name + '</td>\
+                <td>' + response[i].instructor + '</td>\
+                <td>' + response[i].semester_name + '</td>\
+                <td><input type="checkbox" name="include" value="' + '"></td></tr>');
+            }
+          }
+     });
+
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
   
   table.append('<tr><td><b>Course</b></td>\
     <td><b>Section To Exclude(optional)</b></td>\
     <td><b>Instructor(optional)</b></td>\
-    <td><b>Add</b></td>\
-    <td><b>Remove</b></td></tr>');
-
-  table.append('<tr>\
-    <td><input type="text" id="course"></td>\
-    <td><input type="text" id="sections"></td>\
-    <td><input type="text" id="professor"></td>\
-    <td><input type="button" class="btn" value = "Add"\
-      onClick="Javacsript:addGenCourse()"></td>\
-    <td></td></tr>');
+    <td><b>Semester</b></td>\
+    <td><b>Include</b></td></tr>');
+}
+function getBlockText(year_info){
 }
 function addGenCourse(){
-  var courseName = $('#course').val();
-  var sectEx = $('#sections').val();
-  var instr = $('#professor').val();
-  var table = $('#genSch').children();
-
-  if(courseName != ""){
-    $("#genSch tr:last").remove();
-    table.append('<tr>\
-    <td>'+ courseName +'</td>\
-    <td>'+ sectEx +'</td>\
-    <td>'+ instr +'</td>\
-    <td></td>\
-    <td><input type="button" class="btn" value = "Delete"\
-      onClick="Javacsript:deleteListRow(this)"></td></tr>');
-
-    table.append('<tr>\
-    <td><input type="text" id="course"></td>\
-    <td><input type="text" id="sections"></td>\
-    <td><input type="text" id="professor"></td>\
-    <td><input type="button" class="btn" value = "Add"\
-      onClick="Javacsript:addGenCourse()"></td>\
-    <td></td></tr>');
-  }
+//  var courseName = $('#course').val();
+//  var sectEx = $('#sections').val();
+//  var instr = $('#professor').val();
+//  var table = $('#genSch').children();
+//
+//  if(courseName != ""){
+//    $("#genSch tr:last").remove();
+//    table.append('<tr>\
+//    <td>'+ courseName +'</td>\
+//    <td>'+ sectEx +'</td>\
+//    <td>'+ instr +'</td>\
+//    <td></td>\
+//    <td><input type="button" class="btn" value = "Delete"\
+//      onClick="Javacsript:deleteListRow(this)"></td></tr>');
+//
+//    table.append('<tr>\
+//    <td><input type="text" id="course"></td>\
+//    <td><input type="text" id="sections"></td>\
+//    <td><input type="text" id="professor"></td>\
+//    <td><input type="button" class="btn" value = "Add"\
+//      onClick="Javacsript:addGenCourse()"></td>\
+//    <td></td></tr>');
+//  }
 }
 function createLunSche(){
   $('#lunSch').append('<table></table>');
@@ -668,15 +673,12 @@ function addFriendAutoComplete() {
            data      : data,
            success: function(response){
                // set the autocomplete
-               console.log("working?");
-               console.log(response);
                var students = [];//JSON.parse(response);
                var i = 0;
                for(i = 0; i < response.length; i++){
                    students.push(response[i].first_name + " " + 
                            response[i].last_name + " - " + response[i].email);
                }
-               console.log(students);
                addAutoComplete($("#studentName"), students);
            }
        });
@@ -691,4 +693,18 @@ $( document ).ready(function() {
   createFriendList();
   createCourseList();
   createCourseOfferingList();
+  setupViewSchedule();
 });
+
+function setupViewSchedule() {
+    $('#view-assigned-schedule').click(function (){
+        $('#schedule-popup').remove();
+        $('#close-schedule-popup').remove();
+        $('body').prepend('<div id="close-schedule-popup"></div> <div id="schedule-popup"> <table style="width:100%"> <tr> <td>Periods</td> <td>M</td> <td>Tu</td> <td>W</td> <td>Th</td> </tr> <tr> <td>Period 1</td> <td>Jackson</td> <td>ijfeiow</td> <td>94</td> <td>iofwejoi</td> </tr> <tr> <td>Period 2</td> <td>Jackson</td> <td>ijfeiow</td> <td>94</td> <td>iofwejoi</td> </tr> <tr> <td>Period 3</td> <td>Jackson</td> <td>ijfeiow</td> <td>iofwejoi</td> <td>94</td> </tr> </table> </div>');
+        $('#close-schedule-popup').click(function(){
+            $('#schedule-popup').remove();
+            $('#close-schedule-popup').remove();
+        });
+    });
+
+}

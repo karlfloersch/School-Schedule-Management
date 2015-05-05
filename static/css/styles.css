@@ -1,10 +1,34 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700);
 
+/* Schedule Popup */
+#schedule-popup {
+    height: 500px;
+    background-color: #dddddd;
+    z-index: 5;
+    margin: auto;
+    width: 800px;
+    position: fixed;
+    left: 150px;
+}
+#schedule-popup td {
+    width:90px;
+}
+#close-schedule-popup {
+    height: 50px;
+    width: 50px;
+    background-color: #999;
+    z-index: 6;
+    margin: auto;
+    width: 50px;
+    position: fixed;
+    left: 950px;
+}
+
 .floatRight {
    float: right;
 }
 .floatCenter {
-   margin-left: auto;
+   cvv1uto;
    margin-right: auto;
    width: 10%;
 }
