@@ -18,6 +18,13 @@ import smtplib
 from io import BytesIO
 from reportlab.pdfgen import canvas
 
+def create_desired_sched(request):
+    data={}
+    taskObject_from_task = create_desired_schedule.delay(data)
+    result = check_task_http(taskObject_from_task.task_id)
+    html = "<html><body> string: "+str(result)+"</body></html>"
+    return HttpResponse(html)
+
 
 def send_email_to_student(data):
     fromaddr = 'djangoinflames@gmail.com'

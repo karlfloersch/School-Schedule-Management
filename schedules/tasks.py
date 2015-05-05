@@ -56,6 +56,135 @@ class DayItemSort(object):
         return self.block_key_value[key]
 
 
+@task(bind = True, queue = 'read_tasks')
+def create_desired_schedule(self, data):
+    data = [    {
+            'course_id' : "cse220",
+            'blocks' : {
+                'start_period' : "1",
+                'days' : [
+                    "M",
+                    "W"
+                ],
+                'end_period' : "2"
+            },
+            'instructor' : "wong",
+            'course_name' : "systems",
+            'preferred': False
+        },
+        {
+            'course_id' : "cse114",
+            'blocks' : {
+                'start_period' : "5",
+                'days' : [
+                    "M",
+                    "W"
+                ],
+                'end_period' : "6"
+            },
+            'instructor' : "skiena",
+            'course_name' : "intro",
+            'preferred': True
+        },
+        {
+            'course_id' : "cse110",
+            'blocks' : {
+                'start_period' : "5",
+                'days' : [
+                    "M",
+                    "W"
+                ],
+                'end_period' : "6"
+            },
+            'instructor' : "bach",
+            'course_name' : "android",
+            'preferred': False
+        }
+    ]
+
+    # data.append()
+
+    db = client.students
+    student_collection = db.students
+    assigned_schedule = db.assigned_schedule
+    email = 'peter@gmail.com'
+    who_i_am =student_collection.find_one({'email':email})
+    friends_loc = str(who_i_am['friendslist'])
+    friends_loc = friends_loc.split(",",1)
+    friends_loc = friends_loc[1]
+    friends_loc = friends_loc.split("'",2)
+    friends_loc = friends_loc[1]
+    list_of_stuff= db.friends_list.find_one({'_id':ObjectId(friends_loc)})
+    list_of_stuff= list_of_stuff['list']
+    day_map= {'M':"1",'Tu':"2",'W':"3",'Th':"4",'F':"5",'S':"6",'Su':"7"}
+    # num_friends_in_classes_hash = {}
+    friends_overlap = []
+    course_hash_map={}
+    current_blocks =[]
+    sort_day_value = ""
+
+    for courses_in_data in data:
+        # course_hash_map[courses_in_data['course_name']] = 0
+        courses_in_data['count'] = 0
+
+    for fr in list_of_stuff:
+        assigned_schedule_friends =assigned_schedule.find_one({'email':fr['email']})
+        friends_class_array = assigned_schedule_friends['classes']
+        for classes in data:
+            for fclasses in friends_class_array:
+                if  fclasses['course_name']==classes['course_name'] and fclasses['instructor']== classes['instructor'] and fclasses['course_id']==classes['course_id']:
+                    classes['count']=classes['count']+1
+
+    for classes in data:
+        current_blocks = classes['blocks']
+        for day in current_blocks['days']:
+            sort_day_value = sort_day_value + day_map[day]
+        classes['block_key_value'] = sort_day_value
+        classes['dif'] = int(current_blocks['end_period'])- int(current_blocks['start_period'])
+        sort_day_value = ""
+
+    for da in data:
+        da['weight'] = 0.01
+        if da['preferred']== True:
+            da['weight'] = da['weight']+.6
+        da['weight'] =  (da['count'] *.1) + da['weight']
+
+    new_list = sorted(data, key=itemgetter('block_key_value', 'dif'))
+
+    start = []
+    finish = []
+    for datas in new_list:
+        this_block = datas['blocks']
+        start.append(this_block['start_period'])
+        finish.append(this_block['end_period'])
+
+    p = []
+    for j in xrange(len(new_list)):
+        i = bisect.bisect_right(finish, start[j]) - 1  # rightmost interval f_i <= s_j
+        p.append(i)
+
+    OPT = collections.defaultdict(int)
+    OPT[-1] = 0
+    OPT[0] = 0
+    for j in xrange(1, len(new_list)):
+        dats = new_list[j]
+        print(dats)
+        OPT[j] = max(dats['weight'] + OPT[p[j]], OPT[j - 1])
+
+    # given OPT and p, find actual solution intervals in O(n)
+    O = []
+    def compute_solution(j):
+        if j >= 0:  # will halt on OPT[-1]
+            dats = new_list[j]
+            if dats['weight'] + OPT[p[j]] > OPT[j - 1]:
+                O.append(new_list[j])
+                compute_solution(p[j])
+            else:
+                compute_solution(j - 1)
+    compute_solution(len(new_list) - 1)
+
+    return O
+
 @task(bind=True, queue='read_tasks')
 def find_school_two(self, data):
     db = client.students
