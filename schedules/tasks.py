@@ -621,7 +621,7 @@ def add_classes_to_database_two(self, data):
     # print(ref_number)
 
 
-    course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor}
+    course_data = {'course_id':course_id,'course_name':course_name,'instructor':instructor,'blocks':blocks}
     # deference(s['semester_courses_ref'])course_id=data['course_id']
     course_name=data['course_name']
     instructor=data['instructor']
