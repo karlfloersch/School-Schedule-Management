@@ -466,6 +466,7 @@ def get_course_offerings_two(self,email,year):
                     setup_course['course_id'] = found_course['course_id']
                     setup_course['instructor'] = found_course['instructor']
                     setup_course['course_name']= found_course['course_name']
+                    setup_course['blocks'] = found_course['blocks']
                     setup_course['semester_name']=semester_name
                     output.append(setup_course)
 
