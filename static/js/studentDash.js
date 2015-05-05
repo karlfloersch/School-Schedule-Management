@@ -389,7 +389,7 @@ function addAssignCourse(){
            data      : data,
            success: function(response){
            // set the autocomplete
-
+              createGenSche();
              createAssignSche();
              createCourseOfferingList();
            }
@@ -507,6 +507,7 @@ function getBlocks(year){
       });
 }
 function createGenSche(){
+  $('#course_offerings').empty();
   $('#course_offerings').append('<table></table>');
   var table = $('#genSch').children();
 
@@ -541,7 +542,7 @@ function createGenSche(){
             }
           }
      });
-
+  $('#genSch').empty();
   $('#genSch').append('<table></table>');
   var table = $('#genSch').children();
   
