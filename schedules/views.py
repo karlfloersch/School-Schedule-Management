@@ -289,6 +289,16 @@ def get_friend_ajax(request):
 
     return HttpResponse(json.dumps(info), content_type="application/json")
 
+def get_friends_schedules(request):
+    data = {}
+    data['email'] = request.user.username
+    info = db_views.get_friends_list(data)
+    courses = []
+    for friend in info:
+        courses.append(db_views.get_overlapping_friends_by_specific_course(data['email'], friend['email']))
+    data['courses'] = courses
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
 def get_friend_requests_ajax(request):
     data = {}
     data['email_of_sendee'] = request.user.username

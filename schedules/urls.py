@@ -6,18 +6,19 @@ urlpatterns = patterns('',
 	(r'^login/$', views.login_view), # Login page
     (r'^logout/$', views.logout_view), # Logout, redirect to login
     (r'^dashboard/$', views.dashboard_view), # Dash for user and admin
-    (r'^dashboard/accept-student-account-request$', views.accept_student_request_ajax), # Accept a friend request   
-    (r'^dashboard/deny-student-account-request$', views.deny_student_request_ajax), # Delete a friend request  
+    (r'^dashboard/accept-student-account-request$', views.accept_student_request_ajax), # Accept a friend request
+    (r'^dashboard/deny-student-account-request$', views.deny_student_request_ajax), # Delete a friend request
     (r'^dashboard/get-friends$', views.friend_ajax), # Dash for user and admin
     (r'^dashboard/send-friend-request$', views.send_friend_request_ajax), # Send friend request
     (r'^dashboard/delete-school$', views.delete_school_ajax), #delete school
     (r'^dashboard/delete-student$', views.delete_student_ajax), #delete a student from database
     (r'^dashboard/get-friends-request$', views.get_friend_requests_ajax), # Populate manage friend request
+    (r'^dashboard/get-friends-schedules$', views.get_friends_schedules), # Populate manage friend request
     (r'^dashboard/get-school-info$', views.find_school_ajax), # Populate semester list
     (r'^dashboard/get-friend-list$', views.get_friend_ajax), # Populate manage friend
-    (r'^dashboard/accept-friend-request$', views.accept_friend_request_ajax), # Accept a friend request   
-    (r'^dashboard/delete-friend-request$', views.delete_friend_request_ajax), # Delete a friend request  
-    (r'^dashboard/delete-friend$', views.delete_friend_ajax), # Delete a friend    
+    (r'^dashboard/accept-friend-request$', views.accept_friend_request_ajax), # Accept a friend request
+    (r'^dashboard/delete-friend-request$', views.delete_friend_request_ajax), # Delete a friend request
+    (r'^dashboard/delete-friend$', views.delete_friend_ajax), # Delete a friend
     (r'^dashboard/add-assigned-class$', views.add_class_to_database_ajax), # add a class to the database
     (r'^dashboard/get-assigned-schedule$', views.get_assigned_schedule_ajax), # get the student's assigned schedule
     (r'^dashboard/get-course-offerings$', views.get_course_offerings_ajax), # get the course offerings of this year

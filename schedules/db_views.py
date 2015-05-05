@@ -392,10 +392,10 @@ def find_school(data):
     return result2
 
 
-def get_overlapping_friends_by_specific_course(request):
+def get_overlapping_friends_by_specific_course(email, friend_email):
     data = {}
-    data['email']='christian@fish.com'
-    data['target']='mutumbo@fish.com'
+    data['email']=email
+    data['target']=friend_email
     # data['course_name']='operating systems'
     # data['start_period']= '2'
     # data['end_period']= '3'
@@ -405,8 +405,7 @@ def get_overlapping_friends_by_specific_course(request):
     taskObject_from_task = get_overlapping_friends_by_specific_course_two.delay(data)
     result = check_task(taskObject_from_task.task_id)
     print(result)
-    html = "<html><body> string: "+str(result)+"</body></html>"
-    return HttpResponse(html)
+    return result
 
 def create_desired_sched(request):
     data={}
@@ -596,7 +595,7 @@ def export_generated(request):
         for da in days_array:
             days_out = days_out +str(da)+ " "
 
-        str_out= "Course Name: " +str(res['course_name'])+" "+"Days Active: " + days_out+" "+ "Course ID: " +str(res['course_id']) 
+        str_out= "Course Name: " +str(res['course_name'])+" "+"Days Active: " + days_out+" "+ "Course ID: " +str(res['course_id'])
         p.drawString(x_coord, y_coord, str_out)
         y_coord = y_coord - 12
         str_out = "Instructor: " + str(res['instructor']+" "+"Start Period: "+start_period + " "+ "End Period: "+end_period)

@@ -794,14 +794,13 @@ var ii;
 var iii;
 for (ii = 0; ii < 5; ii++) {
     for (iii = 0; iii < periods; iii++) {
-        console.log('poodle');
         $('#period-' + iii).append('<td id="' + ii + '-' + iii + '"></td>');
     }
 }
 
+addFriendOverlay();
 
 
-console.log(response);
 
 
 
@@ -835,12 +834,10 @@ if (response != "null") {
             });
         }
 
-        console.log(schedule);
         if (schedule['M'].length > 0) {
             var i;
             for (i = 0; i < schedule.M.length; i++) {
                 for (j = 0; j < schedule.M[i].periods.length; j++) {
-                    console.log(schedule['M'][i].periods[j]);
                     $('#0-' + schedule['M'][i].periods[j]).append(schedule['M'][i].class);
                 }
             }
@@ -880,21 +877,34 @@ if (response != "null") {
 
     }
 }
-//      table.append('<tr>\
-//        <td><input type="text" id="courseID"></td>\
-//        <td><input type="text" id="courseName"></td>\
-//        <td><input type="text" id="instructor"></td>\
-//        <td><select type="text" id="block"></select></td>\
-//        <td><input type="button" class="btn" value = "Add"\
-//          onClick="Javacsript:addAssignCourse()"></td>\
-//        <td></td></tr>');
-//        addYear();
-//        $('#academicYears').on('click', function() {
-//            getBlocks($('#academicYears').val());
-//        });
 
 }
 
      });
 
+}
+
+function addFriendOverlay(){
+    console.log("poo");
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var urlSubmit = baseUrl + "/get-friends-schedules";
+        
+        //need to check if information is missing
+       var data ={
+       }; 
+       $.ajax({  
+           type: "POST",
+           url: urlSubmit,
+           dataType: "JSON",
+           data      : data,
+           success: function(response){
+               console.log(response);
+               var friends = response.courses;
+               var i;
+               for(i = 0; i < friends.length; i++){
+                   console.log(friends[i]);
+               }
+            }
+      });
 }
