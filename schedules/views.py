@@ -477,7 +477,6 @@ def get_course_offerings_ajax(request):
     return HttpResponse(json.dumps(courses), content_type="application/json")
 
 def remove_assigned_course_ajax(request):
-
     data = {}
     data['email']= request.user.username
     data['course_name']=request.POST.get('course_name', False)
@@ -486,7 +485,10 @@ def remove_assigned_course_ajax(request):
     data['course_id']= request.POST.get('course_id', False)
     data['instructor']= request.POST.get('instructor', False)
     days = request.POST.get('days_array', False)
+    days = days.split(" ")
+    days.remove("")
     data['days_array'] = days
+    print(data)
     db_views.remove_a_class_from_assigned(data)
     print("it works")
     return HttpResponse(content_type="application/json")

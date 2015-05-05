@@ -53,10 +53,22 @@ function removeAssignedCourse(obj) {
        var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
        var urlSubmit = baseUrl + "/remove-assigned-course";
        // TODO: Add the course start and end times
+       var block = info[3].textContent;
+       block = block.split(/-|:|,/);
+       var block_start = block[0];
+       var block_end = block[1];
+       var i;
+       var days = "";
+       for(i = 2; i < block.length; i++){
+          days += block[i] + " ";
+       }
        var data ={
           'course_name' : info[1].textContent,
           'course_id' : info[0].textContent,
           'instructor' : info[2].textContent,
+          'start_period' : block_start,
+          'end_period' : block_end,
+          'days_array' : days
        };
        $.ajax({  
            type: "POST",
@@ -119,8 +131,7 @@ function hideCourseOffering(){
   $("#offeringHide").hide(); 
 }
 function createCourseOfferingList(){
-  $("#course_offerings").hide();
-  $("#offeringHide").hide(); 
+  $('#course_offerings').empty();
   $('#course_offerings').append('<table></table>');
   var table = $('#course_offerings').children();
 
@@ -331,11 +342,24 @@ function createAssignSche(){
              console.log(response);
              if(response != "null"){
                 var i;
+                var j;
+                var block_start;
+                var block_end;
+                var block_days = "";
+                var block;
                 for(i = 0; i < response.length; i++){
+                  block_days = "";
+                  block_start = response[i].blocks.start_period;
+                  block_end = response[i].blocks.end_period;
+                  for(j = 0; j < response[i].blocks.days.length; j++){
+                    block_days += response[i].blocks.days[j];
+                    block_days += ","
+                  }
+                  block_days = block_days.slice(0, -1);
                   table.append('<tr><td>' + response[i].course_id + '</td>\
                     <td>' + response[i].course_name + '</td>\
                     <td>' + response[i].instructor + '</td>\
-                    <td>' + response[i].block + '</td>\
+                    <td>' + block_start + "-" + block_end + ":" + block_days + '</td>\
                     <td></td>\
                     <td><input type="button" class="btn" value = "Remove" \
                       onClick="Javacsript:removeAssignedCourse(this)"></td></tr>');
@@ -386,6 +410,7 @@ function addAssignCourse(){
              console.log(response);
 
              createAssignSche();
+             createCourseOfferingList();
            }
      });
   }
@@ -690,5 +715,6 @@ $( document ).ready(function() {
   addSemester();
   createFriendList();
   createCourseList();
+  hideCourseOffering();
   createCourseOfferingList();
 });
