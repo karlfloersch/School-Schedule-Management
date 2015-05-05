@@ -167,7 +167,7 @@ def create_school_data(request):
     data['address'] = request.POST.get('address', False)
     data['academicYear'] = request.POST.get('academicYear', False)
     data['daysInYear'] = int(request.POST.get('daysInYear', False))
-    data['daysInASchedule'] = int(request.POST.get('daysInASchedule', False))
+    data['daysInASchedule'] = int(request.POST.get('daysInSch', False))
     data['semesterInYear'] = int(request.POST.get('semesterInYear', False))
     data['periodInDay'] = int(request.POST.get('periodInDay', False))
     # Parse the block information
